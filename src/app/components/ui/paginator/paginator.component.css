@@ -1,0 +1,47 @@
+.paginator-button-disabled {
+  opacity: 0.3;
+}
+
+.paginator {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.pagination-buttons {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.paginator-icon {
+  width: 28px;
+  fill: gray;
+}
+
+.paginator-button {
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.items-per-page {
+  display: flex;
+  margin-right: 10px;
+}
+
+.items-per-page__title {
+  margin: auto 10px;
+  font-size: 13px;
+}
+
+.pages-count {
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  margin: 0 10px;
+}
+
+.select-form-field {
+  width: 50px;
+  font-size: 13px;
+}

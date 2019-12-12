@@ -1,0 +1,83 @@
+<div class="paginator">
+  <div class="items-per-page">
+    <p class="items-per-page__title">Items per page:</p>
+    <mat-form-field class="select-form-field">
+      <mat-select [value]="countItems">
+        <mat-option
+          *ngFor="let item of itemsPerPage"
+          (click)="setItemsCount.emit(item.value)"
+          [value]="item.value"
+        >
+          {{ item.value }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="pages-count">{{ currentPage }} of {{ totalPages }}</div>
+  <div class="pagination-buttons">
+    <button
+      [ngClass]="{
+        'paginator-button': true,
+        'paginator-button-disabled': currentPage === 1
+      }"
+      [disabled]="currentPage === 1"
+      matTooltip="First page"
+      matTooltipPosition="above"
+      aria-label="Button that displays a tooltip when focused or hovered over"
+      (click)="getFirstPage.emit()"
+    >
+      <svg viewBox="0 0 24 24" class="paginator-icon">
+        <path
+          d="M18.41 16.59L13.82 12l4.59-4.59L17 6l-6 6 6 6zM6 6h2v12H6z"
+        ></path>
+      </svg>
+    </button>
+    <button
+      [ngClass]="{
+        'paginator-button': true,
+        'paginator-button-disabled': currentPage === 1
+      }"
+      [disabled]="currentPage === 1"
+      matTooltip="Previous page"
+      matTooltipPosition="above"
+      (click)="getPreviousPage.emit()"
+      aria-label="Button that displays a tooltip when focused or hovered over"
+    >
+      <svg viewBox="0 0 24 24" class="paginator-icon">
+        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path>
+      </svg>
+    </button>
+    <button
+      [ngClass]="{
+        'paginator-button': true,
+        'paginator-button-disabled': currentPage === totalPages
+      }"
+      matTooltip="Next page"
+      matTooltipPosition="above"
+      [disabled]="currentPage === totalPages"
+      aria-label="Button that displays a tooltip when focused or hovered over"
+      (click)="getNextPage.emit()"
+    >
+      <svg viewBox="0 0 24 24" class="paginator-icon">
+        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
+      </svg>
+    </button>
+    <button
+      [ngClass]="{
+        'paginator-button': true,
+        'paginator-button-disabled': currentPage === totalPages
+      }"
+      matTooltip="Last page"
+      matTooltipPosition="above"
+      [disabled]="currentPage === totalPages"
+      aria-label="Button that displays a tooltip when focused or hovered over"
+      (click)="getLastPage.emit()"
+    >
+      <svg viewBox="0 0 24 24" class="paginator-icon">
+        <path
+          d="M5.59 7.41L10.18 12l-4.59 4.59L7 18l6-6-6-6zM16 6h2v12h-2z"
+        ></path>
+      </svg>
+    </button>
+  </div>
+</div>

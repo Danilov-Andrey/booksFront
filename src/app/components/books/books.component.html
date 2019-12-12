@@ -1,0 +1,41 @@
+<spinner *ngIf="isLoading"></spinner>
+<div class="table-wrapper" *ngIf="!isLoading">
+  <table>
+    <thead>
+      <td class="table-head" *ngFor="let title of titles">{{ title }}</td>
+    </thead>
+    <tbody>
+      <ng-template ngFor let-book [ngForOf]="books">
+        <tr class="table-row" (click)="selectBook(book.id)">
+          <td>{{ book.id }}</td>
+          <td>{{ book.name }}</td>
+          <td>{{ book.year }}</td>
+          <td>{{ book.author.firstName }} {{ book.author.lastName }}</td>
+          <td>{{ book.publisher.name }}</td>
+          <td>{{ book.copies.count }}</td>
+          <td>{{ book.copies.rate }}</td>
+        </tr>
+        <tr *ngIf="book.id === selectedBook">
+          <td class="book-edit" colspan="7">
+            <app-book-edit
+              [id]="book.id"
+              [name]="book.name"
+              [year]="book.year"
+            ></app-book-edit>
+          </td>
+        </tr>
+      </ng-template>
+    </tbody>
+  </table>
+
+  <paginator
+    [totalPages]="totalPages"
+    [currentPage]="currentPage"
+    [countItems]="countItems"
+    (setItemsCount)="setItemsCount($event)"
+    (getFirstPage)="getFirstPage()"
+    (getLastPage)="getLastPage()"
+    (getPreviousPage)="getPreviousPage()"
+    (getNextPage)="getNextPage()"
+  ></paginator>
+</div>

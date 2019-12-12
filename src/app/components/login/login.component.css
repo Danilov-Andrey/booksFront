@@ -1,0 +1,10 @@
+.authForm {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  margin: 50px auto;
+}
+
+.changeAction {
+  margin-top: 10px;
+}

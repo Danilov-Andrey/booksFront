@@ -1,0 +1,9 @@
+<!-- <spinner *ngIf="isLoading"></spinner> -->
+<form [formGroup]="bookForm">
+  <mat-form-field class="book-edit-name">
+    <input matInput placeholder="Name" formControlName="name" type="text" />
+  </mat-form-field>
+  <mat-form-field class="book-edit-year">
+    <input matInput placeholder="Year" formControlName="year" type="number" />
+  </mat-form-field>
+</form>

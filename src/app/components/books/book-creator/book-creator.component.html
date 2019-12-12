@@ -1,0 +1,42 @@
+<div class="authForm">
+  <mat-form-field>
+    <input matInput placeholder="Book name" type="text" [(ngModel)]="name" />
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Book year" type="number" [(ngModel)]="year" />
+  </mat-form-field>
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Author first name"
+      type="text"
+      [(ngModel)]="authorFirstName"
+    />
+  </mat-form-field>
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Author last name"
+      type="text"
+      [(ngModel)]="authorLastName"
+    />
+  </mat-form-field>
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Publisher name"
+      type="text"
+      [(ngModel)]="publisherName"
+    />
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Rate" type="number" [(ngModel)]="rate" />
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Count" type="number" [(ngModel)]="count" />
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" (click)="saveBook()">
+    Save
+  </button>
+</div>
