@@ -2,15 +2,33 @@
 <div class="table-wrapper" *ngIf="!isLoading">
   <table>
     <thead>
-      <td class="table-head" *ngFor="let title of titles">{{ title }}</td>
+      <td *ngFor="let title of titles">
+        <span class="table-title">
+          {{ title.title }}
+          <img
+            [ngClass]="{
+              active: sortBy === title.sortBy,
+              disabled: sortBy != title.sortBy,
+              rotate: sortBy === title.sortBy && direction === 'DESC'
+            }"
+            src="assets/images/sort-arrow.svg"
+            alt="sort-arrow"
+            class="sort-arrow"
+            (click)="onSortBy(title.sortBy)"
+          />
+        </span>
+      </td>
     </thead>
     <tbody>
       <ng-template ngFor let-book [ngForOf]="books">
         <tr class="table-row" (click)="selectBook(book.id)">
-          <td>{{ book.id }}</td>
+          <td>
+            {{ book.id }}
+          </td>
           <td>{{ book.name }}</td>
           <td>{{ book.year }}</td>
-          <td>{{ book.author.firstName }} {{ book.author.lastName }}</td>
+          <td>{{ book.author.firstName }}</td>
+          <td>{{ book.author.lastName }}</td>
           <td>{{ book.publisher.name }}</td>
           <td>{{ book.copies.count }}</td>
           <td>{{ book.copies.rate }}</td>
@@ -27,7 +45,6 @@
       </ng-template>
     </tbody>
   </table>
-
   <paginator
     [totalPages]="totalPages"
     [currentPage]="currentPage"

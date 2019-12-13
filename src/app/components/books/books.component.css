@@ -1,3 +1,33 @@
 .book-edit {
   padding: 16.25px 10px 0px 10px;
 }
+
+.table-title {
+  display: flex;
+}
+
+.disabled {
+  opacity: 0;
+  transform: rotate(-90deg);
+}
+
+.disabled:hover {
+  opacity: 1;
+}
+
+.active {
+  transform: rotate(-90deg);
+}
+
+.rotate {
+  transform: rotate(90deg);
+}
+
+.sort-arrow {
+  margin-left: 5px;
+  width: 10px;
+}
+
+.sort-arrow:hover {
+  cursor: pointer;
+}

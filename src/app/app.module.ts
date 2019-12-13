@@ -26,7 +26,7 @@ import { MatTableModule } from "@angular/material/table";
 import { MatSelectModule } from "@angular/material/select";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
-import { Spinner } from "./components/ui/spinner.component";
+import { Spinner } from "./components/ui/spinner/spinner.component";
 import { Paginator } from "./components/ui/paginator/paginator.component";
 import { BookEditComponent } from "./components/books/book-edit/book-edit.component";
 

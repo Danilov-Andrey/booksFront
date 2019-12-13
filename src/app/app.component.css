@@ -14,8 +14,7 @@ tr {
   background-color: #eaeaea;
 }
 
-.table-head,
-.table-row > td {
+td {
   padding: 10px;
 }
 
