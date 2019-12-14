@@ -33,7 +33,11 @@ export class BooksComponent implements OnInit {
     { title: "Condition", sortBy: "copies.rate" }
   ];
 
-  constructor(private booksService: BooksService) {}
+  constructor(private booksService: BooksService) {
+    this.booksService.booksChanges.subscribe(data =>
+      console.log(data, "FROM NG ON INIT")
+    );
+  }
 
   ngOnInit() {
     this.getBooks();
@@ -73,6 +77,7 @@ export class BooksComponent implements OnInit {
 
   getBooks() {
     this.isLoading = true;
+    this.selectedBook = -1;
     this.booksService
       .getAllBooks(
         this.currentPage,

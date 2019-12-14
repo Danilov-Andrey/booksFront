@@ -45,3 +45,21 @@
   width: 50px;
   font-size: 13px;
 }
+
+@media (max-width: 850px) {
+  .paginator {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 450px) {
+  .items-per-page__title {
+    display: none;
+  }
+  .select-form-field {
+    margin-left: 10px;
+  }
+  .pages-count {
+    margin: 0 7px;
+  }
+}

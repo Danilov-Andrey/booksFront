@@ -1,0 +1,3 @@
+<ul *ngIf="field.invalid && field.touched" class="errors-wrapper">
+  <li *ngFor="let errMsg of validatorMessages()" class="error">{{ errMsg }}</li>
+</ul>

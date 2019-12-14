@@ -1,6 +1,6 @@
 <spinner *ngIf="isLoading"></spinner>
 <div class="table-wrapper" *ngIf="!isLoading">
-  <table>
+  <table class="table">
     <thead>
       <td *ngFor="let title of titles">
         <span class="table-title">
@@ -34,7 +34,7 @@
           <td>{{ book.copies.rate }}</td>
         </tr>
         <tr *ngIf="book.id === selectedBook">
-          <td class="book-edit" colspan="7">
+          <td class="book-edit" colspan="8">
             <app-book-edit
               [id]="book.id"
               [name]="book.name"

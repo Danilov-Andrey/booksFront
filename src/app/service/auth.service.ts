@@ -1,20 +1,12 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { map } from "rxjs/operators";
-
-class User {
-  username: string;
-  password: string;
-  constructor(username, password) {
-    this.username = username;
-    this.password = password;
-  }
-}
+import { User } from "../models/user.model";
 
 @Injectable({
   providedIn: "root"
 })
-export class AppService {
+export class AuthService {
   constructor(private httpClient: HttpClient) {}
 
   authenticate(username, password) {

@@ -7,7 +7,7 @@ import { CopiesComponent } from "./components/copies/copies.component";
 import { LoginComponent } from "./components/login/login.component";
 import { LogoutComponent } from "./components/logout/logout.component";
 import { AuthGuardService } from "./service/auth-guard.service";
-import { BookCreatorComponent } from "./components/books/book-creator/book-creator.component";
+import { BookCreateComponent } from "./components/books/book-create/book-create.component";
 import { BookEditComponent } from "./components/books/book-edit/book-edit.component";
 
 const routes: Routes = [
@@ -17,7 +17,7 @@ const routes: Routes = [
     canActivate: [AuthGuardService],
     children: [
       { path: "", component: BooksComponent },
-      { path: "add", component: BookCreatorComponent },
+      { path: "add", component: BookCreateComponent },
       { path: ":id", component: BookEditComponent }
     ]
   },

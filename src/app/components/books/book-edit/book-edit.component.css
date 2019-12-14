@@ -5,3 +5,33 @@
 .book-edit-year {
   width: 70px;
 }
+
+.table-form {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.table-form-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-left: 10px;
+}
+
+.save-button {
+  margin-right: 10px;
+}
+
+.table-form-inputs {
+  display: flex;
+}
+
+.signin-warning {
+  color: #f44336;
+  margin: 16.25px 0;
+  text-align: center;
+}
+
+.table-form-year {
+  width: 80px;
+}

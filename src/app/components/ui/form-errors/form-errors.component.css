@@ -1,0 +1,9 @@
+.errors-wrapper {
+  padding: 0;
+  margin-top: 0;
+}
+
+.error {
+  list-style-type: none;
+  color: #f44336;
+}

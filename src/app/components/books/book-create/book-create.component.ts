@@ -1,14 +1,14 @@
 import { Component, OnInit } from "@angular/core";
 import { Book } from "src/app/models/book.model";
 import { BooksService } from "../books.service";
-import { SaveBook } from "../book.model";
+import { SaveBook } from "./book.model";
 
 @Component({
   selector: "app-book-creator",
-  templateUrl: "./book-creator.component.html",
-  styleUrls: ["./book-creator.component.css"]
+  templateUrl: "./book-create.component.html",
+  styleUrls: ["./book-create.component.css"]
 })
-export class BookCreatorComponent implements OnInit {
+export class BookCreateComponent implements OnInit {
   books: Book[] = [];
 
   name: string;
@@ -21,19 +21,7 @@ export class BookCreatorComponent implements OnInit {
 
   constructor(private booksService: BooksService) {}
 
-  ngOnInit() {
-    // this.booksService.getBooks().subscribe({
-    //   next(data) {
-    //     console.log(data);
-    //   },
-    //   error(err) {
-    //     console.log(err);
-    //   },
-    //   complete() {
-    //     console.log("done");
-    //   }
-    // });
-  }
+  ngOnInit() {}
 
   saveBook() {
     const newBook = new SaveBook(
@@ -45,7 +33,6 @@ export class BookCreatorComponent implements OnInit {
       this.rate,
       this.count
     );
-    console.log(newBook);
     this.booksService.saveBook(newBook).subscribe(data => console.log(data));
   }
 }

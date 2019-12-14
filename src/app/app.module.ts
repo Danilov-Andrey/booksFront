@@ -21,7 +21,7 @@ import { CopiesComponent } from "./components/copies/copies.component";
 import { LoginComponent } from "./components/login/login.component";
 import { LogoutComponent } from "./components/logout/logout.component";
 import { MatInputModule } from "@angular/material/input";
-import { BookCreatorComponent } from "./components/books/book-creator/book-creator.component";
+import { BookCreateComponent } from "./components/books/book-create/book-create.component";
 import { MatTableModule } from "@angular/material/table";
 import { MatSelectModule } from "@angular/material/select";
 import { MatTooltipModule } from "@angular/material/tooltip";
@@ -29,6 +29,7 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { Spinner } from "./components/ui/spinner/spinner.component";
 import { Paginator } from "./components/ui/paginator/paginator.component";
 import { BookEditComponent } from "./components/books/book-edit/book-edit.component";
+import { FormErrorComponent } from "./components/ui/form-errors/form-errors.component";
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { BookEditComponent } from "./components/books/book-edit/book-edit.compon
     LogoutComponent,
     Spinner,
     Paginator,
-    BookCreatorComponent,
+    BookCreateComponent,
+    FormErrorComponent,
     BookEditComponent
   ],
   imports: [

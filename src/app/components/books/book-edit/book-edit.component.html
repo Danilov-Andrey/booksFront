@@ -1,9 +1,46 @@
-<!-- <spinner *ngIf="isLoading"></spinner> -->
-<form [formGroup]="bookForm">
-  <mat-form-field class="book-edit-name">
-    <input matInput placeholder="Name" formControlName="name" type="text" />
-  </mat-form-field>
-  <mat-form-field class="book-edit-year">
-    <input matInput placeholder="Year" formControlName="year" type="number" />
-  </mat-form-field>
+<form [formGroup]="bookForm" class="table-form" (ngSubmit)="onSubmit()">
+  <div class="table-form-inputs">
+    <div>
+      <mat-form-field class="book-edit-name">
+        <input matInput placeholder="Name" formControlName="name" type="text" />
+      </mat-form-field>
+      <form-errors [field]="bookForm.get('name')"></form-errors>
+    </div>
+    <div class="table-form-year">
+      <mat-form-field class="book-edit-year">
+        <input
+          matInput
+          placeholder="Year"
+          formControlName="year"
+          type="number"
+        />
+      </mat-form-field>
+      <form-errors [field]="bookForm.get('year')"></form-errors>
+    </div>
+  </div>
+  <div class="table-form-buttons">
+    <div class="buttons-wrapper">
+      <button
+        [disabled]="!isLoggedIn || !bookForm.valid"
+        class="save-button"
+        mat-raised-button
+        color="primary"
+        type="submit"
+      >
+        Save book
+      </button>
+      <button
+        (click)="deleteBook()"
+        [disabled]="!isLoggedIn"
+        mat-raised-button
+        color="warn"
+        type="button"
+      >
+        Delete book
+      </button>
+    </div>
+    <p *ngIf="!isLoggedIn" class="signin-warning">
+      You must sign in for these actions!
+    </p>
+  </div>
 </form>

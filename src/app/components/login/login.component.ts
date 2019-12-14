@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { map } from "rxjs/operators";
-import { AppService } from "../../service/auth.service";
+import { AuthService } from "../../service/auth.service";
 
 @Component({
   selector: "app-login",
@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   invalidLogin = false;
   isLogin: boolean = true;
 
-  constructor(private router: Router, private loginservice: AppService) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit() {}
 
@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
 
   checkLogin() {
     if (this.isLogin) {
-      this.loginservice.authenticate(this.username, this.password).subscribe(
+      this.authService.authenticate(this.username, this.password).subscribe(
         data => {
           this.router.navigate(["/books"]);
           this.invalidLogin = false;
@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
         }
       );
     } else {
-      this.loginservice.registration(this.username, this.password).subscribe(
+      this.authService.registration(this.username, this.password).subscribe(
         data => {
           console.log(data);
         },
