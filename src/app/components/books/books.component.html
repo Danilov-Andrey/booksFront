@@ -1,5 +1,15 @@
-<spinner *ngIf="isLoading"></spinner>
-<div class="table-wrapper" *ngIf="!isLoading">
+<app-search
+  (isLoading)="setLoading()"
+  [countItems]="countItems"
+  placeholder="Enter book name..."
+></app-search>
+<app-error
+  *ngIf="isError && !isLoading"
+  [errorMessage]="errorMessage"
+></app-error>
+<app-spinner *ngIf="isLoading"></app-spinner>
+
+<div class="table-wrapper" *ngIf="!isError && !isLoading">
   <table class="table">
     <thead>
       <td *ngFor="let title of titles">

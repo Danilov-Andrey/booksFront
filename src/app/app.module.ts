@@ -30,6 +30,8 @@ import { Spinner } from "./components/ui/spinner/spinner.component";
 import { Paginator } from "./components/ui/paginator/paginator.component";
 import { BookEditComponent } from "./components/books/book-edit/book-edit.component";
 import { FormErrorComponent } from "./components/ui/form-errors/form-errors.component";
+import { SearchComponent } from "./components/ui/search/search.component";
+import { ErrorComponent } from "./components/ui/error/error.component";
 
 @NgModule({
   declarations: [
@@ -45,7 +47,9 @@ import { FormErrorComponent } from "./components/ui/form-errors/form-errors.comp
     Paginator,
     BookCreateComponent,
     FormErrorComponent,
-    BookEditComponent
+    BookEditComponent,
+    SearchComponent,
+    ErrorComponent
   ],
   imports: [
     HttpClientModule,

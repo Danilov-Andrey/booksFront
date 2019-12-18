@@ -76,9 +76,7 @@ export class BookEditComponent implements OnInit {
 
   deleteBook() {
     if (this.isLoggedIn) {
-      this.booksService
-        .deleteBook(this.id)
-        .subscribe(data => console.log(data, "FROM DELETE"));
+      this.booksService.deleteBook(this.id);
     }
   }
 }

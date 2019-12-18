@@ -18,6 +18,8 @@ export class BooksComponent implements OnInit {
   currentPage: number = 1;
   totalPages: number;
   isLoading: boolean = true;
+  isError: boolean = false;
+  errorMessage: string = "Pizdosya";
   selectedBook: number;
   direction: string = "ASC";
   sortBy: string = "id";
@@ -33,13 +35,24 @@ export class BooksComponent implements OnInit {
     { title: "Condition", sortBy: "copies.rate" }
   ];
 
-  constructor(private booksService: BooksService) {
-    this.booksService.booksChanges.subscribe(data =>
-      console.log(data, "FROM NG ON INIT")
-    );
-  }
+  constructor(private booksService: BooksService) {}
 
   ngOnInit() {
+    this.booksService.booksChanged$.subscribe(data => {
+      this.books = data.content;
+      this.totalPages = data.totalPages;
+      this.isError = false;
+      this.isLoading = false;
+      this.errorMessage = null;
+      console.log("I WORK TOO", data);
+    });
+
+    this.booksService.errorGet$.subscribe(error => {
+      this.isLoading = false;
+      this.isError = true;
+      this.errorMessage = error;
+      console.log("I WORK ERR", error);
+    });
     this.getBooks();
   }
 
@@ -78,22 +91,12 @@ export class BooksComponent implements OnInit {
   getBooks() {
     this.isLoading = true;
     this.selectedBook = -1;
-    this.booksService
-      .getAllBooks(
-        this.currentPage,
-        this.countItems,
-        this.sortBy,
-        this.direction
-      )
-      .subscribe(
-        data => {
-          this.books = [...data["data"]];
-          this.totalPages = data["totalPages"];
-          this.currentPage = data["currentPage"];
-          this.isLoading = false;
-        },
-        error => console.log(error)
-      );
+    this.booksService.getBooks(
+      this.currentPage,
+      this.countItems,
+      this.sortBy,
+      this.direction
+    );
   }
 
   getNextPage() {
@@ -122,5 +125,9 @@ export class BooksComponent implements OnInit {
       this.currentPage = this.totalPages;
       this.getBooks();
     }
+  }
+
+  setLoading() {
+    this.isLoading = true;
   }
 }
