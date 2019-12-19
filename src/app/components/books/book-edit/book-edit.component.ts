@@ -20,7 +20,7 @@ export class BookEditComponent implements OnInit {
   @Input() year: number;
   @Input() id: number;
 
-  bookForm: FormGroup;
+  editForm: FormGroup;
 
   isLoggedIn: boolean;
 
@@ -32,7 +32,7 @@ export class BookEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.bookForm = new FormGroup({
+    this.editForm = new FormGroup({
       name: new FormControl(this.name, [
         Validators.required,
         this.emptyNameValidator()
@@ -55,9 +55,9 @@ export class BookEditComponent implements OnInit {
   }
 
   onSubmit() {
-    const name = this.bookForm.get("name").value;
-    const year = this.bookForm.get("year").value;
-    if (!this.bookForm.valid) {
+    const name = this.editForm.get("name").value;
+    const year = this.editForm.get("year").value;
+    if (!this.editForm.valid) {
       console.log("So clever?");
       return;
     }

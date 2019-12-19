@@ -10,7 +10,7 @@ import { switchMap, map, catchError } from "rxjs/operators";
 })
 export class BooksService {
   booksChanged$ = new Subject<any>();
-  errorGet$ = new Subject<any>();
+  errorGet$ = new Subject<string>();
 
   constructor(private http: HttpClient) {}
 

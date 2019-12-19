@@ -5,7 +5,7 @@ export interface Item {
 }
 
 @Component({
-  selector: "paginator",
+  selector: "app-paginator",
   templateUrl: "paginator.component.html",
   styleUrls: ["paginator.component.css"]
 })

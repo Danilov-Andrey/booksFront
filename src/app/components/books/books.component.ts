@@ -1,59 +1,63 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Book } from "../../models/book.model";
 import { BooksService } from "./books.service";
-
-export interface Titles {
-  title: string;
-  sortBy: string;
-}
+import { Unsubscribable } from "rxjs";
+import { SortService } from "../shared/sort/sort.service";
 
 @Component({
   selector: "app-books",
   templateUrl: "./books.component.html",
   styleUrls: ["./books.component.css", "../../app.component.css"]
 })
-export class BooksComponent implements OnInit {
+export class BooksComponent implements OnInit, OnDestroy {
+  booksChanged$: Unsubscribable;
+  errorGet$: Unsubscribable;
+  sortBy$: Unsubscribable;
+
+  isLoading: boolean = true;
+  isError: boolean = false;
+  errorMessage: string;
+
   books: Book[];
   countItems: number = 10;
   currentPage: number = 1;
   totalPages: number;
-  isLoading: boolean = true;
-  isError: boolean = false;
-  errorMessage: string = "Pizdosya";
-  selectedBook: number;
   direction: string = "ASC";
   sortBy: string = "id";
+  searchBookName: string = "";
 
-  titles: Titles[] = [
-    { title: "ID", sortBy: "id" },
-    { title: "Title", sortBy: "name" },
-    { title: "Year", sortBy: "year" },
-    { title: "Author's name", sortBy: "author.firstName" },
-    { title: "Author's surname", sortBy: "author.lastName" },
-    { title: "Publisher", sortBy: "publisher.name" },
-    { title: "Count", sortBy: "copies.count" },
-    { title: "Condition", sortBy: "copies.rate" }
-  ];
-
-  constructor(private booksService: BooksService) {}
+  constructor(
+    private booksService: BooksService,
+    private sortService: SortService
+  ) {}
 
   ngOnInit() {
-    this.booksService.booksChanged$.subscribe(data => {
-      this.books = data.content;
-      this.totalPages = data.totalPages;
-      this.isError = false;
-      this.isLoading = false;
-      this.errorMessage = null;
-      console.log("I WORK TOO", data);
-    });
+    this.booksChanged$ = this.booksService.booksChanged$.subscribe(
+      ({ content, totalPages }) => {
+        this.books = content;
+        this.totalPages = totalPages;
+        this.isError = false;
+        this.isLoading = false;
+        this.errorMessage = null;
+      }
+    );
 
-    this.booksService.errorGet$.subscribe(error => {
+    this.errorGet$ = this.booksService.errorGet$.subscribe(error => {
       this.isLoading = false;
       this.isError = true;
       this.errorMessage = error;
-      console.log("I WORK ERR", error);
+    });
+
+    this.sortBy$ = this.sortService.setSort.subscribe((value: string) => {
+      this.onSortBy(value);
     });
     this.getBooks();
+  }
+
+  ngOnDestroy() {
+    this.booksChanged$.unsubscribe();
+    this.errorGet$.unsubscribe();
+    this.sortBy$.unsubscribe();
   }
 
   onSortBy(sortBy: string) {
@@ -68,29 +72,12 @@ export class BooksComponent implements OnInit {
       this.direction = "ASC";
     }
 
-    this.getBooks();
-  }
-
-  selectBook(id: number) {
-    if (this.selectedBook === id) {
-      this.selectedBook = -1;
-    } else {
-      this.selectedBook = id;
-    }
-  }
-
-  setItemsCount(value: number) {
-    if (value != this.countItems) {
-      this.countItems = value;
-      this.currentPage = 1;
-      this.isLoading = true;
-      this.getBooks();
-    }
+    this.searchBookName === "" ? this.getBooks() : this.getBook();
   }
 
   getBooks() {
     this.isLoading = true;
-    this.selectedBook = -1;
+    this.searchBookName = "";
     this.booksService.getBooks(
       this.currentPage,
       this.countItems,
@@ -99,35 +86,73 @@ export class BooksComponent implements OnInit {
     );
   }
 
+  setItemsCount(value: number) {
+    if (value != this.countItems) {
+      this.countItems = value;
+      this.currentPage = 1;
+      this.isLoading = true;
+      this.searchBookName === "" ? this.getBooks() : this.getBook();
+    }
+  }
+
   getNextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
-      this.getBooks();
+      this.searchBookName === "" ? this.getBooks() : this.getBook();
     }
   }
 
   getPreviousPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
-      this.getBooks();
+      this.searchBookName === "" ? this.getBooks() : this.getBook();
     }
   }
 
   getFirstPage() {
     if (this.currentPage > 1) {
       this.currentPage = 1;
-      this.getBooks();
+      this.searchBookName === "" ? this.getBooks() : this.getBook();
     }
   }
 
   getLastPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage = this.totalPages;
-      this.getBooks();
+      this.searchBookName === "" ? this.getBooks() : this.getBook();
     }
   }
 
   setLoading() {
     this.isLoading = true;
+  }
+
+  setInitialValues() {
+    this.currentPage = 1;
+    this.countItems = 10;
+    this.sortBy = "id";
+    this.direction = "ASC";
+  }
+
+  returnInitialData() {
+    this.setInitialValues();
+    this.getBooks();
+  }
+
+  getBook() {
+    this.isLoading = true;
+    this.booksService.findBook(
+      this.currentPage,
+      this.countItems,
+      this.sortBy,
+      this.direction,
+      this.searchBookName
+    );
+  }
+
+  setSearchMode(name: string) {
+    this.searchBookName = name;
+    this.setInitialValues();
+    this.getBook();
   }
 }

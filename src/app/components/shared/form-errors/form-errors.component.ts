@@ -14,6 +14,7 @@ export class FormErrorComponent {
     if (!field || !field.errors) {
       return false;
     }
+    console.log(field);
     const config = {
       required: "Field is required",
       min: "Year is wrong",
@@ -21,14 +22,6 @@ export class FormErrorComponent {
       emptyField: "Field cannot be empty"
     };
     const errors = [];
-
-    // if (field.errors.hasOwnProperty("min")) {
-    //   config["min"] += field.errors.min["min"];
-    // }
-
-    // if (field.errors.hasOwnProperty("max")) {
-    //   config["max"] += field.errors.max["max"];
-    // }
 
     Object.keys(field.errors).map((error: string) => {
       errors.push(config[error]);

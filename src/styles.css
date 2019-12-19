@@ -1,2 +1,46 @@
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.book-edit {
+  padding: 16.25px 10px 0px 10px;
+}
+
+.table-title {
+  display: flex;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+thead,
+tr {
+  border-bottom: 1px solid #ccc;
+}
+
+.table-row:hover {
+  cursor: pointer;
+  background-color: #eaeaea;
+}
+
+td {
+  padding: 7px;
+}
+
+tr {
+  min-width: 800px;
+}
+
+@media (max-width: 850px) {
+  .table {
+    width: 850px;
+  }
+}

@@ -1,0 +1,25 @@
+.active {
+  transform: rotate(-90deg);
+}
+
+.rotate {
+  transform: rotate(90deg);
+}
+
+.sort-arrow {
+  margin-left: 5px;
+  width: 10px;
+}
+
+.disabled {
+  opacity: 0;
+  transform: rotate(-90deg);
+}
+
+.sort-arrow:hover {
+  cursor: pointer;
+}
+
+.disabled:hover {
+  opacity: 1;
+}

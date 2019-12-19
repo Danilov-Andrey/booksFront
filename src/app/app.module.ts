@@ -26,12 +26,14 @@ import { MatTableModule } from "@angular/material/table";
 import { MatSelectModule } from "@angular/material/select";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
-import { Spinner } from "./components/ui/spinner/spinner.component";
-import { Paginator } from "./components/ui/paginator/paginator.component";
+import { Spinner } from "./components/shared/spinner/spinner.component";
+import { Paginator } from "./components/shared/paginator/paginator.component";
 import { BookEditComponent } from "./components/books/book-edit/book-edit.component";
-import { FormErrorComponent } from "./components/ui/form-errors/form-errors.component";
-import { SearchComponent } from "./components/ui/search/search.component";
-import { ErrorComponent } from "./components/ui/error/error.component";
+import { FormErrorComponent } from "./components/shared/form-errors/form-errors.component";
+import { SearchComponent } from "./components/shared/search/search.component";
+import { ErrorComponent } from "./components/shared/error/error.component";
+import { BookTableComponent } from "./components/books/book-table/book-table.component";
+import { SortComponent } from "./components/shared/sort/sort.component";
 
 @NgModule({
   declarations: [
@@ -49,7 +51,9 @@ import { ErrorComponent } from "./components/ui/error/error.component";
     FormErrorComponent,
     BookEditComponent,
     SearchComponent,
-    ErrorComponent
+    ErrorComponent,
+    BookTableComponent,
+    SortComponent
   ],
   imports: [
     HttpClientModule,

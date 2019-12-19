@@ -1,15 +1,13 @@
 import {
   Component,
-  OnInit,
   Input,
   ViewChild,
   ElementRef,
   Output,
   EventEmitter
 } from "@angular/core";
-import { BooksService } from "../../books/books.service";
 import { fromEvent, Unsubscribable, of } from "rxjs";
-import { delay, filter, map, switchMap, catchError } from "rxjs/operators";
+import { delay, filter, map, switchMap } from "rxjs/operators";
 
 @Component({
   selector: "app-search",
@@ -19,19 +17,18 @@ import { delay, filter, map, switchMap, catchError } from "rxjs/operators";
 export class SearchComponent {
   @ViewChild("search", { static: false }) input: ElementRef;
 
-  @Input() countItems: number;
   @Input() placeholder: string;
-  @Input() searchType: string;
 
+  @Output() findValue = new EventEmitter<string>();
+  @Output() returnInitialData = new EventEmitter();
   @Output() isLoading = new EventEmitter();
 
   input$: Unsubscribable;
-
   isOpen: boolean = false;
-
-  lastUserInputValue: string;
-
-  constructor(private booksService: BooksService) {}
+  lastUserInputValue: string = "";
+  errorMessage: string = "";
+  errorTimeout: number;
+  isError: boolean = false;
 
   ngAfterViewInit() {
     this.input$ = fromEvent(this.input.nativeElement, "input")
@@ -46,16 +43,13 @@ export class SearchComponent {
             filter(value => this.validatorInput(value)),
             map(value => {
               this.isLoading.emit();
+              clearTimeout(this.errorTimeout);
+              this.isError = false;
+              this.errorMessage = "";
               if (value === "") {
-                this.booksService.getBooks(1, this.countItems, "id", "ASC");
+                this.returnInitialData.emit();
               } else {
-                this.booksService.findBook(
-                  1,
-                  this.countItems,
-                  "id",
-                  "ASC",
-                  this.lastUserInputValue.trim()
-                );
+                this.findValue.emit(this.lastUserInputValue.trim());
               }
             })
           )
@@ -74,7 +68,12 @@ export class SearchComponent {
 
   validatorInput(value: string) {
     if (value.trim().length === 0 && value.length != 0) {
-      this.booksService.errorGet$.next("Field cannot be empty");
+      this.isError = true;
+      this.errorMessage = "Field cannot be empty";
+      this.errorTimeout = window.setTimeout(() => {
+        this.isError = false;
+        this.errorMessage = "";
+      }, 5000);
       return false;
     }
     return true;
@@ -84,8 +83,7 @@ export class SearchComponent {
     if (this.lastUserInputValue != "") {
       this.isOpen = false;
       this.input.nativeElement.value = "";
-      this.isLoading.emit();
-      this.booksService.getBooks(1, this.countItems, "id", "ASC");
+      this.returnInitialData.emit();
     }
   }
 }

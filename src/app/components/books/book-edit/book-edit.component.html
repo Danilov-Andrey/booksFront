@@ -1,10 +1,10 @@
-<form [formGroup]="bookForm" class="table-form" (ngSubmit)="onSubmit()">
+<form [formGroup]="editForm" class="table-form" (ngSubmit)="onSubmit()">
   <div class="table-form-inputs">
     <div>
       <mat-form-field class="book-edit-name">
         <input matInput placeholder="Name" formControlName="name" type="text" />
       </mat-form-field>
-      <form-errors [field]="bookForm.get('name')"></form-errors>
+      <form-errors [field]="editForm.get('name')"></form-errors>
     </div>
     <div class="table-form-year">
       <mat-form-field class="book-edit-year">
@@ -15,13 +15,13 @@
           type="number"
         />
       </mat-form-field>
-      <form-errors [field]="bookForm.get('year')"></form-errors>
+      <form-errors [field]="editForm.get('year')"></form-errors>
     </div>
   </div>
   <div class="table-form-buttons">
     <div class="buttons-wrapper">
       <button
-        [disabled]="!isLoggedIn || !bookForm.valid"
+        [disabled]="!isLoggedIn || !editForm.valid"
         class="save-button"
         mat-raised-button
         color="primary"
