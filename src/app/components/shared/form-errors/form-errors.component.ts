@@ -16,11 +16,22 @@ export class FormErrorComponent {
     }
     const config = {
       required: "Field is required",
-      min: "Year is wrong",
-      max: "Year is wrong",
-      emptyField: "Field cannot be empty"
+      min: "Value less than ",
+      max: "Value more than ",
+      emptyField: "Field cannot be empty",
+      forbidden: "Value incorrect"
     };
     const errors = [];
+
+    if (field.errors.hasOwnProperty("min")) {
+      console.log(field.errors);
+      config["min"] = config["min"] + field.errors.min.min;
+    }
+
+    if (field.errors.hasOwnProperty("max")) {
+      console.log(field.errors);
+      config["max"] = config["max"] + field.errors.max.max;
+    }
 
     Object.keys(field.errors).map((error: string) => {
       errors.push(config[error]);

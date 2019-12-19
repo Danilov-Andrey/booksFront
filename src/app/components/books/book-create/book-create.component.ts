@@ -1,38 +1,92 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Book } from "src/app/models/book.model";
 import { BooksService } from "../books.service";
-import { SaveBook } from "./book.model";
+import { NewBook } from "./book.model";
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  ValidatorFn,
+  AbstractControl
+} from "@angular/forms";
+import { AuthService } from "src/app/service/auth.service";
 
 @Component({
   selector: "app-book-creator",
   templateUrl: "./book-create.component.html",
   styleUrls: ["./book-create.component.css"]
 })
-export class BookCreateComponent implements OnInit {
-  books: Book[] = [];
+export class BookCreateComponent implements OnInit, OnDestroy {
+  bookForm = new FormGroup({
+    name: new FormControl(null, [
+      Validators.required,
+      this.valueValidator(/[0-9]/)
+    ]),
+    year: new FormControl(null, [
+      Validators.required,
+      Validators.min(1900),
+      Validators.max(new Date().getFullYear())
+    ]),
+    authorFirstName: new FormControl(null, [
+      Validators.required,
+      this.valueValidator(/[0-9]/)
+    ]),
+    authorLastName: new FormControl(null, [
+      Validators.required,
+      this.valueValidator(/[0-9]/)
+    ]),
+    publisherName: new FormControl(null, Validators.required),
+    rate: new FormControl(null, [Validators.max(10), Validators.required]),
+    count: new FormControl(null, Validators.required)
+  });
 
-  name: string;
-  year: number;
-  authorFirstName: string;
-  authorLastName: string;
-  publisherName: string;
-  rate: number;
-  count: number;
+  isAuth: boolean = false;
+  isError: boolean = false;
+  isLoading: boolean = false;
+  isSaved: boolean = false;
+  successfullMessage: string = "Successfully added!";
+  errorMessage: string;
+  messageTimer: number;
 
-  constructor(private booksService: BooksService) {}
+  constructor(
+    private booksService: BooksService,
+    private authService: AuthService
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.booksService.setLoading$.subscribe(() => {
+      this.isLoading = false;
+      this.isSaved = true;
+      this.messageTimer = window.setTimeout(() => {
+        this.isSaved = false;
+      }, 5000);
+    });
+    this.booksService.errorGet$.subscribe(error => {
+      this.isError = true;
+      this.isLoading = false;
+      this.errorMessage = error;
+      this.messageTimer = window.setTimeout(() => {
+        this.isError = false;
+      }, 5000);
+    });
+    this.isAuth = this.authService.isUserLoggedIn();
+  }
 
-  saveBook() {
-    const newBook = new SaveBook(
-      this.name,
-      this.year,
-      this.authorFirstName,
-      this.authorLastName,
-      this.publisherName,
-      this.rate,
-      this.count
-    );
-    this.booksService.saveBook(newBook).subscribe(data => console.log(data));
+  ngOnDestroy() {
+    clearTimeout(this.messageTimer);
+  }
+
+  valueValidator(regExp: RegExp): ValidatorFn {
+    return (control: AbstractControl) => {
+      const forbidden = regExp.test(control.value);
+      return forbidden ? { forbidden: true } : null;
+    };
+  }
+
+  onSubmit() {
+    if (this.bookForm.valid && this.isAuth) {
+      this.isLoading = true;
+      this.booksService.saveBook(this.bookForm.value);
+    }
   }
 }

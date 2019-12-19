@@ -60,6 +60,7 @@ export class SearchComponent {
 
   ngOnDestroy() {
     this.input$.unsubscribe();
+    clearTimeout(this.errorTimeout);
   }
 
   openSearch() {

@@ -1,42 +1,84 @@
-<div class="authForm">
-  <mat-form-field>
-    <input matInput placeholder="Book name" type="text" [(ngModel)]="name" />
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="Book year" type="number" [(ngModel)]="year" />
-  </mat-form-field>
-  <mat-form-field>
-    <input
-      matInput
-      placeholder="Author first name"
-      type="text"
-      [(ngModel)]="authorFirstName"
-    />
-  </mat-form-field>
-  <mat-form-field>
-    <input
-      matInput
-      placeholder="Author last name"
-      type="text"
-      [(ngModel)]="authorLastName"
-    />
-  </mat-form-field>
+<app-spinner *ngIf="isLoading"></app-spinner>
+<app-error
+  errorMessage="You must sign in for these actions!"
+  *ngIf="!isAuth"
+></app-error>
+<app-successfull-message
+  [message]="successfullMessage"
+  [showMessage]="isSaved"
+></app-successfull-message>
+<app-error errorMessage="{{ errorMessage }}" *ngIf="isError"></app-error>
+<form
+  *ngIf="!isLoading"
+  class="book-create-form"
+  [formGroup]="bookForm"
+  (ngSubmit)="onSubmit()"
+>
   <mat-form-field>
     <input
       matInput
-      placeholder="Publisher name"
+      placeholder="Book's name"
       type="text"
-      [(ngModel)]="publisherName"
+      formControlName="name"
     />
   </mat-form-field>
+  <form-errors [field]="bookForm.get('name')"></form-errors>
   <mat-form-field>
-    <input matInput placeholder="Rate" type="number" [(ngModel)]="rate" />
+    <input
+      matInput
+      placeholder="Book's year"
+      type="number"
+      formControlName="year"
+    />
   </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="Count" type="number" [(ngModel)]="count" />
-  </mat-form-field>
+  <form-errors [field]="bookForm.get('year')"></form-errors>
 
-  <button mat-raised-button color="primary" (click)="saveBook()">
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Author's first name"
+      type="text"
+      formControlName="authorFirstName"
+    />
+  </mat-form-field>
+  <form-errors [field]="bookForm.get('authorFirstName')"></form-errors>
+
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Author's last name"
+      type="text"
+      formControlName="authorLastName"
+    />
+  </mat-form-field>
+  <form-errors [field]="bookForm.get('authorLastName')"></form-errors>
+
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Publisher's name"
+      type="text"
+      formControlName="publisherName"
+    />
+  </mat-form-field>
+  <form-errors [field]="bookForm.get('publisherName')"></form-errors>
+
+  <mat-form-field>
+    <input matInput placeholder="Rate" type="number" formControlName="rate" />
+  </mat-form-field>
+  <form-errors [field]="bookForm.get('rate')"></form-errors>
+
+  <mat-form-field>
+    <input matInput placeholder="Count" type="number" formControlName="count" />
+  </mat-form-field>
+  <form-errors [field]="bookForm.get('count')"></form-errors>
+
+  <button
+    mat-raised-button
+    color="primary"
+    type="submit"
+    [disabled]="bookForm.invalid || !isAuth"
+  >
     Save
   </button>
-</div>
+</form>

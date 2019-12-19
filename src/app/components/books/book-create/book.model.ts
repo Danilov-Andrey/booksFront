@@ -1,4 +1,4 @@
-export class SaveBook {
+export class NewBook {
   name: string;
   year: number;
   authorFirstName: string;

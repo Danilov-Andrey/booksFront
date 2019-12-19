@@ -34,6 +34,7 @@ import { SearchComponent } from "./components/shared/search/search.component";
 import { ErrorComponent } from "./components/shared/error/error.component";
 import { BookTableComponent } from "./components/books/book-table/book-table.component";
 import { SortComponent } from "./components/shared/sort/sort.component";
+import { SuccessfullMessageComponent } from "./components/shared/successfull-message/successfull-message.component";
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { SortComponent } from "./components/shared/sort/sort.component";
     SearchComponent,
     ErrorComponent,
     BookTableComponent,
-    SortComponent
+    SortComponent,
+    SuccessfullMessageComponent
   ],
   imports: [
     HttpClientModule,

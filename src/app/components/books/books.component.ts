@@ -53,7 +53,7 @@ export class BooksComponent implements OnInit, OnDestroy {
       this.onSortBy(value);
     });
 
-    this.isLoading$ = this.booksService.startLoading$.subscribe(() => {
+    this.isLoading$ = this.booksService.setLoading$.subscribe(() => {
       this.isLoading = true;
     });
 

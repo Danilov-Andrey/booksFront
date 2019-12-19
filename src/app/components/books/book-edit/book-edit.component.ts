@@ -71,7 +71,7 @@ export class BookEditComponent implements OnInit {
       }
       this.isError = false;
       this.errorMessage = null;
-      this.booksService.startLoading$.next();
+      this.booksService.setLoading$.next();
       this.booksService.updateBook(
         this.id,
         new UpdateBook(this.id, name, year)
@@ -83,8 +83,7 @@ export class BookEditComponent implements OnInit {
 
   deleteBook() {
     if (this.isLoggedIn) {
-      this.booksService.startLoading$.next();
-
+      this.booksService.setLoading$.next();
       this.booksService.deleteBook(this.id);
     }
   }

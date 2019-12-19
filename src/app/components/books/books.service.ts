@@ -9,12 +9,19 @@ import { Subject } from "rxjs";
 export class BooksService {
   booksChanged$ = new Subject<any>();
   errorGet$ = new Subject<string>();
-  startLoading$ = new Subject();
+  setLoading$ = new Subject();
 
   constructor(private http: HttpClient) {}
 
   saveBook(newBook) {
-    return this.http.post("http://localhost:8080/api/books", newBook);
+    this.http.post("http://localhost:8080/api/books", newBook).subscribe(
+      () => {
+        this.setLoading$.next();
+      },
+      response => {
+        this.errorGet$.next(response.err);
+      }
+    );
   }
 
   getBooks(
@@ -56,9 +63,12 @@ export class BooksService {
   }
 
   deleteBook(id: number) {
-    this.http
-      .delete(`http://localhost:8080/api/books/${id}`)
-      .subscribe(() => this.getBooks(1, 10, "id", "ASC"));
+    this.http.delete(`http://localhost:8080/api/books/${id}`).subscribe(
+      () => this.getBooks(1, 10, "id", "ASC"),
+      response => {
+        this.errorGet$.next(response.error);
+      }
+    );
   }
 
   findBook(
