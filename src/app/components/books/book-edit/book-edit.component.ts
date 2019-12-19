@@ -21,8 +21,9 @@ export class BookEditComponent implements OnInit {
   @Input() id: number;
 
   editForm: FormGroup;
-
   isLoggedIn: boolean;
+  errorMessage: string;
+  isError: boolean;
 
   constructor(
     private authService: AuthService,
@@ -58,24 +59,32 @@ export class BookEditComponent implements OnInit {
     const name = this.editForm.get("name").value;
     const year = this.editForm.get("year").value;
     if (!this.editForm.valid) {
-      console.log("So clever?");
+      this.errorMessage = "Form invalid";
+      this.isError = true;
       return;
     }
     if (this.isLoggedIn) {
       if (name === this.name && year === this.year) {
-        console.log("Одинаковые данные");
+        this.errorMessage = "Nothing was changed";
+        this.isError = true;
         return;
       }
-      this.booksService
-        .updateBook(this.id, new UpdateBook(this.id, name, year))
-        .subscribe(data => console.log(data));
+      this.isError = false;
+      this.errorMessage = null;
+      this.booksService.startLoading$.next();
+      this.booksService.updateBook(
+        this.id,
+        new UpdateBook(this.id, name, year)
+      );
     } else {
-      console.log("Not login");
+      this.errorMessage = "You must sign in";
     }
   }
 
   deleteBook() {
     if (this.isLoggedIn) {
+      this.booksService.startLoading$.next();
+
       this.booksService.deleteBook(this.id);
     }
   }

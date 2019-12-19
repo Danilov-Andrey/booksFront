@@ -1,9 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { UpdateBook } from "src/app/models/update-book.model";
-import { Subject, of } from "rxjs";
-import { Book } from "src/app/models/book.model";
-import { switchMap, map, catchError } from "rxjs/operators";
+import { Subject } from "rxjs";
 
 @Injectable({
   providedIn: "root"
@@ -11,6 +9,7 @@ import { switchMap, map, catchError } from "rxjs/operators";
 export class BooksService {
   booksChanged$ = new Subject<any>();
   errorGet$ = new Subject<string>();
+  startLoading$ = new Subject();
 
   constructor(private http: HttpClient) {}
 
@@ -33,8 +32,8 @@ export class BooksService {
       response => {
         this.booksChanged$.next(response);
       },
-      err => {
-        this.errorGet$.next(err);
+      response => {
+        this.errorGet$.next(response.err);
       }
     );
   }
@@ -44,13 +43,22 @@ export class BooksService {
   }
 
   updateBook(id: number, updateBook: UpdateBook) {
-    return this.http.patch(`http://localhost:8080/api/books/${id}`, updateBook);
+    this.http
+      .patch(`http://localhost:8080/api/books/${id}`, updateBook)
+      .subscribe(
+        () => {
+          this.getBooks(1, 10, "id", "ASC");
+        },
+        response => {
+          this.errorGet$.next(response.error);
+        }
+      );
   }
 
   deleteBook(id: number) {
     this.http
       .delete(`http://localhost:8080/api/books/${id}`)
-      .pipe(map(() => this.getBooks(1, 1, "id", "ASC")));
+      .subscribe(() => this.getBooks(1, 10, "id", "ASC"));
   }
 
   findBook(

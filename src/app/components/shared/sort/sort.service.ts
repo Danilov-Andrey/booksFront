@@ -4,7 +4,7 @@ import { Injectable, EventEmitter } from "@angular/core";
   providedIn: "root"
 })
 export class SortService {
-  setSort = new EventEmitter<string>();
+  setSort$ = new EventEmitter<string>();
 
   constructor() {}
 }

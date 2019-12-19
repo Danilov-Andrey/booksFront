@@ -13,6 +13,7 @@ export class BooksComponent implements OnInit, OnDestroy {
   booksChanged$: Unsubscribable;
   errorGet$: Unsubscribable;
   sortBy$: Unsubscribable;
+  isLoading$: Unsubscribable;
 
   isLoading: boolean = true;
   isError: boolean = false;
@@ -48,9 +49,14 @@ export class BooksComponent implements OnInit, OnDestroy {
       this.errorMessage = error;
     });
 
-    this.sortBy$ = this.sortService.setSort.subscribe((value: string) => {
+    this.sortBy$ = this.sortService.setSort$.subscribe((value: string) => {
       this.onSortBy(value);
     });
+
+    this.isLoading$ = this.booksService.startLoading$.subscribe(() => {
+      this.isLoading = true;
+    });
+
     this.getBooks();
   }
 
@@ -58,6 +64,7 @@ export class BooksComponent implements OnInit, OnDestroy {
     this.booksChanged$.unsubscribe();
     this.errorGet$.unsubscribe();
     this.sortBy$.unsubscribe();
+    this.isLoading$.unsubscribe();
   }
 
   onSortBy(sortBy: string) {

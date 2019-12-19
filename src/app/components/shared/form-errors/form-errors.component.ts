@@ -14,7 +14,6 @@ export class FormErrorComponent {
     if (!field || !field.errors) {
       return false;
     }
-    console.log(field);
     const config = {
       required: "Field is required",
       min: "Year is wrong",

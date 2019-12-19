@@ -42,5 +42,6 @@
     <p *ngIf="!isLoggedIn" class="signin-warning">
       You must sign in for these actions!
     </p>
+    <app-error *ngIf="isError" [errorMessage]="errorMessage"></app-error>
   </div>
 </form>
