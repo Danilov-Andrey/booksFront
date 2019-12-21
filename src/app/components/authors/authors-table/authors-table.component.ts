@@ -21,6 +21,8 @@ export class AuthorsTableComponent implements OnInit {
 
   private _searchMode: boolean = true;
 
+  selectedAuthor: number;
+
   titles: Titles[] = [
     { title: "ID", sortBy: "id" },
     { title: "Author's name", sortBy: "firstName" },
@@ -30,4 +32,12 @@ export class AuthorsTableComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  selectAuthor(id: number) {
+    if (this.selectedAuthor === id) {
+      this.selectedAuthor = -1;
+    } else {
+      this.selectedAuthor = id;
+    }
+  }
 }

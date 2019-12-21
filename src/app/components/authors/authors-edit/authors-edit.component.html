@@ -1,0 +1,49 @@
+<div class="author-edit">
+  <form class="author-edit__form" [formGroup]="authorForm">
+    <div class="author-edit__author-name">
+      <mat-form-field class="author-edit__input-wrapper">
+        <input
+          matInput
+          class="author-edit__input"
+          type="text"
+          placeholder="First name"
+          formControlName="firstName"
+        />
+      </mat-form-field>
+      <form-errors [field]="authorForm.get('firstName')"></form-errors>
+    </div>
+    <div class="author-edit__author-surname">
+      <mat-form-field class="author-edit__input-wrapper">
+        <input
+          matInput
+          class="author-edit__input"
+          type="text"
+          placeholder="Last name"
+          formControlName="lastName"
+        />
+      </mat-form-field>
+      <form-errors [field]="authorForm.get('lastName')"></form-errors>
+    </div>
+    <div class="wrapper-buttons">
+      <div class="author-edit__buttons">
+        <button
+          class="author-edit__save-button"
+          mat-raised-button
+          color="primary"
+        >
+          Save
+        </button>
+        <button
+          class="author-edit__delete-button"
+          mat-raised-button
+          color="warn"
+        >
+          Delete
+        </button>
+      </div>
+      <p *ngIf="!isLoggedIn" class="signin-warning">
+        You must sign in for these actions!
+      </p>
+    </div>
+  </form>
+</div>

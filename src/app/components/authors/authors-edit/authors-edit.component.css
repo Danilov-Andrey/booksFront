@@ -1,0 +1,32 @@
+.author-edit__form {
+  display: flex;
+}
+
+.author-edit__author-name {
+  margin-right: 10px;
+}
+
+.author-edit__input-wrapper {
+  width: 100px;
+}
+
+.author-edit__input {
+}
+
+.wrapper-buttons {
+  margin: 0 10px;
+}
+
+.author-edit__save-button {
+  margin-right: 10px;
+  width: 50%;
+}
+
+.author-edit__delete-button {
+  width: 50%;
+}
+
+.author-edit__buttons {
+  display: flex;
+  flex-wrap: nowrap;
+}

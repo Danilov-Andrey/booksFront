@@ -36,6 +36,7 @@ import { BookTableComponent } from "./components/books/book-table/book-table.com
 import { SortComponent } from "./components/shared/sort/sort.component";
 import { SuccessfullMessageComponent } from "./components/shared/successfull-message/successfull-message.component";
 import { AuthorsTableComponent } from './components/authors/authors-table/authors-table.component';
+import { AuthorsEditComponent } from './components/authors/authors-edit/authors-edit.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { AuthorsTableComponent } from './components/authors/authors-table/author
     BookTableComponent,
     SortComponent,
     SuccessfullMessageComponent,
-    AuthorsTableComponent
+    AuthorsTableComponent,
+    AuthorsEditComponent
   ],
   imports: [
     HttpClientModule,

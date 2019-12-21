@@ -45,3 +45,9 @@ tr {
     width: 850px;
   }
 }
+
+.signin-warning {
+  color: #f44336;
+  margin: 16.25px 0;
+  text-align: center;
+}

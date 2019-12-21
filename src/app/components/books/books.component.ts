@@ -45,7 +45,7 @@ export class BooksComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.errorGet$ = this.booksService.errorGet$.subscribe(error => {
+    this.errorGet$ = this.booksService.errorGet$.subscribe((error: string) => {
       this.isLoading = false;
       this.isError = true;
       this.errorMessage = error;
@@ -81,7 +81,7 @@ export class BooksComponent implements OnInit, OnDestroy {
       this.direction = "ASC";
     }
 
-    this.searchBookName === "" ? this.getBooks() : this.getBook();
+    this.callGetMethod();
   }
 
   getBooks() {
@@ -101,36 +101,40 @@ export class BooksComponent implements OnInit, OnDestroy {
       this.currentPage = 1;
       this.isLoading = true;
       this.booksService.setBooksPerPage$.next(value);
-      this.searchBookName === "" ? this.getBooks() : this.getBook();
+      this.callGetMethod();
     }
   }
 
   getNextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
-      this.searchBookName === "" ? this.getBooks() : this.getBook();
+      this.callGetMethod();
     }
   }
 
   getPreviousPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
-      this.searchBookName === "" ? this.getBooks() : this.getBook();
+      this.callGetMethod();
     }
   }
 
   getFirstPage() {
     if (this.currentPage > 1) {
       this.currentPage = 1;
-      this.searchBookName === "" ? this.getBooks() : this.getBook();
+      this.callGetMethod();
     }
   }
 
   getLastPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage = this.totalPages;
-      this.searchBookName === "" ? this.getBooks() : this.getBook();
+      this.callGetMethod();
     }
+  }
+
+  callGetMethod() {
+    this.searchBookName === "" ? this.getBooks() : this.getBook();
   }
 
   setInitialValues() {

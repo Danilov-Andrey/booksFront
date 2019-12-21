@@ -14,22 +14,22 @@
   </thead>
   <tbody>
     <ng-template ngFor let-author [ngForOf]="authors">
-      <tr class="table-row" (click)="selectBook(book.id)">
+      <tr class="table-row" (click)="selectAuthor(author.id)">
         <td>
           {{ author.id }}
         </td>
         <td>{{ author.firstName }}</td>
         <td>{{ author.lastName }}</td>
       </tr>
-      <!-- <tr *ngIf="book.id === selectedBook">
-        <td class="book-edit" colspan="8">
-          <app-book-edit
-            [id]="book.id"
-            [name]="book.name"
-            [year]="book.year"
-          ></app-book-edit>
+      <tr *ngIf="author.id === selectedAuthor">
+        <td class="author-edit" colspan="8">
+          <app-authors-edit
+            [id]="author.id"
+            [firstName]="author.firstName"
+            [lastName]="author.lastName"
+          ></app-authors-edit>
         </td>
-      </tr> -->
+      </tr>
     </ng-template>
   </tbody>
 </table>

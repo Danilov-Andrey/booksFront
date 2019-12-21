@@ -26,12 +26,6 @@
   display: flex;
 }
 
-.signin-warning {
-  color: #f44336;
-  margin: 16.25px 0;
-  text-align: center;
-}
-
 .table-form-year {
   width: 130px;
 }
