@@ -15,6 +15,7 @@ export class BookTableComponent implements OnInit {
   @Input() books: Book[];
   @Input() direction: string;
   @Input() sortBy: string;
+
   selectedBook: number;
 
   titles: Titles[] = [

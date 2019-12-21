@@ -6,6 +6,7 @@
 <app-successfull-message
   [message]="successfullMessage"
   [showMessage]="isSaved"
+  *ngIf="isAuth"
 ></app-successfull-message>
 <app-error errorMessage="{{ errorMessage }}" *ngIf="isError"></app-error>
 <form

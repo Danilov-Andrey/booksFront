@@ -35,6 +35,7 @@ import { ErrorComponent } from "./components/shared/error/error.component";
 import { BookTableComponent } from "./components/books/book-table/book-table.component";
 import { SortComponent } from "./components/shared/sort/sort.component";
 import { SuccessfullMessageComponent } from "./components/shared/successfull-message/successfull-message.component";
+import { AuthorsTableComponent } from './components/authors/authors-table/authors-table.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { SuccessfullMessageComponent } from "./components/shared/successfull-mes
     ErrorComponent,
     BookTableComponent,
     SortComponent,
-    SuccessfullMessageComponent
+    SuccessfullMessageComponent,
+    AuthorsTableComponent
   ],
   imports: [
     HttpClientModule,

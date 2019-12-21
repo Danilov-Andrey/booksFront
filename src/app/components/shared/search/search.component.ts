@@ -42,7 +42,6 @@ export class SearchComponent {
             }),
             filter(value => this.validatorInput(value)),
             map(value => {
-              this.isLoading.emit();
               clearTimeout(this.errorTimeout);
               this.isError = false;
               this.errorMessage = "";

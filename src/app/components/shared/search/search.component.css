@@ -3,6 +3,7 @@
   justify-content: center;
   align-items: center;
   margin: 15px auto;
+  padding: 0px 10px;
 }
 
 .search {
@@ -35,7 +36,7 @@
 }
 
 .open-search {
-  width: 200px;
+  width: 250px;
 }
 
 .search-icon {

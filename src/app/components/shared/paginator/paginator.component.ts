@@ -13,6 +13,7 @@ export class Paginator {
   @Input() totalPages: number;
   @Input() currentPage: number;
   @Input() countItems: number;
+  @Input() totalElements: number;
 
   @Output() setItemsCount = new EventEmitter<number>();
   @Output() getFirstPage = new EventEmitter();

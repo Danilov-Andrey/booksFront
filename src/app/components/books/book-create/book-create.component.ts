@@ -44,7 +44,7 @@ export class BookCreateComponent implements OnInit, OnDestroy {
   isError: boolean = false;
   isLoading: boolean = false;
   isSaved: boolean = false;
-  successfullMessage: string = "Successfully added!";
+  successfullMessage: string = "The book successfully added!";
   errorMessage: string;
   messageTimer: number;
 
@@ -57,6 +57,7 @@ export class BookCreateComponent implements OnInit, OnDestroy {
     this.booksService.setLoading$.subscribe(() => {
       this.isLoading = false;
       this.isSaved = true;
+      this.bookForm.reset();
       this.messageTimer = window.setTimeout(() => {
         this.isSaved = false;
       }, 5000);

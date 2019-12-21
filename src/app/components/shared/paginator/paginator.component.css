@@ -34,7 +34,7 @@
   font-size: 13px;
 }
 
-.pages-count {
+.pagination-info {
   font-size: 13px;
   display: flex;
   align-items: center;
@@ -52,7 +52,7 @@
   }
 }
 
-@media (max-width: 450px) {
+@media (max-width: 610px) {
   .items-per-page__title {
     display: none;
   }
@@ -61,5 +61,8 @@
   }
   .pages-count {
     margin: 0 7px;
+  }
+  ._hidden {
+    display: none;
   }
 }

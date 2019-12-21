@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { UpdateBook } from "src/app/models/update-book.model";
-import { Subject } from "rxjs";
+import { Subject, BehaviorSubject } from "rxjs";
 
 @Injectable({
   providedIn: "root"
@@ -10,6 +10,7 @@ export class BooksService {
   booksChanged$ = new Subject<any>();
   errorGet$ = new Subject<string>();
   setLoading$ = new Subject();
+  setBooksPerPage$ = new BehaviorSubject<number>(10);
 
   constructor(private http: HttpClient) {}
 
@@ -40,7 +41,7 @@ export class BooksService {
         this.booksChanged$.next(response);
       },
       response => {
-        this.errorGet$.next(response.err);
+        this.errorGet$.next(response.message);
       }
     );
   }
@@ -49,12 +50,12 @@ export class BooksService {
     return this.http.get(`http://localhost:8080/api/books/${id}`);
   }
 
-  updateBook(id: number, updateBook: UpdateBook) {
+  updateBook(id: number, booksPerPage: number, updateBook: UpdateBook) {
     this.http
       .patch(`http://localhost:8080/api/books/${id}`, updateBook)
       .subscribe(
         () => {
-          this.getBooks(1, 10, "id", "ASC");
+          this.getBooks(1, booksPerPage, "id", "ASC");
         },
         response => {
           this.errorGet$.next(response.error);
@@ -62,9 +63,9 @@ export class BooksService {
       );
   }
 
-  deleteBook(id: number) {
+  deleteBook(id: number, booksPerPage: number) {
     this.http.delete(`http://localhost:8080/api/books/${id}`).subscribe(
-      () => this.getBooks(1, 10, "id", "ASC"),
+      () => this.getBooks(1, booksPerPage, "id", "ASC"),
       response => {
         this.errorGet$.next(response.error);
       }

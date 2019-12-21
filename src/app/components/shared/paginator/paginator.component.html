@@ -13,7 +13,11 @@
       </mat-select>
     </mat-form-field>
   </div>
-  <div class="pages-count">{{ currentPage }} of {{ totalPages }}</div>
+  <div class="pagination-info _hidden">Total: {{ totalElements }}</div>
+  <div class="pagination-info">
+    {{ currentPage }} <span class="_hidden"> &nbsp;page&nbsp; </span> of
+    {{ totalPages }}
+  </div>
   <div class="pagination-buttons">
     <button
       [ngClass]="{

@@ -24,6 +24,7 @@ export class BookEditComponent implements OnInit {
   isLoggedIn: boolean;
   errorMessage: string;
   isError: boolean;
+  booksPerPage: number;
 
   constructor(
     private authService: AuthService,
@@ -33,6 +34,9 @@ export class BookEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.booksService.setBooksPerPage$.subscribe(booksPerPage => {
+      this.booksPerPage = booksPerPage;
+    });
     this.editForm = new FormGroup({
       name: new FormControl(this.name, [
         Validators.required,
@@ -74,6 +78,7 @@ export class BookEditComponent implements OnInit {
       this.booksService.setLoading$.next();
       this.booksService.updateBook(
         this.id,
+        this.booksPerPage,
         new UpdateBook(this.id, name, year)
       );
     } else {
@@ -84,7 +89,7 @@ export class BookEditComponent implements OnInit {
   deleteBook() {
     if (this.isLoggedIn) {
       this.booksService.setLoading$.next();
-      this.booksService.deleteBook(this.id);
+      this.booksService.deleteBook(this.id, this.booksPerPage);
     }
   }
 }

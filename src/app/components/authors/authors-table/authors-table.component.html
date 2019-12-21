@@ -1,0 +1,35 @@
+<table class="authors-table">
+  <thead>
+    <td *ngFor="let title of titles">
+      <span class="table-title">
+        {{ title.title }}
+        <app-sort
+          *ngIf="_searchMode"
+          [title]="title"
+          [direction]="direction"
+          [sortBy]="sortBy"
+        ></app-sort>
+      </span>
+    </td>
+  </thead>
+  <tbody>
+    <ng-template ngFor let-author [ngForOf]="authors">
+      <tr class="table-row" (click)="selectBook(book.id)">
+        <td>
+          {{ author.id }}
+        </td>
+        <td>{{ author.firstName }}</td>
+        <td>{{ author.lastName }}</td>
+      </tr>
+      <!-- <tr *ngIf="book.id === selectedBook">
+        <td class="book-edit" colspan="8">
+          <app-book-edit
+            [id]="book.id"
+            [name]="book.name"
+            [year]="book.year"
+          ></app-book-edit>
+        </td>
+      </tr> -->
+    </ng-template>
+  </tbody>
+</table>

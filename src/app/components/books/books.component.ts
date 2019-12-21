@@ -26,6 +26,7 @@ export class BooksComponent implements OnInit, OnDestroy {
   direction: string = "ASC";
   sortBy: string = "id";
   searchBookName: string = "";
+  totalBooks: number;
 
   constructor(
     private booksService: BooksService,
@@ -34,9 +35,10 @@ export class BooksComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.booksChanged$ = this.booksService.booksChanged$.subscribe(
-      ({ content, totalPages }) => {
+      ({ content, totalPages, totalElements }) => {
         this.books = content;
         this.totalPages = totalPages;
+        this.totalBooks = totalElements;
         this.isError = false;
         this.isLoading = false;
         this.errorMessage = null;
@@ -98,6 +100,7 @@ export class BooksComponent implements OnInit, OnDestroy {
       this.countItems = value;
       this.currentPage = 1;
       this.isLoading = true;
+      this.booksService.setBooksPerPage$.next(value);
       this.searchBookName === "" ? this.getBooks() : this.getBook();
     }
   }
@@ -130,10 +133,6 @@ export class BooksComponent implements OnInit, OnDestroy {
     }
   }
 
-  setLoading() {
-    this.isLoading = true;
-  }
-
   setInitialValues() {
     this.currentPage = 1;
     this.countItems = 10;
@@ -161,5 +160,9 @@ export class BooksComponent implements OnInit, OnDestroy {
     this.searchBookName = name;
     this.setInitialValues();
     this.getBook();
+  }
+
+  setLoading() {
+    this.isLoading = true;
   }
 }

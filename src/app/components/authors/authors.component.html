@@ -1,1 +1,32 @@
-<p>authors works!</p>
+<app-search
+  (isLoading)="setLoading()"
+  (returnInitialData)="returnInitialData()"
+  (findValue)="setSearchMode($event)"
+  placeholder="Enter author first and last name..."
+></app-search>
+
+<app-error
+  *ngIf="isError && !isLoading"
+  [errorMessage]="errorMessage"
+></app-error>
+<app-spinner *ngIf="isLoading"></app-spinner>
+
+<div class="authors-table" *ngIf="!isError && !isLoading">
+  <app-authors-table
+    [sortBy]="sortBy"
+    [direction]="direction"
+    [authors]="authors"
+    [searchMode]="searchAuthorName"
+  ></app-authors-table>
+  <app-paginator
+    [totalElements]="totalAuthors"
+    [totalPages]="totalPages"
+    [currentPage]="currentPage"
+    [countItems]="countItems"
+    (setItemsCount)="setItemsCount($event)"
+    (getFirstPage)="getFirstPage()"
+    (getLastPage)="getLastPage()"
+    (getPreviousPage)="getPreviousPage()"
+    (getNextPage)="getNextPage()"
+  ></app-paginator>
+</div>
