@@ -22,12 +22,17 @@
         <td>{{ author.lastName }}</td>
       </tr>
       <tr *ngIf="author.id === selectedAuthor">
-        <td class="author-edit" colspan="8">
+        <td *ngIf="isLoggedIn" class="author-edit" colspan="3">
           <app-authors-edit
             [id]="author.id"
             [firstName]="author.firstName"
             [lastName]="author.lastName"
           ></app-authors-edit>
+        </td>
+        <td *ngIf="!isLoggedIn" colspan="3">
+          <p class="signin-warning">
+            You must sign in for these actions!
+          </p>
         </td>
       </tr>
     </ng-template>

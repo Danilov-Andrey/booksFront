@@ -1,4 +1,4 @@
-<div class="author-edit">
+<div *ngIf="isLoggedIn" class="author-edit">
   <form class="author-edit__form" [formGroup]="authorForm">
     <div class="author-edit__author-name">
       <mat-form-field class="author-edit__input-wrapper">
@@ -30,6 +30,7 @@
           class="author-edit__save-button"
           mat-raised-button
           color="primary"
+          [disabled]="!isLoggedIn || !authorForm.valid"
         >
           Save
         </button>
@@ -37,13 +38,11 @@
           class="author-edit__delete-button"
           mat-raised-button
           color="warn"
+          [disabled]="!isLoggedIn"
         >
           Delete
         </button>
       </div>
-      <p *ngIf="!isLoggedIn" class="signin-warning">
-        You must sign in for these actions!
-      </p>
     </div>
   </form>
 </div>

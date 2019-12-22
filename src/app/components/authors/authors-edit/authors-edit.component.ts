@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { AuthService } from "src/app/service/auth.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { emptyNameValidator } from "src/app/validators/validators";
 
 @Component({
   selector: "app-authors-edit",
@@ -20,8 +21,14 @@ export class AuthorsEditComponent implements OnInit {
   ngOnInit() {
     this.isLoggedIn = this.authService.isUserLoggedIn();
     this.authorForm = new FormGroup({
-      firstName: new FormControl(this.firstName, Validators.required),
-      lastName: new FormControl(this.lastName, Validators.required)
+      firstName: new FormControl(this.firstName, [
+        Validators.required,
+        emptyNameValidator()
+      ]),
+      lastName: new FormControl(this.lastName, [
+        Validators.required,
+        emptyNameValidator()
+      ])
     });
   }
 }

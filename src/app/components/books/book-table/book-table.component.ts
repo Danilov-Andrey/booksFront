@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { Book } from "src/app/models/book.model";
+import { AuthService } from "src/app/service/auth.service";
 
 export interface Titles {
   title: string;
@@ -17,6 +18,7 @@ export class BookTableComponent implements OnInit {
   @Input() sortBy: string;
 
   selectedBook: number;
+  isLoggedIn: boolean;
 
   titles: Titles[] = [
     { title: "ID", sortBy: "id" },
@@ -29,9 +31,11 @@ export class BookTableComponent implements OnInit {
     { title: "Condition", sortBy: "copies.rate" }
   ];
 
-  constructor() {}
+  constructor(private authService: AuthService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.isLoggedIn = this.authService.isUserLoggedIn();
+  }
 
   selectBook(id: number) {
     if (this.selectedBook === id) {

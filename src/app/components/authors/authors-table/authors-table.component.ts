@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { Author } from "src/app/models/author.model";
+import { AuthService } from "src/app/service/auth.service";
 
 export interface Titles {
   title: string;
@@ -18,8 +19,8 @@ export class AuthorsTableComponent implements OnInit {
   @Input() set searchMode(searchMode: string) {
     this._searchMode = searchMode === "" ? true : false;
   }
-
   private _searchMode: boolean = true;
+  isLoggedIn: boolean;
 
   selectedAuthor: number;
 
@@ -29,9 +30,11 @@ export class AuthorsTableComponent implements OnInit {
     { title: "Author's surname", sortBy: "lastName" }
   ];
 
-  constructor() {}
+  constructor(private authService: AuthService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.isLoggedIn = this.authService.isUserLoggedIn();
+  }
 
   selectAuthor(id: number) {
     if (this.selectedAuthor === id) {

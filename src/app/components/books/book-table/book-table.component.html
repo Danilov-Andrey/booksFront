@@ -26,12 +26,17 @@
         <td>{{ book.copies.rate }}</td>
       </tr>
       <tr *ngIf="book.id === selectedBook">
-        <td class="book-edit" colspan="8">
+        <td *ngIf="isLoggedIn" class="book-edit" colspan="8">
           <app-book-edit
             [id]="book.id"
             [name]="book.name"
             [year]="book.year"
           ></app-book-edit>
+        </td>
+        <td *ngIf="!isLoggedIn" colspan="8">
+          <p class="signin-warning">
+            You must sign in for these actions!
+          </p>
         </td>
       </tr>
     </ng-template>

@@ -15,7 +15,21 @@ export class SortComponent implements OnInit {
 
   ngOnInit() {}
 
-  onSortBy(title: string) {
-    this.sortService.setSort$.emit(title);
+  onSortBy(sortBy: string) {
+    if (sortBy === this.sortBy) {
+      if (this.direction === "ASC") {
+        this.direction = "DESC";
+      } else {
+        this.direction = "ASC";
+      }
+    } else {
+      this.sortBy = sortBy;
+      this.direction = "ASC";
+    }
+
+    this.sortService.setSort$.emit({
+      direction: this.direction,
+      sortBy: this.sortBy
+    });
   }
 }

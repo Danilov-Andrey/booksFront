@@ -5,7 +5,7 @@
       <mat-select [value]="countItems">
         <mat-option
           *ngFor="let item of itemsPerPage"
-          (click)="setItemsCount.emit(item.value)"
+          (click)="setItemsCount(item.value)"
           [value]="item.value"
         >
           {{ item.value }}
@@ -28,7 +28,7 @@
       matTooltip="First page"
       matTooltipPosition="above"
       aria-label="Button that displays a tooltip when focused or hovered over"
-      (click)="getFirstPage.emit()"
+      (click)="getFirstPage()"
     >
       <svg viewBox="0 0 24 24" class="paginator-icon">
         <path
@@ -44,7 +44,7 @@
       [disabled]="currentPage === 1"
       matTooltip="Previous page"
       matTooltipPosition="above"
-      (click)="getPreviousPage.emit()"
+      (click)="getPreviousPage()"
       aria-label="Button that displays a tooltip when focused or hovered over"
     >
       <svg viewBox="0 0 24 24" class="paginator-icon">
@@ -60,7 +60,7 @@
       matTooltipPosition="above"
       [disabled]="currentPage === totalPages"
       aria-label="Button that displays a tooltip when focused or hovered over"
-      (click)="getNextPage.emit()"
+      (click)="getNextPage()"
     >
       <svg viewBox="0 0 24 24" class="paginator-icon">
         <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
@@ -75,7 +75,7 @@
       matTooltipPosition="above"
       [disabled]="currentPage === totalPages"
       aria-label="Button that displays a tooltip when focused or hovered over"
-      (click)="getLastPage.emit()"
+      (click)="getLastPage()"
     >
       <svg viewBox="0 0 24 24" class="paginator-icon">
         <path

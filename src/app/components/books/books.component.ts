@@ -51,9 +51,13 @@ export class BooksComponent implements OnInit, OnDestroy {
       this.errorMessage = error;
     });
 
-    this.sortBy$ = this.sortService.setSort$.subscribe((value: string) => {
-      this.onSortBy(value);
-    });
+    this.sortBy$ = this.sortService.setSort$.subscribe(
+      ({ direction, sortBy }) => {
+        this.direction = direction;
+        this.sortBy = sortBy;
+        this.callGetMethod();
+      }
+    );
 
     this.isLoading$ = this.booksService.setLoading$.subscribe(() => {
       this.isLoading = true;
@@ -69,21 +73,6 @@ export class BooksComponent implements OnInit, OnDestroy {
     this.isLoading$.unsubscribe();
   }
 
-  onSortBy(sortBy: string) {
-    if (sortBy === this.sortBy) {
-      if (this.direction === "ASC") {
-        this.direction = "DESC";
-      } else {
-        this.direction = "ASC";
-      }
-    } else {
-      this.sortBy = sortBy;
-      this.direction = "ASC";
-    }
-
-    this.callGetMethod();
-  }
-
   getBooks() {
     this.isLoading = true;
     this.searchBookName = "";
@@ -95,42 +84,13 @@ export class BooksComponent implements OnInit, OnDestroy {
     );
   }
 
-  setItemsCount(value: number) {
-    if (value != this.countItems) {
-      this.countItems = value;
-      this.currentPage = 1;
-      this.isLoading = true;
-      this.booksService.setBooksPerPage$.next(value);
-      this.callGetMethod();
-    }
-  }
-
-  getNextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-      this.callGetMethod();
-    }
-  }
-
-  getPreviousPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.callGetMethod();
-    }
-  }
-
-  getFirstPage() {
-    if (this.currentPage > 1) {
-      this.currentPage = 1;
-      this.callGetMethod();
-    }
-  }
-
-  getLastPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage = this.totalPages;
-      this.callGetMethod();
-    }
+  setPaginationData(paginatorInfo: {
+    currentPage: number;
+    countItems: number;
+  }) {
+    this.currentPage = paginatorInfo.currentPage;
+    this.countItems = paginatorInfo.countItems;
+    this.callGetMethod();
   }
 
   callGetMethod() {

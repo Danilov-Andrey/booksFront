@@ -1,14 +1,9 @@
-import { Component, OnInit, OnDestroy, Input } from "@angular/core";
-import {
-  FormGroup,
-  FormControl,
-  Validators,
-  ValidatorFn,
-  AbstractControl
-} from "@angular/forms";
+import { Component, OnInit, Input } from "@angular/core";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { AuthService } from "src/app/service/auth.service";
 import { BooksService } from "../books.service";
 import { UpdateBook } from "src/app/models/update-book.model";
+import { emptyNameValidator } from "src/app/validators/validators";
 
 @Component({
   selector: "app-book-edit",
@@ -40,7 +35,7 @@ export class BookEditComponent implements OnInit {
     this.editForm = new FormGroup({
       name: new FormControl(this.name, [
         Validators.required,
-        this.emptyNameValidator()
+        emptyNameValidator()
       ]),
       year: new FormControl(this.year, [
         Validators.required,
@@ -48,15 +43,6 @@ export class BookEditComponent implements OnInit {
         Validators.min(1900)
       ])
     });
-  }
-
-  emptyNameValidator(): ValidatorFn {
-    return (control: AbstractControl) => {
-      if (control.value.trim().length === 0) {
-        return { emptyField: true };
-      }
-      return null;
-    };
   }
 
   onSubmit() {

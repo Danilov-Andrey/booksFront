@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { AuthorsService } from "./authors.service";
 import { Author } from "src/app/models/author.model";
 import { SortService } from "../shared/sort/sort.service";
@@ -9,7 +9,7 @@ import { Unsubscribable } from "rxjs";
   templateUrl: "./authors.component.html",
   styleUrls: ["./authors.component.css"]
 })
-export class AuthorsComponent implements OnInit {
+export class AuthorsComponent implements OnInit, OnDestroy {
   authorsChanged$: Unsubscribable;
   errorGet$: Unsubscribable;
   sortBy$: Unsubscribable;
@@ -51,9 +51,13 @@ export class AuthorsComponent implements OnInit {
       this.errorMessage = error;
     });
 
-    this.sortBy$ = this.sortService.setSort$.subscribe((sortBy: string) => {
-      this.onSortBy(sortBy);
-    });
+    this.sortBy$ = this.sortService.setSort$.subscribe(
+      ({ direction, sortBy }) => {
+        this.direction = direction;
+        this.sortBy = sortBy;
+        this.callGetMethod();
+      }
+    );
 
     this.isLoading$ = this.authorsService.setLoading$.subscribe(() => {
       this.isLoading = true;
@@ -62,9 +66,14 @@ export class AuthorsComponent implements OnInit {
     this.getAuthors();
   }
 
+  ngOnDestroy() {
+    this.authorsChanged$.unsubscribe();
+    this.errorGet$.unsubscribe();
+    this.sortBy$.unsubscribe();
+    this.isLoading$.unsubscribe();
+  }
+
   getAuthors() {
-    this.isLoading = true;
-    this.searchAuthorName = "";
     this.authorsService.getAuthors(
       this.currentPage,
       this.countItems,
@@ -74,7 +83,6 @@ export class AuthorsComponent implements OnInit {
   }
 
   getAuthor() {
-    this.isLoading = true;
     this.authorsService.getAuthor(
       this.currentPage,
       this.countItems,
@@ -84,56 +92,18 @@ export class AuthorsComponent implements OnInit {
     );
   }
 
-  onSortBy(sortBy: string) {
-    if (sortBy === this.sortBy) {
-      if (this.direction === "ASC") {
-        this.direction = "DESC";
-      } else {
-        this.direction = "ASC";
-      }
-    } else {
-      this.sortBy = sortBy;
-      this.direction = "ASC";
-    }
-    this.getAuthors();
+  setPaginationData(paginatorInfo: {
+    currentPage: number;
+    countItems: number;
+  }) {
+    this.currentPage = paginatorInfo.currentPage;
+    this.countItems = paginatorInfo.countItems;
+    this.callGetMethod();
   }
 
-  setItemsCount(value: number) {
-    if (value != this.countItems) {
-      this.countItems = value;
-      this.currentPage = 1;
-      this.isLoading = true;
-      this.authorsService.setAuthorsPerPage$.next(value);
-      this.searchAuthorName === "" ? this.getAuthors() : this.getAuthor();
-    }
-  }
-
-  getNextPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage++;
-      this.searchAuthorName === "" ? this.getAuthors() : this.getAuthor();
-    }
-  }
-
-  getPreviousPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.searchAuthorName === "" ? this.getAuthors() : this.getAuthor();
-    }
-  }
-
-  getFirstPage() {
-    if (this.currentPage > 1) {
-      this.currentPage = 1;
-      this.searchAuthorName === "" ? this.getAuthors() : this.getAuthor();
-    }
-  }
-
-  getLastPage() {
-    if (this.currentPage < this.totalPages) {
-      this.currentPage = this.totalPages;
-      this.searchAuthorName === "" ? this.getAuthors() : this.getAuthor();
-    }
+  callGetMethod() {
+    this.isLoading = true;
+    this.searchAuthorName === "" ? this.getAuthors() : this.getAuthor();
   }
 
   setInitialValues() {
