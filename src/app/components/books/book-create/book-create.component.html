@@ -1,16 +1,14 @@
 <app-spinner *ngIf="isLoading"></app-spinner>
-<app-error
-  errorMessage="You must sign in for these actions!"
-  *ngIf="!isAuth"
-></app-error>
+<app-error message="login" *ngIf="!isAuth"></app-error>
+<app-signin-button *ngIf="!isAuth"></app-signin-button>
 <app-successfull-message
   [message]="successfullMessage"
   [showMessage]="isSaved"
   *ngIf="isAuth"
 ></app-successfull-message>
-<app-error errorMessage="{{ errorMessage }}" *ngIf="isError"></app-error>
+<app-error [message]="errorMessage" *ngIf="isError"></app-error>
 <form
-  *ngIf="!isLoading"
+  *ngIf="!isLoading && isAuth"
   class="book-create-form"
   [formGroup]="bookForm"
   (ngSubmit)="onSubmit()"

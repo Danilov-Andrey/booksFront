@@ -9,6 +9,7 @@ import { LogoutComponent } from "./components/logout/logout.component";
 import { AuthGuardService } from "./service/auth-guard.service";
 import { BookCreateComponent } from "./components/books/book-create/book-create.component";
 import { BookEditComponent } from "./components/books/book-edit/book-edit.component";
+import { AuthorsCreateComponent } from "./components/authors/authors-create/authors-create.component";
 
 const routes: Routes = [
   { path: "", redirectTo: "login", pathMatch: "full" },
@@ -22,7 +23,13 @@ const routes: Routes = [
     ]
   },
   { path: "publishers", component: PublishersComponent },
-  { path: "authors", component: AuthorsComponent },
+  {
+    path: "authors",
+    children: [
+      { path: "", component: AuthorsComponent },
+      { path: "add", component: AuthorsCreateComponent }
+    ]
+  },
   { path: "copies", component: CopiesComponent },
   { path: "login", component: LoginComponent },
   { path: "logout", component: LogoutComponent },

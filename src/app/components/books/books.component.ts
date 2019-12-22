@@ -55,6 +55,7 @@ export class BooksComponent implements OnInit, OnDestroy {
       ({ direction, sortBy }) => {
         this.direction = direction;
         this.sortBy = sortBy;
+        this.currentPage = 1;
         this.callGetMethod();
       }
     );

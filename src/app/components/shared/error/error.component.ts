@@ -6,9 +6,21 @@ import { Component, OnInit, Input } from "@angular/core";
   styleUrls: ["./error.component.css"]
 })
 export class ErrorComponent implements OnInit {
-  @Input() errorMessage: string;
+  @Input() message: string;
+
+  titles = {
+    login: "You must sign in for these actions!"
+  };
+
+  outputMessage: string = "asdasd";
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.titles.hasOwnProperty(this.message)) {
+      this.outputMessage = this.titles[this.message];
+    } else {
+      this.outputMessage = this.message;
+    }
+  }
 }

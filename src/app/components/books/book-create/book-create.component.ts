@@ -44,7 +44,7 @@ export class BookCreateComponent implements OnInit, OnDestroy {
   isError: boolean = false;
   isLoading: boolean = false;
   isSaved: boolean = false;
-  successfullMessage: string = "The book successfully added!";
+  successfullMessage: string = "The book was successfully added!";
   errorMessage: string;
   messageTimer: number;
 

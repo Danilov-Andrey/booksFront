@@ -30,9 +30,8 @@
           ></app-authors-edit>
         </td>
         <td *ngIf="!isLoggedIn" colspan="3">
-          <p class="signin-warning">
-            You must sign in for these actions!
-          </p>
+          <app-error message="login"></app-error>
+          <app-signin-button></app-signin-button>
         </td>
       </tr>
     </ng-template>

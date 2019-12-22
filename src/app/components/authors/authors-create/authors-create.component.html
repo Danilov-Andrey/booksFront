@@ -1,0 +1,3 @@
+<app-spinner *ngIf="isLoading"></app-spinner>
+<app-error message="login" *ngIf="!isLoggedIn"></app-error>
+<app-signin-button *ngIf="!isLoggedIn"></app-signin-button>
