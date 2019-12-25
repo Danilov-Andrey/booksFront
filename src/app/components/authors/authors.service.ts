@@ -84,4 +84,15 @@ export class AuthorsService {
       }
     );
   }
+
+  saveAuthor(author: Author) {
+    this.http.post("http://localhost:8080/api/authors", author).subscribe(
+      () => {
+        this.setSuccessMessage$.next("saved");
+      },
+      response => {
+        this.errorGet$.next(response.message);
+      }
+    );
+  }
 }

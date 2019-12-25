@@ -18,10 +18,10 @@ export class BooksService {
   saveBook(newBook) {
     this.http.post("http://localhost:8080/api/books", newBook).subscribe(
       () => {
-        this.setLoading$.next();
+        this.setSuccessMessage$.next("saved");
       },
       response => {
-        this.errorGet$.next(response.err);
+        this.errorGet$.next(response.error);
       }
     );
   }
@@ -42,7 +42,7 @@ export class BooksService {
         this.booksChanged$.next(response);
       },
       response => {
-        this.errorGet$.next(response.message);
+        this.errorGet$.next(response.error);
       }
     );
   }

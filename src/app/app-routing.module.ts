@@ -17,7 +17,7 @@ const routes: Routes = [
     path: "books",
     canActivate: [AuthGuardService],
     children: [
-      { path: "", component: BooksComponent },
+      { path: "", pathMatch: "full", component: BooksComponent },
       { path: "add", component: BookCreateComponent },
       { path: ":id", component: BookEditComponent }
     ]
@@ -26,7 +26,7 @@ const routes: Routes = [
   {
     path: "authors",
     children: [
-      { path: "", component: AuthorsComponent },
+      { path: "", pathMatch: "full", component: AuthorsComponent },
       { path: "add", component: AuthorsCreateComponent }
     ]
   },

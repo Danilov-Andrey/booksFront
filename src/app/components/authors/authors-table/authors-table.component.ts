@@ -17,7 +17,7 @@ export class AuthorsTableComponent implements OnInit {
   @Input() direction: string;
   @Input() sortBy: string;
   @Input() set searchMode(searchMode: string) {
-    this._searchMode = searchMode === "" ? true : false;
+    this._searchMode = searchMode === null ? true : false;
   }
   private _searchMode: boolean = true;
   isLoggedIn: boolean;

@@ -66,6 +66,8 @@ export class AuthorsComponent implements OnInit, OnDestroy {
 
     this.setSuccessMessage$ = this.authorsService.setSuccessMessage$.subscribe(
       message => {
+        clearTimeout(this.successMessageTimer);
+
         this.isComplete = true;
         this.successMessage = message;
         this.successMessageTimer = window.setTimeout(() => {
@@ -92,6 +94,8 @@ export class AuthorsComponent implements OnInit, OnDestroy {
   }
 
   getAuthors() {
+    this.isLoading = true;
+    this.searchAuthorName = null;
     this.authorsService.getAuthors(
       this.currentPage,
       this.countItems,
@@ -101,6 +105,7 @@ export class AuthorsComponent implements OnInit, OnDestroy {
   }
 
   getAuthor() {
+    this.isLoading = true;
     this.authorsService.getAuthor(
       this.currentPage,
       this.countItems,

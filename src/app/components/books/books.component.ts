@@ -66,6 +66,7 @@ export class BooksComponent implements OnInit, OnDestroy {
 
     this.setSuccessMessage$ = this.booksService.setSuccessMessage$.subscribe(
       message => {
+        clearTimeout(this.successMessageTimer);
         this.isComplete = true;
         this.successMessage = message;
         this.successMessageTimer = window.setTimeout(() => {

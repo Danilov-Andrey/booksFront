@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { AuthService } from "src/app/service/auth.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { emptyNameValidator } from "src/app/validators/validators";
+import { emptyNameValidator } from "src/app/validators/empty-name.validator";
 import { AuthorsService } from "../authors.service";
 import { Unsubscribable } from "rxjs";
+import { valueValidator } from "src/app/validators/incorrect-char.validator";
 
 @Component({
   selector: "app-authors-edit",
@@ -41,11 +42,13 @@ export class AuthorsEditComponent implements OnInit {
     this.authorForm = new FormGroup({
       firstName: new FormControl(this.firstName, [
         Validators.required,
-        emptyNameValidator()
+        valueValidator(/[0-9]/),
+        emptyNameValidator
       ]),
       lastName: new FormControl(this.lastName, [
         Validators.required,
-        emptyNameValidator()
+        valueValidator(/[0-9]/),
+        emptyNameValidator
       ])
     });
   }
@@ -70,25 +73,20 @@ export class AuthorsEditComponent implements OnInit {
       this.errorTimer = window.setTimeout(() => this.clearTimer(), 5000);
       return;
     }
-    if (this.isLoggedIn) {
-      if (firstName === this.firstName && lastName === this.lastName) {
-        this.isError = true;
-        this.errorMessage = "change";
-        this.errorTimer = window.setTimeout(() => this.clearTimer(), 5000);
-        return;
-      }
-      this.isError = false;
-      this.errorMessage = null;
-      this.authorsService.setLoading$.next();
-      this.authorsService.updateAuthor(this.authorsPerPage, {
-        id: this.id,
-        firstName,
-        lastName
-      });
-    } else {
-      this.errorMessage = "login";
+
+    if (firstName === this.firstName && lastName === this.lastName) {
+      this.isError = true;
+      this.errorMessage = "change";
       this.errorTimer = window.setTimeout(() => this.clearTimer(), 5000);
+      return;
     }
+    this.clearTimer();
+    this.authorsService.setLoading$.next();
+    this.authorsService.updateAuthor(this.authorsPerPage, {
+      id: this.id,
+      firstName,
+      lastName
+    });
   }
 
   deleteAuthor() {

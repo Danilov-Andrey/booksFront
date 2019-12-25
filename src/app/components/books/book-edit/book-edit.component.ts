@@ -3,8 +3,9 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { AuthService } from "src/app/service/auth.service";
 import { BooksService } from "../books.service";
 import { UpdateBook } from "src/app/models/update-book.model";
-import { emptyNameValidator } from "src/app/validators/validators";
+import { emptyNameValidator } from "src/app/validators/empty-name.validator";
 import { Unsubscribable } from "rxjs";
+import { valueValidator } from "src/app/validators/incorrect-char.validator";
 
 @Component({
   selector: "app-book-edit",
@@ -42,7 +43,8 @@ export class BookEditComponent implements OnInit {
     this.editForm = new FormGroup({
       name: new FormControl(this.name, [
         Validators.required,
-        emptyNameValidator()
+        valueValidator(/[0-9]/),
+        emptyNameValidator
       ]),
       year: new FormControl(this.year, [
         Validators.required,
@@ -71,26 +73,21 @@ export class BookEditComponent implements OnInit {
       this.errorTimer = window.setTimeout(() => this.clearTimer(), 5000);
       return;
     }
-    if (this.isLoggedIn) {
-      if (name === this.name && year === this.year) {
-        this.errorMessage = "change";
-        this.isError = true;
-        this.errorTimer = window.setTimeout(() => this.clearTimer(), 5000);
 
-        return;
-      }
-      this.isError = false;
-      this.errorMessage = null;
-      this.booksService.setLoading$.next();
-      this.booksService.updateBook(
-        this.id,
-        this.booksPerPage,
-        new UpdateBook(this.id, name, year)
-      );
-    } else {
-      this.errorMessage = "login";
+    if (name === this.name && year === this.year) {
+      this.errorMessage = "change";
+      this.isError = true;
       this.errorTimer = window.setTimeout(() => this.clearTimer(), 5000);
+      return;
     }
+    this.isError = false;
+    this.errorMessage = null;
+    this.booksService.setLoading$.next();
+    this.booksService.updateBook(
+      this.id,
+      this.booksPerPage,
+      new UpdateBook(this.id, name, year)
+    );
   }
 
   deleteBook() {

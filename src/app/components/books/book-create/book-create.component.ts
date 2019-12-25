@@ -1,15 +1,10 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Book } from "src/app/models/book.model";
 import { BooksService } from "../books.service";
-import { NewBook } from "./book.model";
-import {
-  FormGroup,
-  FormControl,
-  Validators,
-  ValidatorFn,
-  AbstractControl
-} from "@angular/forms";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { AuthService } from "src/app/service/auth.service";
+import { Unsubscribable } from "rxjs";
+import { emptyNameValidator } from "src/app/validators/empty-name.validator";
+import { valueValidator } from "src/app/validators/incorrect-char.validator";
 
 @Component({
   selector: "app-book-creator",
@@ -18,10 +13,7 @@ import { AuthService } from "src/app/service/auth.service";
 })
 export class BookCreateComponent implements OnInit, OnDestroy {
   bookForm = new FormGroup({
-    name: new FormControl(null, [
-      Validators.required,
-      this.valueValidator(/[0-9]/)
-    ]),
+    name: new FormControl(null, [Validators.required, emptyNameValidator]),
     year: new FormControl(null, [
       Validators.required,
       Validators.min(1900),
@@ -29,13 +21,18 @@ export class BookCreateComponent implements OnInit, OnDestroy {
     ]),
     authorFirstName: new FormControl(null, [
       Validators.required,
-      this.valueValidator(/[0-9]/)
+      emptyNameValidator,
+      valueValidator(/[0-9]/)
     ]),
     authorLastName: new FormControl(null, [
       Validators.required,
-      this.valueValidator(/[0-9]/)
+      emptyNameValidator,
+      valueValidator(/[0-9]/)
     ]),
-    publisherName: new FormControl(null, Validators.required),
+    publisherName: new FormControl(null, [
+      Validators.required,
+      emptyNameValidator
+    ]),
     rate: new FormControl(null, [Validators.max(10), Validators.required]),
     count: new FormControl(null, Validators.required)
   });
@@ -46,7 +43,10 @@ export class BookCreateComponent implements OnInit, OnDestroy {
   isSaved: boolean = false;
   errorMessage: string;
   messageTimer: number;
-  successMessage: string = "saved";
+  successMessage: string;
+
+  errorGet$: Unsubscribable;
+  setSuccessMessage$: Unsubscribable;
 
   constructor(
     private booksService: BooksService,
@@ -54,15 +54,18 @@ export class BookCreateComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.booksService.setLoading$.subscribe(() => {
-      this.isLoading = false;
-      this.isSaved = true;
-      this.bookForm.reset();
-      this.messageTimer = window.setTimeout(() => {
-        this.isSaved = false;
-      }, 5000);
-    });
-    this.booksService.errorGet$.subscribe(error => {
+    this.setSuccessMessage$ = this.booksService.setSuccessMessage$.subscribe(
+      message => {
+        this.successMessage = message;
+        this.isLoading = false;
+        this.isSaved = true;
+        this.bookForm.reset();
+        this.messageTimer = window.setTimeout(() => {
+          this.isSaved = false;
+        }, 5000);
+      }
+    );
+    this.errorGet$ = this.booksService.errorGet$.subscribe(error => {
       this.isError = true;
       this.isLoading = false;
       this.errorMessage = error;
@@ -74,14 +77,9 @@ export class BookCreateComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.setSuccessMessage$.unsubscribe();
+    this.errorGet$.unsubscribe();
     clearTimeout(this.messageTimer);
-  }
-
-  valueValidator(regExp: RegExp): ValidatorFn {
-    return (control: AbstractControl) => {
-      const forbidden = regExp.test(control.value);
-      return forbidden ? { forbidden: true } : null;
-    };
   }
 
   onSubmit() {

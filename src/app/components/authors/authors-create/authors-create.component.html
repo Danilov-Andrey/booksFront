@@ -1,3 +1,43 @@
 <app-spinner *ngIf="isLoading"></app-spinner>
 <app-error message="login" *ngIf="!isLoggedIn"></app-error>
+<app-error [message]="message" *ngIf="!isError"></app-error>
 <app-signin-button *ngIf="!isLoggedIn"></app-signin-button>
+<app-successfull-message
+  [message]="message"
+  *ngIf="showMessage"
+></app-successfull-message>
+<form
+  *ngIf="!isLoading && isLoggedIn"
+  class="create-form"
+  [formGroup]="authorForm"
+  (ngSubmit)="onSubmit()"
+>
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="First name"
+      type="text"
+      formControlName="firstName"
+    />
+  </mat-form-field>
+  <form-errors [field]="authorForm.get('firstName')"></form-errors>
+
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Last name"
+      type="text"
+      formControlName="lastName"
+    />
+  </mat-form-field>
+  <form-errors [field]="authorForm.get('lastName')"></form-errors>
+
+  <button
+    mat-raised-button
+    color="primary"
+    type="submit"
+    [disabled]="authorForm.invalid || !isLoggedIn"
+  >
+    Save
+  </button>
+</form>

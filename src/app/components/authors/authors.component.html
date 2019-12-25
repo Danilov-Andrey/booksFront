@@ -7,7 +7,7 @@
 
 <app-successfull-message
   [message]="successMessage"
-  [showMessage]="isComplete"
+  *ngIf="isComplete"
 ></app-successfull-message>
 
 <app-error *ngIf="isError && !isLoading" [message]="errorMessage"></app-error>

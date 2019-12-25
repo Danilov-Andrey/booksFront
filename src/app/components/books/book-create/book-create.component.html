@@ -3,12 +3,12 @@
 <app-signin-button *ngIf="!isAuth"></app-signin-button>
 <app-successfull-message
   [message]="successMessage"
-  [showMessage]="isSaved"
+  *ngIf="isSaved"
 ></app-successfull-message>
 <app-error [message]="errorMessage" *ngIf="isError"></app-error>
 <form
   *ngIf="!isLoading && isAuth"
-  class="book-create-form"
+  class="create-form"
   [formGroup]="bookForm"
   (ngSubmit)="onSubmit()"
 >

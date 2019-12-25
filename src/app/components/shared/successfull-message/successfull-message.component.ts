@@ -7,7 +7,6 @@ import { Component, OnInit, Input, SimpleChanges } from "@angular/core";
 })
 export class SuccessfullMessageComponent implements OnInit {
   @Input() message: string;
-  @Input() showMessage: boolean;
 
   titles = {
     saved: "Saved successfully!",
@@ -21,7 +20,6 @@ export class SuccessfullMessageComponent implements OnInit {
   ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
-    this.showMessage = changes.showMessage.currentValue;
     this.outputMessage = this.titles[changes.message.currentValue];
   }
 }
