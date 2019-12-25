@@ -14,6 +14,7 @@ export class BooksComponent implements OnInit, OnDestroy {
   errorGet$: Unsubscribable;
   sortBy$: Unsubscribable;
   isLoading$: Unsubscribable;
+  setSuccessMessage$: Unsubscribable;
 
   isLoading: boolean = true;
   isError: boolean = false;
@@ -63,14 +64,16 @@ export class BooksComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.booksService.setSuccessMessage$.subscribe(message => {
-      this.isComplete = true;
-      this.successMessage = message;
-      this.successMessageTimer = window.setTimeout(() => {
-        this.isComplete = false;
-        this.successMessage = null;
-      }, 5000);
-    });
+    this.setSuccessMessage$ = this.booksService.setSuccessMessage$.subscribe(
+      message => {
+        this.isComplete = true;
+        this.successMessage = message;
+        this.successMessageTimer = window.setTimeout(() => {
+          this.isComplete = false;
+          this.successMessage = null;
+        }, 5000);
+      }
+    );
 
     this.isLoading$ = this.booksService.setLoading$.subscribe(() => {
       this.isLoading = true;
@@ -84,6 +87,8 @@ export class BooksComponent implements OnInit, OnDestroy {
     this.errorGet$.unsubscribe();
     this.sortBy$.unsubscribe();
     this.isLoading$.unsubscribe();
+    this.setSuccessMessage$.unsubscribe();
+    clearTimeout(this.successMessageTimer);
   }
 
   getBooks() {

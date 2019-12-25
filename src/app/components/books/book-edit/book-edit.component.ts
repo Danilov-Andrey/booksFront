@@ -47,6 +47,10 @@ export class BookEditComponent implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    clearTimeout(this.errorTimer);
+  }
+
   clearTimer() {
     this.isError = false;
     this.errorMessage = "";
@@ -59,7 +63,6 @@ export class BookEditComponent implements OnInit {
       this.errorMessage = "invalid";
       this.isError = true;
       this.errorTimer = window.setTimeout(() => this.clearTimer(), 5000);
-
       return;
     }
     if (this.isLoggedIn) {
