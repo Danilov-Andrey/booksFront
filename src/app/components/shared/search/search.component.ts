@@ -69,7 +69,7 @@ export class SearchComponent {
   validatorInput(value: string) {
     if (value.trim().length === 0 && value.length != 0) {
       this.isError = true;
-      this.errorMessage = "Field cannot be empty";
+      this.errorMessage = "empty";
       this.errorTimeout = window.setTimeout(() => {
         this.isError = false;
         this.errorMessage = "";

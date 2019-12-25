@@ -5,6 +5,11 @@
   placeholder="Enter author first and last name..."
 ></app-search>
 
+<app-successfull-message
+  [message]="successMessage"
+  [showMessage]="isComplete"
+></app-successfull-message>
+
 <app-error *ngIf="isError && !isLoading" [message]="errorMessage"></app-error>
 <app-spinner *ngIf="isLoading"></app-spinner>
 

@@ -11,6 +11,7 @@ export class BooksService {
   errorGet$ = new Subject<string>();
   setLoading$ = new Subject();
   setBooksPerPage$ = new BehaviorSubject<number>(10);
+  setSuccessMessage$ = new Subject<string>();
 
   constructor(private http: HttpClient) {}
 
@@ -55,6 +56,7 @@ export class BooksService {
       .patch(`http://localhost:8080/api/books/${id}`, updateBook)
       .subscribe(
         () => {
+          this.setSuccessMessage$.next("updated");
           this.getBooks(1, booksPerPage, "id", "ASC");
         },
         response => {
@@ -65,7 +67,10 @@ export class BooksService {
 
   deleteBook(id: number, booksPerPage: number) {
     this.http.delete(`http://localhost:8080/api/books/${id}`).subscribe(
-      () => this.getBooks(1, booksPerPage, "id", "ASC"),
+      () => {
+        this.setSuccessMessage$.next("deleted");
+        this.getBooks(1, booksPerPage, "id", "ASC");
+      },
       response => {
         this.errorGet$.next(response.error);
       }

@@ -21,12 +21,15 @@ export class AuthorsComponent implements OnInit, OnDestroy {
   totalPages: number;
   direction: string = "ASC";
   sortBy: string = "id";
-  searchAuthorName: string = "";
+  searchAuthorName: string = null;
   totalAuthors: number;
 
   isLoading: boolean = true;
   isError: boolean = false;
+  isComplete: boolean = false;
   errorMessage: string;
+  successMessage: string;
+  successMessageTimer: number;
 
   constructor(
     private authorsService: AuthorsService,
@@ -60,6 +63,15 @@ export class AuthorsComponent implements OnInit, OnDestroy {
       }
     );
 
+    this.authorsService.setSuccessMessage$.subscribe(message => {
+      this.isComplete = true;
+      this.successMessage = message;
+      this.successMessageTimer = window.setTimeout(() => {
+        this.isComplete = false;
+        this.successMessage = null;
+      }, 5000);
+    });
+
     this.isLoading$ = this.authorsService.setLoading$.subscribe(() => {
       this.isLoading = true;
     });
@@ -72,6 +84,7 @@ export class AuthorsComponent implements OnInit, OnDestroy {
     this.errorGet$.unsubscribe();
     this.sortBy$.unsubscribe();
     this.isLoading$.unsubscribe();
+    clearTimeout(this.successMessageTimer);
   }
 
   getAuthors() {
@@ -104,7 +117,7 @@ export class AuthorsComponent implements OnInit, OnDestroy {
 
   callGetMethod() {
     this.isLoading = true;
-    this.searchAuthorName === "" ? this.getAuthors() : this.getAuthor();
+    this.searchAuthorName === null ? this.getAuthors() : this.getAuthor();
   }
 
   setInitialValues() {

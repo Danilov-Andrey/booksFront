@@ -9,10 +9,13 @@ export class ErrorComponent implements OnInit {
   @Input() message: string;
 
   titles = {
-    login: "You must sign in for these actions!"
+    login: "You must sign in for these actions!",
+    change: "Nothing was changed!",
+    invalid: "Form is invalid!",
+    empty: "Field cannot be empty"
   };
 
-  outputMessage: string = "asdasd";
+  outputMessage: string;
 
   constructor() {}
 

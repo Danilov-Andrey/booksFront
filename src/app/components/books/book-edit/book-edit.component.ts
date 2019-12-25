@@ -21,6 +21,8 @@ export class BookEditComponent implements OnInit {
   isError: boolean;
   booksPerPage: number;
 
+  errorTimer: number;
+
   constructor(
     private authService: AuthService,
     private booksService: BooksService
@@ -45,18 +47,27 @@ export class BookEditComponent implements OnInit {
     });
   }
 
+  clearTimer() {
+    this.isError = false;
+    this.errorMessage = "";
+  }
+
   onSubmit() {
     const name = this.editForm.get("name").value;
     const year = this.editForm.get("year").value;
     if (!this.editForm.valid) {
-      this.errorMessage = "Form invalid";
+      this.errorMessage = "invalid";
       this.isError = true;
+      this.errorTimer = window.setTimeout(() => this.clearTimer(), 5000);
+
       return;
     }
     if (this.isLoggedIn) {
       if (name === this.name && year === this.year) {
-        this.errorMessage = "Nothing was changed";
+        this.errorMessage = "change";
         this.isError = true;
+        this.errorTimer = window.setTimeout(() => this.clearTimer(), 5000);
+
         return;
       }
       this.isError = false;
@@ -68,7 +79,8 @@ export class BookEditComponent implements OnInit {
         new UpdateBook(this.id, name, year)
       );
     } else {
-      this.errorMessage = "You must sign in";
+      this.errorMessage = "login";
+      this.errorTimer = window.setTimeout(() => this.clearTimer(), 5000);
     }
   }
 

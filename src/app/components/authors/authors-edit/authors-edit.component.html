@@ -1,5 +1,9 @@
 <div *ngIf="isLoggedIn" class="author-edit">
-  <form class="author-edit__form" [formGroup]="authorForm">
+  <form
+    class="author-edit__form"
+    [formGroup]="authorForm"
+    (submit)="onSubmit()"
+  >
     <div class="author-edit__author-name">
       <mat-form-field class="author-edit__input-wrapper">
         <input
@@ -38,11 +42,14 @@
           class="author-edit__delete-button"
           mat-raised-button
           color="warn"
+          type="button"
+          (click)="deleteAuthor()"
           [disabled]="!isLoggedIn"
         >
           Delete
         </button>
       </div>
+      <app-error *ngIf="isError" [message]="errorMessage"></app-error>
     </div>
   </form>
 </div>

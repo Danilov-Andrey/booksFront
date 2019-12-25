@@ -17,7 +17,10 @@ export class BooksComponent implements OnInit, OnDestroy {
 
   isLoading: boolean = true;
   isError: boolean = false;
+  isComplete: boolean = false;
   errorMessage: string;
+  successMessage: string;
+  successMessageTimer: number;
 
   books: Book[];
   countItems: number = 10;
@@ -25,7 +28,7 @@ export class BooksComponent implements OnInit, OnDestroy {
   totalPages: number;
   direction: string = "ASC";
   sortBy: string = "id";
-  searchBookName: string = "";
+  searchBookName: string = null;
   totalBooks: number;
 
   constructor(
@@ -60,6 +63,15 @@ export class BooksComponent implements OnInit, OnDestroy {
       }
     );
 
+    this.booksService.setSuccessMessage$.subscribe(message => {
+      this.isComplete = true;
+      this.successMessage = message;
+      this.successMessageTimer = window.setTimeout(() => {
+        this.isComplete = false;
+        this.successMessage = null;
+      }, 5000);
+    });
+
     this.isLoading$ = this.booksService.setLoading$.subscribe(() => {
       this.isLoading = true;
     });
@@ -76,7 +88,7 @@ export class BooksComponent implements OnInit, OnDestroy {
 
   getBooks() {
     this.isLoading = true;
-    this.searchBookName = "";
+    this.searchBookName = null;
     this.booksService.getBooks(
       this.currentPage,
       this.countItems,
@@ -95,7 +107,7 @@ export class BooksComponent implements OnInit, OnDestroy {
   }
 
   callGetMethod() {
-    this.searchBookName === "" ? this.getBooks() : this.getBook();
+    this.searchBookName === null ? this.getBooks() : this.getBook();
   }
 
   setInitialValues() {

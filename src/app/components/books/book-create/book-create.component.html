@@ -2,9 +2,8 @@
 <app-error message="login" *ngIf="!isAuth"></app-error>
 <app-signin-button *ngIf="!isAuth"></app-signin-button>
 <app-successfull-message
-  [message]="successfullMessage"
+  [message]="successMessage"
   [showMessage]="isSaved"
-  *ngIf="isAuth"
 ></app-successfull-message>
 <app-error [message]="errorMessage" *ngIf="isError"></app-error>
 <form

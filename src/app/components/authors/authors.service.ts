@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Subject, BehaviorSubject } from "rxjs";
+import { Author } from "src/app/models/author.model";
 
 @Injectable({
   providedIn: "root"
@@ -10,6 +11,7 @@ export class AuthorsService {
   errorGet$ = new Subject<string>();
   setLoading$ = new Subject();
   setAuthorsPerPage$ = new BehaviorSubject<number>(10);
+  setSuccessMessage$ = new Subject<string>();
 
   constructor(private http: HttpClient) {}
 
@@ -52,7 +54,32 @@ export class AuthorsService {
         this.authorsChanged$.next(response);
       },
       response => {
-        console.log(response);
+        this.errorGet$.next(response.error);
+      }
+    );
+  }
+
+  updateAuthor(rowPerPage: number, author: Author) {
+    this.http
+      .patch(`http://localhost:8080/api/authors/${author.id}`, author)
+      .subscribe(
+        () => {
+          this.setSuccessMessage$.next("updated");
+          this.getAuthors(1, rowPerPage, "id", "ASC");
+        },
+        response => {
+          this.errorGet$.next(response.error);
+        }
+      );
+  }
+
+  deleteAuthor(id: number, rowPerPage: number) {
+    this.http.delete(`http://localhost:8080/api/authors/${id}`).subscribe(
+      () => {
+        this.setSuccessMessage$.next("deleted");
+        this.getAuthors(1, rowPerPage, "id", "ASC");
+      },
+      response => {
         this.errorGet$.next(response.error);
       }
     );
