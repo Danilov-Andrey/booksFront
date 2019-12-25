@@ -3,6 +3,7 @@ import { AuthService } from "src/app/service/auth.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { emptyNameValidator } from "src/app/validators/validators";
 import { AuthorsService } from "../authors.service";
+import { Unsubscribable } from "rxjs";
 
 @Component({
   selector: "app-authors-edit",
@@ -14,9 +15,11 @@ export class AuthorsEditComponent implements OnInit {
   @Input() firstName: string;
   @Input() lastName: string;
 
+  setAuthorsPerPage$: Unsubscribable;
+
   authorForm: FormGroup;
   isLoggedIn: boolean;
-  isError: boolean = false;
+  isError: boolean;
   authorsPerPage: number;
 
   errorMessage: string;
@@ -28,9 +31,11 @@ export class AuthorsEditComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.authorsService.setAuthorsPerPage$.subscribe(count => {
-      this.authorsPerPage = count;
-    });
+    this.setAuthorsPerPage$ = this.authorsService.setAuthorsPerPage$.subscribe(
+      count => {
+        this.authorsPerPage = count;
+      }
+    );
 
     this.isLoggedIn = this.authService.isUserLoggedIn();
     this.authorForm = new FormGroup({
@@ -46,6 +51,7 @@ export class AuthorsEditComponent implements OnInit {
   }
 
   ngOnDestroy() {
+    this.setAuthorsPerPage$.unsubscribe();
     clearTimeout(this.errorTimer);
   }
 

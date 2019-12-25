@@ -4,6 +4,7 @@ import { AuthService } from "src/app/service/auth.service";
 import { BooksService } from "../books.service";
 import { UpdateBook } from "src/app/models/update-book.model";
 import { emptyNameValidator } from "src/app/validators/validators";
+import { Unsubscribable } from "rxjs";
 
 @Component({
   selector: "app-book-edit",
@@ -14,6 +15,8 @@ export class BookEditComponent implements OnInit {
   @Input() name: string;
   @Input() year: number;
   @Input() id: number;
+
+  setBooksPerPage$: Unsubscribable;
 
   editForm: FormGroup;
   isLoggedIn: boolean;
@@ -31,9 +34,11 @@ export class BookEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.booksService.setBooksPerPage$.subscribe(booksPerPage => {
-      this.booksPerPage = booksPerPage;
-    });
+    this.setBooksPerPage$ = this.booksService.setBooksPerPage$.subscribe(
+      booksPerPage => {
+        this.booksPerPage = booksPerPage;
+      }
+    );
     this.editForm = new FormGroup({
       name: new FormControl(this.name, [
         Validators.required,
@@ -48,6 +53,7 @@ export class BookEditComponent implements OnInit {
   }
 
   ngOnDestroy() {
+    this.setBooksPerPage$.unsubscribe();
     clearTimeout(this.errorTimer);
   }
 
