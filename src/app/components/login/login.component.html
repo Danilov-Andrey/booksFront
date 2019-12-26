@@ -1,26 +1,46 @@
-<div class="authForm">
-  <mat-form-field>
-    <input matInput placeholder="Username" type="text" [(ngModel)]="username" />
-  </mat-form-field>
+<app-successfull-message
+  [message]="successMessage"
+  *ngIf="isRegistered && !isLoading"
+></app-successfull-message>
+<app-error [message]="errorMessage" *ngIf="isError && !isLoading"></app-error>
+<app-spinner *ngIf="isLoading"></app-spinner>
+<div class="auth-form" *ngIf="!isLoading">
+  <form [formGroup]="authForm" (ngSubmit)="checkLogin()">
+    <mat-form-field class="auth-form__input">
+      <input
+        matInput
+        placeholder="Username"
+        type="text"
+        formControlName="username"
+      />
+    </mat-form-field>
+    <form-errors [field]="authForm.get('username')"></form-errors>
+    <mat-form-field class="auth-form__input">
+      <input
+        matInput
+        placeholder="Password"
+        type="password"
+        formControlName="password"
+      />
+    </mat-form-field>
+    <form-errors [field]="authForm.get('password')"></form-errors>
 
-  <mat-form-field>
-    <input
-      matInput
-      placeholder="Password"
-      type="password"
-      [(ngModel)]="password"
-    />
-  </mat-form-field>
-
-  <button mat-raised-button color="primary" (click)="checkLogin()">
-    {{ isLogin ? "Sign in" : "Sign up" }}
-  </button>
-  <button
-    mat-button
-    type="button"
-    (click)="changeAction()"
-    class="changeAction"
-  >
-    {{ isLogin ? "Change on sign up" : "Change on sign in" }}
-  </button>
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      class="auth-form__submit"
+      [disabled]="authForm.invalid"
+    >
+      {{ isLogin ? "Sign in" : "Sign up" }}
+    </button>
+    <button
+      mat-button
+      type="button"
+      (click)="changeAction()"
+      class="auth-form__change-action"
+    >
+      {{ isLogin ? "Change on sign up" : "Change on sign in" }}
+    </button>
+  </form>
 </div>

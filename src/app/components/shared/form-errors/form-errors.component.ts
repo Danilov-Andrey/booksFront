@@ -19,17 +19,21 @@ export class FormErrorComponent {
       min: "Value less than ",
       max: "Value more than ",
       emptyField: "Field cannot be empty",
+      minlength: "Min length is ",
       forbidden: "Value incorrect"
     };
     const errors = [];
 
+    if (field.errors.hasOwnProperty("minlength")) {
+      config["minlength"] =
+        config["minlength"] + field.errors.minlength.requiredLength;
+    }
+
     if (field.errors.hasOwnProperty("min")) {
-      console.log(field.errors);
       config["min"] = config["min"] + field.errors.min.min;
     }
 
     if (field.errors.hasOwnProperty("max")) {
-      console.log(field.errors);
       config["max"] = config["max"] + field.errors.max.max;
     }
 

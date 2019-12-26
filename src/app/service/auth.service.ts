@@ -9,7 +9,7 @@ import { User } from "../models/user.model";
 export class AuthService {
   constructor(private httpClient: HttpClient) {}
 
-  authenticate(username, password) {
+  authenticate(username: string, password: string) {
     const headers = new HttpHeaders({
       authorization: "Basic " + btoa(username + ":" + password)
     });
@@ -26,7 +26,7 @@ export class AuthService {
       );
   }
 
-  registration(username, password) {
+  registration(username: string, password: string) {
     const user = new User(username, password);
     return this.httpClient.post("http://localhost:8080/api/users", user);
   }

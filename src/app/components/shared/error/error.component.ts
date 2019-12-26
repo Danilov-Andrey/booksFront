@@ -12,7 +12,9 @@ export class ErrorComponent implements OnInit {
     login: "You must sign in for these actions!",
     change: "Nothing was changed!",
     invalid: "Form is invalid!",
-    empty: "Field cannot be empty"
+    empty: "Field cannot be empty!",
+    invalidData: "Incorrect login or password!",
+    unknownError: "Unknown error!"
   };
 
   outputMessage: string;

@@ -11,7 +11,8 @@ export class SuccessfullMessageComponent implements OnInit {
   titles = {
     saved: "Saved successfully!",
     deleted: "Deleted successfully!",
-    updated: "Updated successfully!"
+    updated: "Updated successfully!",
+    registered: "Registered successfully!"
   };
 
   outputMessage: string;

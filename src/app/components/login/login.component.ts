@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
 import { Router } from "@angular/router";
-import { map } from "rxjs/operators";
 import { AuthService } from "../../service/auth.service";
+import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { emptyNameValidator } from "src/app/validators/empty-name.validator";
 
 @Component({
   selector: "app-login",
@@ -10,38 +10,72 @@ import { AuthService } from "../../service/auth.service";
   styleUrls: ["./login.component.css"]
 })
 export class LoginComponent implements OnInit {
-  username: string = "";
-  password: string = "";
-  invalidLogin = false;
   isLogin: boolean = true;
+  successMessage: string;
+  errorMessage: string;
+  isError: boolean = false;
+  isRegistered: boolean = false;
+  isLoading: boolean = false;
+  authForm = new FormGroup({
+    username: new FormControl(null, [
+      Validators.required,
+      Validators.minLength(4),
+      emptyNameValidator
+    ]),
+    password: new FormControl(null, [
+      Validators.required,
+      Validators.minLength(4),
+      emptyNameValidator
+    ])
+  });
 
   constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit() {}
 
   changeAction() {
+    this.authForm.reset();
+    this.isError = false;
+    this.isRegistered = false;
     this.isLogin = !this.isLogin;
   }
 
   checkLogin() {
+    const { username, password } = this.authForm.value;
+    if (this.authForm.invalid) {
+      return;
+    }
+    this.isLoading = true;
     if (this.isLogin) {
-      this.authService.authenticate(this.username, this.password).subscribe(
-        data => {
+      this.authService.authenticate(username, password).subscribe(
+        () => {
           this.router.navigate(["/books"]);
-          this.invalidLogin = false;
+          this.isLoading = false;
         },
         error => {
-          console.log(error);
-          this.invalidLogin = true;
+          this.isError = true;
+          this.isRegistered = false;
+          this.isLoading = false;
+          if (error.status === 401) {
+            this.errorMessage = "invalidData";
+          } else {
+            this.errorMessage = "unknownError";
+          }
         }
       );
     } else {
-      this.authService.registration(this.username, this.password).subscribe(
-        data => {
-          console.log(data);
+      this.authService.registration(username, password).subscribe(
+        () => {
+          this.isLoading = false;
+          this.successMessage = "registered";
+          this.isRegistered = true;
+          this.isError = false;
         },
-        error => {
-          console.log(error);
+        () => {
+          this.isLoading = false;
+          this.errorMessage = "unknownError";
+          this.isRegistered = false;
+          this.isError = true;
         }
       );
     }

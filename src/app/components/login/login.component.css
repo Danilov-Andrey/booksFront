@@ -1,10 +1,19 @@
-.authForm {
+.auth-form {
   display: flex;
   flex-direction: column;
   width: 250px;
-  margin: 50px auto;
+  margin: 16px auto;
+  padding: 10px;
+  box-shadow: 0px 0px 9px 2px #cecece;
+  border-radius: 10px;
 }
 
-.changeAction {
+.auth-form__change-action,
+.auth-form__submit {
   margin-top: 10px;
+  width: 100%;
+}
+
+.auth-form__input {
+  width: 100%;
 }
