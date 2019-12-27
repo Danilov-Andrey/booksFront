@@ -61,7 +61,7 @@ export class PublishersService {
 
   updatePublisher(rowPerPage: number, publisher: Publisher) {
     this.http
-      .patch(`http://localhost:8080/api/publishers/${publisher.id}`, publisher)
+      .put(`http://localhost:8080/api/publishers/${publisher.id}`, publisher)
       .subscribe(
         () => {
           this.setSuccessMessage$.next("updated");
