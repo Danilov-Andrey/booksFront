@@ -13,6 +13,7 @@ export class PublishersCreateComponent implements OnInit, OnDestroy {
   publisherForm = new FormGroup({
     publisherName: new FormControl(null, [
       Validators.required,
+      Validators.maxLength(255),
       emptyNameValidator
     ])
   });

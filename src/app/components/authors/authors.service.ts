@@ -11,6 +11,8 @@ export class AuthorsService {
   errorGet$ = new Subject<string>();
   setLoading$ = new Subject();
   setAuthorsPerPage$ = new BehaviorSubject<number>(10);
+  setSortBy$ = new BehaviorSubject<string>("id");
+  setDirection$ = new BehaviorSubject<string>("ASC");
   setSuccessMessage$ = new Subject<string>();
 
   constructor(private http: HttpClient) {}
@@ -59,13 +61,19 @@ export class AuthorsService {
     );
   }
 
-  updateAuthor(rowPerPage: number, author: Author) {
+  updateAuthor(author: Author) {
+    this.setLoading$.next();
     this.http
       .patch(`http://localhost:8080/api/authors/${author.id}`, author)
       .subscribe(
         () => {
           this.setSuccessMessage$.next("updated");
-          this.getAuthors(1, rowPerPage, "id", "ASC");
+          this.getAuthors(
+            1,
+            this.setAuthorsPerPage$.value,
+            this.setSortBy$.value,
+            this.setDirection$.value
+          );
         },
         response => {
           this.errorGet$.next(response.error);
@@ -73,11 +81,17 @@ export class AuthorsService {
       );
   }
 
-  deleteAuthor(id: number, rowPerPage: number) {
+  deleteAuthor(id: number) {
+    this.setLoading$.next();
     this.http.delete(`http://localhost:8080/api/authors/${id}`).subscribe(
       () => {
         this.setSuccessMessage$.next("deleted");
-        this.getAuthors(1, rowPerPage, "id", "ASC");
+        this.getAuthors(
+          1,
+          this.setAuthorsPerPage$.value,
+          this.setSortBy$.value,
+          this.setDirection$.value
+        );
       },
       response => {
         this.errorGet$.next(response.error);

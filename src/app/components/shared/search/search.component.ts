@@ -26,7 +26,7 @@ export class SearchComponent {
   input$: Unsubscribable;
   isOpen: boolean = false;
   lastUserInputValue: string = "";
-  errorMessage: string = "";
+  errorMessage: string;
   errorTimeout: number;
   isError: boolean = false;
 
@@ -36,10 +36,7 @@ export class SearchComponent {
         switchMap(userInput =>
           of(userInput).pipe(
             delay(1000),
-            map(userInput => {
-              this.lastUserInputValue = userInput["target"].value;
-              return this.lastUserInputValue;
-            }),
+            map(userInput => userInput["target"].value),
             filter(value => this.validatorInput(value))
           )
         )
@@ -47,11 +44,13 @@ export class SearchComponent {
       .subscribe(value => {
         clearTimeout(this.errorTimeout);
         this.isError = false;
-        this.errorMessage = "";
+        this.errorMessage = null;
+        this.isOpen = false;
+        this.input.nativeElement.value = "";
         if (value === "") {
           this.returnInitialData.emit();
         } else {
-          this.findValue.emit(this.lastUserInputValue.trim());
+          this.findValue.emit(value.trim());
         }
       });
   }
@@ -71,7 +70,7 @@ export class SearchComponent {
       this.errorMessage = "empty";
       this.errorTimeout = window.setTimeout(() => {
         this.isError = false;
-        this.errorMessage = "";
+        this.errorMessage = null;
       }, 5000);
       return false;
     }
@@ -79,10 +78,8 @@ export class SearchComponent {
   }
 
   clearField() {
-    if (this.lastUserInputValue != "") {
-      this.isOpen = false;
-      this.input.nativeElement.value = "";
-      this.returnInitialData.emit();
-    }
+    this.isOpen = false;
+    this.input.nativeElement.value = "";
+    this.returnInitialData.emit();
   }
 }

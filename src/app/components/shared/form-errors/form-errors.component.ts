@@ -20,6 +20,7 @@ export class FormErrorComponent {
       max: "Value more than ",
       emptyField: "Field cannot be empty",
       minlength: "Min length is ",
+      maxlength: "Max length is ",
       forbidden: "Value incorrect"
     };
     const errors = [];
@@ -27,6 +28,11 @@ export class FormErrorComponent {
     if (field.errors.hasOwnProperty("minlength")) {
       config["minlength"] =
         config["minlength"] + field.errors.minlength.requiredLength;
+    }
+
+    if (field.errors.hasOwnProperty("maxlength")) {
+      config["maxlength"] =
+        config["maxlength"] + field.errors.maxlength.requiredLength;
     }
 
     if (field.errors.hasOwnProperty("min")) {

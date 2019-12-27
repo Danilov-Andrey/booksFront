@@ -1,9 +1,7 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { Unsubscribable } from "rxjs";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { AuthService } from "src/app/service/auth.service";
 import { PublishersService } from "../publishers.service";
-import { valueValidator } from "src/app/validators/incorrect-char.validator";
 import { emptyNameValidator } from "src/app/validators/empty-name.validator";
 
 @Component({
@@ -14,8 +12,6 @@ import { emptyNameValidator } from "src/app/validators/empty-name.validator";
 export class PublishersEditComponent implements OnInit {
   @Input() id: number;
   @Input() name: string;
-
-  setPublishersPerPage$: Unsubscribable;
 
   publisherForm: FormGroup;
   isLoggedIn: boolean;
@@ -31,12 +27,6 @@ export class PublishersEditComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.setPublishersPerPage$ = this.publishersService.setPublishersPerPage$.subscribe(
-      (count: number) => {
-        this.publishersPerPage = count;
-      }
-    );
-
     this.isLoggedIn = this.authService.isUserLoggedIn();
     this.publisherForm = new FormGroup({
       name: new FormControl(this.name, [
@@ -47,7 +37,6 @@ export class PublishersEditComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.setPublishersPerPage$.unsubscribe();
     clearTimeout(this.errorTimer);
   }
 
@@ -66,7 +55,6 @@ export class PublishersEditComponent implements OnInit {
       this.errorTimer = window.setTimeout(() => this.clearTimer(), 5000);
       return;
     }
-
     if (name === this.name) {
       this.isError = true;
       this.errorMessage = "change";
@@ -75,7 +63,7 @@ export class PublishersEditComponent implements OnInit {
     }
     this.clearTimer();
     this.publishersService.setLoading$.next();
-    this.publishersService.updatePublisher(this.publishersPerPage, {
+    this.publishersService.updatePublisher({
       id: this.id,
       name
     });
@@ -84,7 +72,7 @@ export class PublishersEditComponent implements OnInit {
   deletePublisher() {
     if (this.isLoggedIn) {
       this.publishersService.setLoading$.next();
-      this.publishersService.deletePublisher(this.id, this.publishersPerPage);
+      this.publishersService.deletePublisher(this.id);
     }
   }
 }

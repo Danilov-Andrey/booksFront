@@ -59,7 +59,9 @@ export class BooksComponent implements OnInit, OnDestroy {
     this.sortBy$ = this.sortService.setSort$.subscribe(
       ({ direction, sortBy }) => {
         this.direction = direction;
+        this.booksService.setDirection$.next(direction);
         this.sortBy = sortBy;
+        this.booksService.setSortBy$.next(sortBy);
         this.currentPage = 1;
         this.callGetMethod();
       }
@@ -68,6 +70,7 @@ export class BooksComponent implements OnInit, OnDestroy {
     this.setSuccessMessage$ = this.booksService.setSuccessMessage$.subscribe(
       message => {
         clearTimeout(this.successMessageTimer);
+        this.searchBookName = null;
         this.isComplete = true;
         this.successMessage = message;
         this.successMessageTimer = window.setTimeout(() => {
@@ -118,15 +121,9 @@ export class BooksComponent implements OnInit, OnDestroy {
     this.searchBookName === null ? this.getBooks() : this.getBook();
   }
 
-  setInitialValues() {
-    this.currentPage = 1;
-    this.countItems = 10;
-    this.sortBy = "id";
-    this.direction = "ASC";
-  }
-
   returnInitialData() {
-    this.setInitialValues();
+    this.searchBookName = name;
+    this.currentPage = 1;
     this.getBooks();
   }
 
@@ -135,15 +132,15 @@ export class BooksComponent implements OnInit, OnDestroy {
     this.booksService.findBook(
       this.currentPage,
       this.countItems,
-      this.sortBy,
-      this.direction,
+      "id",
+      "ASC",
       this.searchBookName
     );
   }
 
   setSearchMode(name: string) {
     this.searchBookName = name;
-    this.setInitialValues();
+    this.currentPage = 1;
     this.getBook();
   }
 

@@ -28,11 +28,13 @@ export class AuthorsCreateComponent implements OnInit, OnDestroy {
     firstName: new FormControl(null, [
       Validators.required,
       emptyNameValidator,
+      Validators.maxLength(255),
       valueValidator(/[0-9]/)
     ]),
     lastName: new FormControl(null, [
       Validators.required,
       emptyNameValidator,
+      Validators.maxLength(255),
       valueValidator(/[0-9]/)
     ])
   });

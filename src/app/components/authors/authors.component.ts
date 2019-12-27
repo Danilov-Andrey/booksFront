@@ -59,7 +59,9 @@ export class AuthorsComponent implements OnInit, OnDestroy {
     this.sortBy$ = this.sortService.setSort$.subscribe(
       ({ direction, sortBy }) => {
         this.direction = direction;
+        this.authorsService.setDirection$.next(direction);
         this.sortBy = sortBy;
+        this.authorsService.setSortBy$.next(sortBy);
         this.currentPage = 1;
         this.callGetMethod();
       }
@@ -68,7 +70,7 @@ export class AuthorsComponent implements OnInit, OnDestroy {
     this.setSuccessMessage$ = this.authorsService.setSuccessMessage$.subscribe(
       message => {
         clearTimeout(this.successMessageTimer);
-
+        this.searchAuthorName = null;
         this.isComplete = true;
         this.successMessage = message;
         this.successMessageTimer = window.setTimeout(() => {
@@ -110,8 +112,8 @@ export class AuthorsComponent implements OnInit, OnDestroy {
     this.authorsService.getAuthor(
       this.currentPage,
       this.countItems,
-      this.sortBy,
-      this.direction,
+      "id",
+      "ASC",
       this.searchAuthorName
     );
   }
@@ -131,15 +133,9 @@ export class AuthorsComponent implements OnInit, OnDestroy {
     this.searchAuthorName === null ? this.getAuthors() : this.getAuthor();
   }
 
-  setInitialValues() {
-    this.currentPage = 1;
-    this.countItems = 10;
-    this.sortBy = "id";
-    this.direction = "ASC";
-  }
-
   returnInitialData() {
-    this.setInitialValues();
+    this.currentPage = 1;
+    this.searchAuthorName = null;
     this.getAuthors();
   }
 
@@ -149,7 +145,7 @@ export class AuthorsComponent implements OnInit, OnDestroy {
 
   setSearchMode(name: string) {
     this.searchAuthorName = name;
-    this.setInitialValues();
+    this.currentPage = 1;
     this.getAuthor();
   }
 }

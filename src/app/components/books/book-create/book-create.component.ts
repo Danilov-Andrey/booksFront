@@ -13,7 +13,11 @@ import { valueValidator } from "src/app/validators/incorrect-char.validator";
 })
 export class BookCreateComponent implements OnInit, OnDestroy {
   bookForm = new FormGroup({
-    name: new FormControl(null, [Validators.required, emptyNameValidator]),
+    name: new FormControl(null, [
+      Validators.required,
+      emptyNameValidator,
+      Validators.maxLength(255)
+    ]),
     year: new FormControl(null, [
       Validators.required,
       Validators.min(1900),
@@ -22,19 +26,22 @@ export class BookCreateComponent implements OnInit, OnDestroy {
     authorFirstName: new FormControl(null, [
       Validators.required,
       emptyNameValidator,
+      Validators.maxLength(255),
       valueValidator(/[0-9]/)
     ]),
     authorLastName: new FormControl(null, [
       Validators.required,
       emptyNameValidator,
+      Validators.maxLength(255),
       valueValidator(/[0-9]/)
     ]),
     publisherName: new FormControl(null, [
       Validators.required,
+      Validators.maxLength(255),
       emptyNameValidator
     ]),
     rate: new FormControl(null, [Validators.max(10), Validators.required]),
-    count: new FormControl(null, Validators.required)
+    count: new FormControl(null, [Validators.required, Validators.max(100000)])
   });
 
   isAuth: boolean = false;

@@ -3,7 +3,6 @@ import { AuthService } from "src/app/service/auth.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { emptyNameValidator } from "src/app/validators/empty-name.validator";
 import { AuthorsService } from "../authors.service";
-import { Unsubscribable } from "rxjs";
 import { valueValidator } from "src/app/validators/incorrect-char.validator";
 
 @Component({
@@ -15,8 +14,6 @@ export class AuthorsEditComponent implements OnInit {
   @Input() id: number;
   @Input() firstName: string;
   @Input() lastName: string;
-
-  setAuthorsPerPage$: Unsubscribable;
 
   authorForm: FormGroup;
   isLoggedIn: boolean;
@@ -32,12 +29,6 @@ export class AuthorsEditComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.setAuthorsPerPage$ = this.authorsService.setAuthorsPerPage$.subscribe(
-      count => {
-        this.authorsPerPage = count;
-      }
-    );
-
     this.isLoggedIn = this.authService.isUserLoggedIn();
     this.authorForm = new FormGroup({
       firstName: new FormControl(this.firstName, [
@@ -54,7 +45,6 @@ export class AuthorsEditComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.setAuthorsPerPage$.unsubscribe();
     clearTimeout(this.errorTimer);
   }
 
@@ -81,8 +71,7 @@ export class AuthorsEditComponent implements OnInit {
       return;
     }
     this.clearTimer();
-    this.authorsService.setLoading$.next();
-    this.authorsService.updateAuthor(this.authorsPerPage, {
+    this.authorsService.updateAuthor({
       id: this.id,
       firstName,
       lastName
@@ -91,8 +80,7 @@ export class AuthorsEditComponent implements OnInit {
 
   deleteAuthor() {
     if (this.isLoggedIn) {
-      this.authorsService.setLoading$.next();
-      this.authorsService.deleteAuthor(this.id, this.authorsPerPage);
+      this.authorsService.deleteAuthor(this.id);
     }
   }
 }

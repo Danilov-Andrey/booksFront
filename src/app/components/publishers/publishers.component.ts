@@ -59,7 +59,9 @@ export class PublishersComponent implements OnInit {
     this.sortBy$ = this.sortService.setSort$.subscribe(
       ({ direction, sortBy }) => {
         this.direction = direction;
+        this.publishersService.setDirection$.next(direction);
         this.sortBy = sortBy;
+        this.publishersService.setSortBy$.next(sortBy);
         this.currentPage = 1;
         this.callGetMethod();
       }
@@ -68,7 +70,7 @@ export class PublishersComponent implements OnInit {
     this.setSuccessMessage$ = this.publishersService.setSuccessMessage$.subscribe(
       message => {
         clearTimeout(this.successMessageTimer);
-
+        this.searchPublisherName = null;
         this.isComplete = true;
         this.successMessage = message;
         this.successMessageTimer = window.setTimeout(() => {
@@ -110,8 +112,8 @@ export class PublishersComponent implements OnInit {
     this.publishersService.getPublisher(
       this.currentPage,
       this.countItems,
-      this.sortBy,
-      this.direction,
+      "id",
+      "ASC",
       this.searchPublisherName
     );
   }
@@ -133,15 +135,9 @@ export class PublishersComponent implements OnInit {
       : this.getPublisher();
   }
 
-  setInitialValues() {
-    this.currentPage = 1;
-    this.countItems = 10;
-    this.sortBy = "id";
-    this.direction = "ASC";
-  }
-
   returnInitialData() {
-    this.setInitialValues();
+    this.currentPage = 1;
+    this.searchPublisherName = null;
     this.getPublishers();
   }
 
@@ -151,7 +147,7 @@ export class PublishersComponent implements OnInit {
 
   setSearchMode(name: string) {
     this.searchPublisherName = name;
-    this.setInitialValues();
+    this.currentPage = 1;
     this.getPublisher();
   }
 }
