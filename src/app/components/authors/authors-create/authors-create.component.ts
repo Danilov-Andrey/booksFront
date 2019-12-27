@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { AuthService } from "src/app/service/auth.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { emptyNameValidator } from "src/app/validators/empty-name.validator";
@@ -11,7 +11,7 @@ import { Unsubscribable } from "rxjs";
   templateUrl: "./authors-create.component.html",
   styleUrls: ["./authors-create.component.css"]
 })
-export class AuthorsCreateComponent implements OnInit {
+export class AuthorsCreateComponent implements OnInit, OnDestroy {
   isLoggedIn: boolean;
   isLoading: boolean;
 
@@ -51,7 +51,7 @@ export class AuthorsCreateComponent implements OnInit {
         this.isLoading = false;
         this.isError = false;
         this.authorForm.reset();
-        this.messageTimer = window.setTimeout(() => this.clearTimeout(), 5000);
+        this.messageTimer = window.setTimeout(() => this.resetParams(), 5000);
       }
     );
     this.errorGet$ = this.authorsService.errorGet$.subscribe(message => {
@@ -62,15 +62,22 @@ export class AuthorsCreateComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    clearTimeout(this.messageTimer);
+  }
+
   onSubmit() {
     if (this.authorForm.valid && this.isLoggedIn) {
+      clearTimeout(this.messageTimer);
+      this.resetParams();
       this.isLoading = true;
       this.authorsService.saveAuthor(this.authorForm.value);
     }
   }
 
-  clearTimeout() {
+  resetParams() {
     this.showMessage = false;
+    this.isError = false;
     this.message = null;
   }
 }

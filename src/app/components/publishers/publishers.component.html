@@ -1,14 +1,33 @@
-<div class="authForm">
-  <mat-form-field>
-    <input
-      matInput
-      placeholder="Name"
-      type="text"
-      [(ngModel)]="publisherName"
-    />
-  </mat-form-field>
+<app-search
+  (isLoading)="setLoading()"
+  (returnInitialData)="returnInitialData()"
+  (findValue)="setSearchMode($event)"
+  placeholder="Enter publisher's name..."
+></app-search>
 
-  <button mat-button type="button" (click)="sendPublisher()">
-    Send
-  </button>
+<app-successfull-message
+  [message]="successMessage"
+  *ngIf="isComplete"
+></app-successfull-message>
+
+<app-error *ngIf="isError && !isLoading" [message]="errorMessage"></app-error>
+<app-spinner *ngIf="isLoading"></app-spinner>
+
+<div class="publishers-table" *ngIf="!isError && !isLoading">
+  <app-publishers-table
+    [sortBy]="sortBy"
+    [direction]="direction"
+    [publishers]="publishers"
+    [searchMode]="searchPublisherName"
+  >
+  </app-publishers-table>
+  <app-paginator
+    [totalElements]="totalPublishers"
+    [totalPages]="totalPages"
+    [currentPage]="currentPage"
+    [countItems]="countItems"
+    (setItemsCount)="setItemsCount($event)"
+    (setPaginationData)="setPaginationData($event)"
+  >
+  </app-paginator>
 </div>

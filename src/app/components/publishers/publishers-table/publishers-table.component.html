@@ -1,0 +1,35 @@
+<table class="publishers-table">
+  <thead>
+    <td *ngFor="let title of titles">
+      <span class="table-title">
+        {{ title.title }}
+        <app-sort
+          *ngIf="_searchMode"
+          [title]="title"
+          [direction]="direction"
+          [sortBy]="sortBy"
+        ></app-sort>
+      </span>
+    </td>
+  </thead>
+  <tbody>
+    <ng-template ngFor let-publisher [ngForOf]="publishers">
+      <tr class="table-row" (click)="selectPublisher(publisher.id)">
+        <td>
+          {{ publisher.id }}
+        </td>
+        <td>{{ publisher.name }}</td>
+      </tr>
+      <tr *ngIf="publisher.id === selectedPublisher">
+        <td *ngIf="isLoggedIn" class="publisher-edit" colspan="2">
+          <app-publishers-edit [id]="publisher.id" [name]="publisher.name">
+          </app-publishers-edit>
+        </td>
+        <td *ngIf="!isLoggedIn" colspan="3">
+          <app-error message="login"></app-error>
+          <app-signin-button></app-signin-button>
+        </td>
+      </tr>
+    </ng-template>
+  </tbody>
+</table>

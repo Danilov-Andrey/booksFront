@@ -1,0 +1,33 @@
+<app-error message="login" *ngIf="!isLogin"></app-error>
+<app-error [message]="errorMessage" *ngIf="isError"></app-error>
+<app-signin-button *ngIf="!isLogin"></app-signin-button>
+<app-successfull-message
+  *ngIf="isSaved"
+  [message]="successMessage"
+></app-successfull-message>
+<app-spinner *ngIf="isLoading"></app-spinner>
+<form
+  *ngIf="!isLoading && isLogin"
+  class="publisher-form"
+  [formGroup]="publisherForm"
+  (ngSubmit)="savePublisher()"
+>
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Publisher's name"
+      type="text"
+      formControlName="publisherName"
+    />
+  </mat-form-field>
+  <form-errors [field]="publisherForm.get('publisherName')"></form-errors>
+  <button
+    mat-raised-button
+    type="submit"
+    class="publisher-form__save"
+    color="primary"
+    [disabled]="publisherForm.invalid"
+  >
+    Save
+  </button>
+</form>

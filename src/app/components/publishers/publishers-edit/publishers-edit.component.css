@@ -1,0 +1,15 @@
+.publisher-edit__form {
+  display: flex;
+}
+
+.wrapper-buttons {
+  margin: 0 10px;
+}
+
+.publisher-edit__save-button {
+  margin-right: 10px;
+}
+
+.publisher-edit__input-wrapper {
+  width: 150px;
+}

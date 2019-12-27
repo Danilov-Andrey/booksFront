@@ -1,11 +1,11 @@
 <app-spinner *ngIf="isLoading"></app-spinner>
 <app-error message="login" *ngIf="!isAuth"></app-error>
+<app-error [message]="errorMessage" *ngIf="isError"></app-error>
 <app-signin-button *ngIf="!isAuth"></app-signin-button>
 <app-successfull-message
   [message]="successMessage"
   *ngIf="isSaved"
 ></app-successfull-message>
-<app-error [message]="errorMessage" *ngIf="isError"></app-error>
 <form
   *ngIf="!isLoading && isAuth"
   class="create-form"

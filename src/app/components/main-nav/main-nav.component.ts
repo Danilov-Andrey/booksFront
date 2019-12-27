@@ -12,7 +12,7 @@ export class MainNavComponent implements OnDestroy {
 
   private _mobileQueryListener: () => void;
 
-  openMenu: string = "books";
+  openMenu: string;
 
   onOpenMenu(menu: string) {
     this.openMenu = menu;

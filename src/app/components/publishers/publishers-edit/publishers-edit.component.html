@@ -1,0 +1,44 @@
+<div *ngIf="isLoggedIn" class="publisher-edit">
+  <form
+    class="publisher-edit__form"
+    [formGroup]="publisherForm"
+    (submit)="onSubmit()"
+  >
+    <div class="publisher-edit__publisher-name">
+      <mat-form-field class="publisher-edit__input-wrapper">
+        <input
+          matInput
+          class="publisher-edit__input"
+          type="text"
+          placeholder="Name"
+          formControlName="name"
+        />
+      </mat-form-field>
+      <form-errors [field]="publisherForm.get('name')"></form-errors>
+    </div>
+    <div class="wrapper-buttons">
+      <div class="publisher-edit__buttons">
+        <button
+          class="publisher-edit__save-button"
+          mat-raised-button
+          color="primary"
+          [disabled]="!isLoggedIn || !publisherForm.valid"
+          type="submit"
+        >
+          Save
+        </button>
+        <button
+          class="publisher-edit__delete-button"
+          mat-raised-button
+          color="warn"
+          type="button"
+          (click)="deletePublisher()"
+          [disabled]="!isLoggedIn"
+        >
+          Delete
+        </button>
+      </div>
+      <app-error *ngIf="isError" [message]="errorMessage"></app-error>
+    </div>
+  </form>
+</div>

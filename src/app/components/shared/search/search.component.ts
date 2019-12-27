@@ -40,21 +40,20 @@ export class SearchComponent {
               this.lastUserInputValue = userInput["target"].value;
               return this.lastUserInputValue;
             }),
-            filter(value => this.validatorInput(value)),
-            map(value => {
-              clearTimeout(this.errorTimeout);
-              this.isError = false;
-              this.errorMessage = "";
-              if (value === "") {
-                this.returnInitialData.emit();
-              } else {
-                this.findValue.emit(this.lastUserInputValue.trim());
-              }
-            })
+            filter(value => this.validatorInput(value))
           )
         )
       )
-      .subscribe();
+      .subscribe(value => {
+        clearTimeout(this.errorTimeout);
+        this.isError = false;
+        this.errorMessage = "";
+        if (value === "") {
+          this.returnInitialData.emit();
+        } else {
+          this.findValue.emit(this.lastUserInputValue.trim());
+        }
+      });
   }
 
   ngOnDestroy() {

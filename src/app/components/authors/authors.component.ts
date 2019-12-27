@@ -39,7 +39,8 @@ export class AuthorsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.authorsChanged$ = this.authorsService.authorsChanged$.subscribe(
-      ({ content, totalPages, totalElements }) => {
+      ({ content, totalPages, totalElements, pageable }) => {
+        this.currentPage = pageable.pageNumber + 1;
         this.authors = content;
         this.totalPages = totalPages;
         this.totalAuthors = totalElements;
@@ -121,6 +122,7 @@ export class AuthorsComponent implements OnInit, OnDestroy {
   }) {
     this.currentPage = paginatorInfo.currentPage;
     this.countItems = paginatorInfo.countItems;
+    this.authorsService.setAuthorsPerPage$.next(this.countItems);
     this.callGetMethod();
   }
 

@@ -10,6 +10,7 @@ import { AuthGuardService } from "./service/auth-guard.service";
 import { BookCreateComponent } from "./components/books/book-create/book-create.component";
 import { BookEditComponent } from "./components/books/book-edit/book-edit.component";
 import { AuthorsCreateComponent } from "./components/authors/authors-create/authors-create.component";
+import { PublishersCreateComponent } from "./components/publishers/publishers-create/publishers-create.component";
 
 const routes: Routes = [
   { path: "", redirectTo: "login", pathMatch: "full" },
@@ -22,7 +23,13 @@ const routes: Routes = [
       { path: ":id", component: BookEditComponent }
     ]
   },
-  { path: "publishers", component: PublishersComponent },
+  {
+    path: "publishers",
+    children: [
+      { path: "", pathMatch: "full", component: PublishersComponent },
+      { path: "add", component: PublishersCreateComponent }
+    ]
+  },
   {
     path: "authors",
     children: [

@@ -1,13 +1,13 @@
-.author-edit {
+.publisher-edit {
   padding: 16.25px 10px 0px 10px;
 }
 
-.authors-table {
+.publishers-table {
   width: 100%;
 }
 
 @media (max-width: 600px) {
-  .authors-table {
+  .publishers-table {
     width: 600px;
   }
 }

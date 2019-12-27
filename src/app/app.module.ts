@@ -39,6 +39,9 @@ import { AuthorsTableComponent } from './components/authors/authors-table/author
 import { AuthorsEditComponent } from './components/authors/authors-edit/authors-edit.component';
 import { SigninButtonComponent } from './components/shared/signin-button/signin-button.component';
 import { AuthorsCreateComponent } from './components/authors/authors-create/authors-create.component';
+import { PublishersCreateComponent } from './components/publishers/publishers-create/publishers-create.component';
+import { PublishersTableComponent } from './components/publishers/publishers-table/publishers-table.component';
+import { PublishersEditComponent } from './components/publishers/publishers-edit/publishers-edit.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +66,10 @@ import { AuthorsCreateComponent } from './components/authors/authors-create/auth
     AuthorsTableComponent,
     AuthorsEditComponent,
     SigninButtonComponent,
-    AuthorsCreateComponent
+    AuthorsCreateComponent,
+    PublishersCreateComponent,
+    PublishersTableComponent,
+    PublishersEditComponent
   ],
   imports: [
     HttpClientModule,

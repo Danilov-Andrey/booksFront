@@ -39,7 +39,8 @@ export class BooksComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.booksChanged$ = this.booksService.booksChanged$.subscribe(
-      ({ content, totalPages, totalElements }) => {
+      ({ content, totalPages, totalElements, pageable }) => {
+        this.currentPage = pageable.pageNumber + 1;
         this.books = content;
         this.totalPages = totalPages;
         this.totalBooks = totalElements;
@@ -109,6 +110,7 @@ export class BooksComponent implements OnInit, OnDestroy {
   }) {
     this.currentPage = paginatorInfo.currentPage;
     this.countItems = paginatorInfo.countItems;
+    this.booksService.setBooksPerPage$.next(this.countItems);
     this.callGetMethod();
   }
 
