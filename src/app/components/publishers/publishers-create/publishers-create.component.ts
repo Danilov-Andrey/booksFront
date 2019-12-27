@@ -52,7 +52,7 @@ export class PublishersCreateComponent implements OnInit, OnDestroy {
       clearTimeout(this.messageTimer);
       this.resetParams();
       this.isLoading = true;
-      this.publisherService.savePublisher(name).subscribe(
+      this.publisherService.savePublisher({ name }).subscribe(
         () => {
           this.publisherForm.reset();
           this.isSaved = true;
@@ -60,7 +60,7 @@ export class PublishersCreateComponent implements OnInit, OnDestroy {
           this.successMessage = "saved";
           this.messageTimer = window.setTimeout(() => this.resetParams(), 5000);
         },
-        error => {
+        (error: { error: string }) => {
           clearTimeout(this.messageTimer);
           this.isSaved = false;
           this.isLoading = false;
