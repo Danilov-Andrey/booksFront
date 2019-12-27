@@ -1,1 +1,33 @@
-<p>copies works!</p>
+<app-search
+  (isLoading)="setLoading()"
+  (returnInitialData)="returnInitialData()"
+  (findValue)="setSearchMode($event)"
+  placeholder="Enter copies id..."
+></app-search>
+
+<app-successfull-message
+  [message]="successMessage"
+  *ngIf="isComplete"
+></app-successfull-message>
+
+<app-error *ngIf="isError && !isLoading" [message]="errorMessage"></app-error>
+<app-spinner *ngIf="isLoading"></app-spinner>
+
+<div class="copies-table" *ngIf="!isError && !isLoading">
+  <app-copies-table
+    [sortBy]="sortBy"
+    [direction]="direction"
+    [copies]="copies"
+    [searchMode]="searchCopiesId"
+  >
+  </app-copies-table>
+  <app-paginator
+    [totalElements]="totalCopies"
+    [totalPages]="totalPages"
+    [currentPage]="currentPage"
+    [countItems]="countItems"
+    (setItemsCount)="setItemsCount($event)"
+    (setPaginationData)="setPaginationData($event)"
+  >
+  </app-paginator>
+</div>

@@ -18,7 +18,6 @@ export class AuthorsEditComponent implements OnInit {
   authorForm: FormGroup;
   isLoggedIn: boolean;
   isError: boolean;
-  authorsPerPage: number;
 
   errorMessage: string;
   errorTimer: number;

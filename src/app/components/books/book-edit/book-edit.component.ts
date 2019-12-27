@@ -4,8 +4,6 @@ import { AuthService } from "src/app/service/auth.service";
 import { BooksService } from "../books.service";
 import { UpdateBook } from "src/app/models/update-book.model";
 import { emptyNameValidator } from "src/app/validators/empty-name.validator";
-import { Unsubscribable } from "rxjs";
-import { valueValidator } from "src/app/validators/incorrect-char.validator";
 
 @Component({
   selector: "app-book-edit",
@@ -21,7 +19,6 @@ export class BookEditComponent implements OnInit {
   isLoggedIn: boolean;
   errorMessage: string;
   isError: boolean;
-  booksPerPage: number;
 
   errorTimer: number;
 

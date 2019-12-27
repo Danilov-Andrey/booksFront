@@ -1,0 +1,19 @@
+.copies-edit__form {
+  display: flex;
+}
+
+.copies-edit__input-wrapper {
+  width: 70px;
+}
+
+.copies-edit__copies-rate {
+  margin-right: 10px;
+}
+
+.copies-edit__button {
+  margin: 0 10px;
+}
+
+.copies-edit__save-button {
+  width: 130px;
+}

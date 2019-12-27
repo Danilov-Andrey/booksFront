@@ -42,6 +42,8 @@ import { AuthorsCreateComponent } from './components/authors/authors-create/auth
 import { PublishersCreateComponent } from './components/publishers/publishers-create/publishers-create.component';
 import { PublishersTableComponent } from './components/publishers/publishers-table/publishers-table.component';
 import { PublishersEditComponent } from './components/publishers/publishers-edit/publishers-edit.component';
+import { CopiesTableComponent } from './components/copies/copies-table/copies-table.component';
+import { CopiesEditComponent } from './components/copies/copies-edit/copies-edit.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +71,9 @@ import { PublishersEditComponent } from './components/publishers/publishers-edit
     AuthorsCreateComponent,
     PublishersCreateComponent,
     PublishersTableComponent,
-    PublishersEditComponent
+    PublishersEditComponent,
+    CopiesTableComponent,
+    CopiesEditComponent
   ],
   imports: [
     HttpClientModule,

@@ -40,8 +40,16 @@ export class BookCreateComponent implements OnInit, OnDestroy {
       Validators.maxLength(255),
       emptyNameValidator
     ]),
-    rate: new FormControl(null, [Validators.max(10), Validators.required]),
-    count: new FormControl(null, [Validators.required, Validators.max(100000)])
+    rate: new FormControl(null, [
+      Validators.max(10),
+      Validators.min(1),
+      Validators.required
+    ]),
+    count: new FormControl(null, [
+      Validators.required,
+      Validators.max(100000),
+      Validators.min(0)
+    ])
   });
 
   isAuth: boolean = false;

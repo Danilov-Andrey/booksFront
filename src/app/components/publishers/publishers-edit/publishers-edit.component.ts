@@ -16,7 +16,6 @@ export class PublishersEditComponent implements OnInit {
   publisherForm: FormGroup;
   isLoggedIn: boolean;
   isError: boolean;
-  publishersPerPage: number;
 
   errorMessage: string;
   errorTimer: number;

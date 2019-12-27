@@ -1,0 +1,46 @@
+<div *ngIf="isLoggedIn" class="copies-edit">
+  <form
+    class="copies-edit__form"
+    [formGroup]="copiesForm"
+    (submit)="onSubmit()"
+  >
+    <div class="copies-edit__copies-rate">
+      <mat-form-field class="copies-edit__input-wrapper">
+        <input
+          matInput
+          class="copies-edit__input"
+          type="number"
+          placeholder="Rate"
+          formControlName="rate"
+        />
+      </mat-form-field>
+      <form-errors [field]="copiesForm.get('rate')"></form-errors>
+    </div>
+    <div class="copies-edit__copies-surname">
+      <mat-form-field class="copies-edit__input-wrapper">
+        <input
+          matInput
+          class="copies-edit__input"
+          type="number"
+          placeholder="Count"
+          formControlName="count"
+        />
+      </mat-form-field>
+      <form-errors [field]="copiesForm.get('count')"></form-errors>
+    </div>
+
+    <div class="copies-edit__button">
+      <button
+        class="copies-edit__save-button"
+        mat-raised-button
+        color="primary"
+        [disabled]="!isLoggedIn || !copiesForm.valid"
+        type="submit"
+      >
+        Save
+      </button>
+
+      <app-error *ngIf="isError" [message]="errorMessage"></app-error>
+    </div>
+  </form>
+</div>

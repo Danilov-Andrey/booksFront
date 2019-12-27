@@ -1,0 +1,13 @@
+.copy-edit {
+  padding: 16.25px 10px 0px 10px;
+}
+
+.copies-table {
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .copies-table {
+    width: 600px;
+  }
+}

@@ -47,12 +47,11 @@ export class PublishersCreateComponent implements OnInit, OnDestroy {
   }
 
   savePublisher() {
-    const { publisherName: name } = this.publisherForm.value;
-    if (this.publisherForm.valid) {
+     if (this.publisherForm.valid) {
       clearTimeout(this.messageTimer);
       this.resetParams();
       this.isLoading = true;
-      this.publisherService.savePublisher({ name }).subscribe(
+      this.publisherService.savePublisher(this.publisherForm.value).subscribe(
         () => {
           this.publisherForm.reset();
           this.isSaved = true;

@@ -1,0 +1,40 @@
+<table class="copies-table">
+  <thead>
+    <td *ngFor="let title of titles">
+      <span class="table-title">
+        {{ title.title }}
+        <app-sort
+          *ngIf="_searchMode"
+          [title]="title"
+          [direction]="direction"
+          [sortBy]="sortBy"
+        ></app-sort>
+      </span>
+    </td>
+  </thead>
+  <tbody>
+    <ng-template ngFor let-copy [ngForOf]="copies">
+      <tr class="table-row" (click)="selectCopies(copy.id)">
+        <td>
+          {{ copy.id }}
+        </td>
+        <td>{{ copy.count }}</td>
+        <td>{{ copy.rate }}</td>
+      </tr>
+      <tr *ngIf="copy.id === selectedCopies">
+        <td *ngIf="isLoggedIn" class="copy-edit" colspan="3">
+          <app-copies-edit
+            [id]="copy.id"
+            [rate]="copy.rate"
+            [count]="copy.count"
+          >
+          </app-copies-edit>
+        </td>
+        <td *ngIf="!isLoggedIn" colspan="3">
+          <app-error message="login"></app-error>
+          <app-signin-button></app-signin-button>
+        </td>
+      </tr>
+    </ng-template>
+  </tbody>
+</table>
