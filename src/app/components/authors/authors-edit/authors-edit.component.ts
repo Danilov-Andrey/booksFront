@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { emptyNameValidator } from "src/app/validators/empty-name.validator";
 import { AuthorsService } from "../authors.service";
 import { valueValidator } from "src/app/validators/incorrect-char.validator";
+import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-authors-edit",
@@ -24,7 +25,9 @@ export class AuthorsEditComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private authorsService: AuthorsService
+    private authorsService: AuthorsService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -81,5 +84,9 @@ export class AuthorsEditComponent implements OnInit {
     if (this.isLoggedIn) {
       this.authorsService.deleteAuthor(this.id);
     }
+  }
+
+  addBook() {
+    this.router.navigate([`${this.id}/new-book`], { relativeTo: this.route });
   }
 }

@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Subject, BehaviorSubject } from "rxjs";
 import { Author } from "src/app/models/author.model";
+import { Book } from "src/app/models/book.model";
 
 @Injectable({
   providedIn: "root"
@@ -101,6 +102,21 @@ export class AuthorsService {
 
   saveAuthor(author: Author) {
     this.http.post("http://localhost:8080/api/authors", author).subscribe(
+      () => {
+        this.setSuccessMessage$.next("saved");
+      },
+      response => {
+        this.errorGet$.next(response.message);
+      }
+    );
+  }
+
+  getAuthorById(id: number) {
+    return this.http.get(` http://localhost:8080/api/authors/${id}`);
+  }
+
+  addNewBook(id: number, book: Book) {
+    this.http.post(`http://localhost:8080/api/authors/${id}`, book).subscribe(
       () => {
         this.setSuccessMessage$.next("saved");
       },

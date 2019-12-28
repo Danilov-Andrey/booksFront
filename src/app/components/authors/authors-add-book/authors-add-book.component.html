@@ -1,0 +1,65 @@
+<h1 *ngIf="!isLoading && !isError" class="selected-author">
+  Selected author: {{ selectedAuthor.firstName }} {{ selectedAuthor.lastName }}
+</h1>
+
+<app-spinner *ngIf="isLoading"></app-spinner>
+<app-error [message]="errorMessage" *ngIf="isError"></app-error>
+<app-successfull-message
+  [message]="successMessage"
+  *ngIf="isSaved"
+></app-successfull-message>
+
+<form
+  *ngIf="!isLoading && !isError"
+  class="create-form"
+  [formGroup]="newBookForm"
+  (ngSubmit)="onSubmit()"
+>
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Book's name"
+      type="text"
+      formControlName="name"
+    />
+  </mat-form-field>
+  <form-errors [field]="newBookForm.get('name')"></form-errors>
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Book's year"
+      type="number"
+      formControlName="year"
+    />
+  </mat-form-field>
+  <form-errors [field]="newBookForm.get('year')"></form-errors>
+
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Publisher's name"
+      type="text"
+      formControlName="publisherName"
+    />
+  </mat-form-field>
+  <form-errors [field]="newBookForm.get('publisherName')"></form-errors>
+
+  <mat-form-field>
+    <input matInput placeholder="Rate" type="number" formControlName="rate" />
+  </mat-form-field>
+  <form-errors [field]="newBookForm.get('rate')"></form-errors>
+
+  <mat-form-field>
+    <input matInput placeholder="Count" type="number" formControlName="count" />
+  </mat-form-field>
+  <form-errors [field]="newBookForm.get('count')"></form-errors>
+
+  <button
+    mat-raised-button
+    color="primary"
+    type="submit"
+    [disabled]="newBookForm.invalid"
+  >
+    Save
+  </button>
+</form>

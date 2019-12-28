@@ -28,7 +28,7 @@
       </mat-form-field>
       <form-errors [field]="authorForm.get('lastName')"></form-errors>
     </div>
-    <div class="wrapper-buttons">
+    <div class="wrapper-edit-buttons">
       <div class="author-edit__buttons">
         <button
           class="author-edit__save-button"
@@ -51,6 +51,11 @@
         </button>
       </div>
       <app-error *ngIf="isError" [message]="errorMessage"></app-error>
+    </div>
+    <div class="author-edit__add-book">
+      <button mat-raised-button type="button" (click)="addBook()">
+        Add book
+      </button>
     </div>
   </form>
 </div>
