@@ -3,6 +3,7 @@ import { Book } from "../../models/book.model";
 import { BooksService } from "./books.service";
 import { Unsubscribable } from "rxjs";
 import { SortService } from "../shared/sort/sort.service";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-books",
@@ -31,13 +32,27 @@ export class BooksComponent implements OnInit, OnDestroy {
   sortBy: string = "id";
   searchBookName: string = null;
   totalBooks: number;
+  queryParam: string;
+  queryParamId: number;
 
   constructor(
     private booksService: BooksService,
-    private sortService: SortService
+    private sortService: SortService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      if (params.hasOwnProperty("author-id")) {
+        this.queryParam = "author-id";
+        this.queryParamId = params["author-id"];
+      }
+      if (params.hasOwnProperty("publisher-id")) {
+        this.queryParam = "publisher-id";
+        this.queryParamId = params["publisher-id"];
+      }
+    });
+
     this.booksChanged$ = this.booksService.booksChanged$.subscribe(
       ({ content, totalPages, totalElements, pageable }) => {
         this.currentPage = pageable.pageNumber + 1;
@@ -99,12 +114,35 @@ export class BooksComponent implements OnInit, OnDestroy {
   getBooks() {
     this.isLoading = true;
     this.searchBookName = null;
-    this.booksService.getBooks(
-      this.currentPage,
-      this.countItems,
-      this.sortBy,
-      this.direction
-    );
+    switch (this.queryParam) {
+      case "author-id":
+        this.booksService.getAuthorBooks(
+          this.queryParamId,
+          this.currentPage,
+          this.countItems,
+          this.sortBy,
+          this.direction
+        );
+        break;
+
+      case "publisher-id":
+        this.booksService.getPublisherBooks(
+          this.queryParamId,
+          this.currentPage,
+          this.countItems,
+          this.sortBy,
+          this.direction
+        );
+        break;
+
+      default:
+        this.booksService.getBooks(
+          this.currentPage,
+          this.countItems,
+          this.sortBy,
+          this.direction
+        );
+    }
   }
 
   setPaginationData(paginatorInfo: {

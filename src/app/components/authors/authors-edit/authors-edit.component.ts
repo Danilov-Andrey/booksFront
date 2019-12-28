@@ -89,4 +89,12 @@ export class AuthorsEditComponent implements OnInit {
   addBook() {
     this.router.navigate([`${this.id}/new-book`], { relativeTo: this.route });
   }
+
+  getBooks() {
+    this.router.navigate([`books`], {
+      queryParams: {
+        "author-id": this.id
+      }
+    });
+  }
 }

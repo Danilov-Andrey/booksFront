@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { AuthService } from "src/app/service/auth.service";
 import { PublishersService } from "../publishers.service";
 import { emptyNameValidator } from "src/app/validators/empty-name.validator";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-publishers-edit",
@@ -22,7 +23,8 @@ export class PublishersEditComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private publishersService: PublishersService
+    private publishersService: PublishersService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -73,5 +75,13 @@ export class PublishersEditComponent implements OnInit {
       this.publishersService.setLoading$.next();
       this.publishersService.deletePublisher(this.id);
     }
+  }
+
+  getBooks() {
+    this.router.navigate([`books`], {
+      queryParams: {
+        "publisher-id": this.id
+      }
+    });
   }
 }

@@ -16,10 +16,14 @@ export class AuthorsAddBookComponent implements OnInit, OnDestroy {
   setSuccessMessage$: Unsubscribable;
   errorGet$: Unsubscribable;
 
+  isSaved: boolean;
+  successMessage: string;
+  isError: boolean;
   id: number;
   selectedAuthor: Author;
   errorMessage: string;
   isLoading: boolean = true;
+  messageTimer: number;
   newBookForm = new FormGroup({
     name: new FormControl(null, [
       Validators.required,
@@ -47,9 +51,6 @@ export class AuthorsAddBookComponent implements OnInit, OnDestroy {
       Validators.max(100000)
     ])
   });
-  isSaved: boolean;
-  successMessage: string;
-  isError: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -74,27 +75,43 @@ export class AuthorsAddBookComponent implements OnInit, OnDestroy {
 
     this.setSuccessMessage$ = this.authorsService.setSuccessMessage$.subscribe(
       (message: string) => {
+        this.newBookForm.reset();
         this.isLoading = false;
         this.isSaved = true;
         this.successMessage = message;
+        this.messageTimer = window.setTimeout(() => {
+          this.resetParams();
+        }, 5000);
       }
     );
     this.errorGet$ = this.authorsService.errorGet$.subscribe(
       (message: string) => {
         this.isLoading = false;
-        this.errorMessage = message;
         this.isError = true;
+        this.isSaved = false;
+        this.errorMessage = message;
       }
     );
   }
 
   ngOnDestroy(): void {
     this.selectedAuthor$.unsubscribe();
+    this.setSuccessMessage$.unsubscribe();
+    this.errorGet$.unsubscribe();
+    clearTimeout(this.messageTimer);
   }
 
   onSubmit() {
     if (this.newBookForm.valid) {
+      clearTimeout(this.messageTimer);
+      this.resetParams();
+      this.isLoading = true;
       this.authorsService.addNewBook(this.id, this.newBookForm.getRawValue());
     }
+  }
+
+  resetParams() {
+    this.isSaved = false;
+    this.successMessage = null;
   }
 }

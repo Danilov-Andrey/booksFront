@@ -113,4 +113,52 @@ export class BooksService {
         }
       );
   }
+
+  getAuthorBooks(
+    id: number,
+    pageNumber: number,
+    rowPerPage: number,
+    sortBy: string,
+    direction: string
+  ) {
+    const params = new HttpParams()
+      .set("pageNumber", pageNumber.toString())
+      .set("rowPerPage", rowPerPage.toString())
+      .set("sortBy", sortBy.toString())
+      .set("direction", direction.toString());
+    this.http
+      .get(`http://localhost:8080/api/authors/${id}/books`, { params })
+      .subscribe(
+        response => {
+          this.booksChanged$.next(response);
+        },
+        response => {
+          this.errorGet$.next(response.error);
+        }
+      );
+  }
+
+  getPublisherBooks(
+    id: number,
+    pageNumber: number,
+    rowPerPage: number,
+    sortBy: string,
+    direction: string
+  ) {
+    const params = new HttpParams()
+      .set("pageNumber", pageNumber.toString())
+      .set("rowPerPage", rowPerPage.toString())
+      .set("sortBy", sortBy.toString())
+      .set("direction", direction.toString());
+    this.http
+      .get(`http://localhost:8080/api/publishers/${id}/books`, { params })
+      .subscribe(
+        response => {
+          this.booksChanged$.next(response);
+        },
+        response => {
+          this.errorGet$.next(response.error);
+        }
+      );
+  }
 }

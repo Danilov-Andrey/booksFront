@@ -121,7 +121,7 @@ export class AuthorsService {
         this.setSuccessMessage$.next("saved");
       },
       response => {
-        this.errorGet$.next(response.message);
+        this.errorGet$.next(response.error);
       }
     );
   }
