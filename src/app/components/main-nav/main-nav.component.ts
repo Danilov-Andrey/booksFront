@@ -1,6 +1,7 @@
 import { Component, ChangeDetectorRef, OnDestroy, OnInit } from "@angular/core";
 import { MediaMatcher } from "@angular/cdk/layout";
 import { AuthService } from "src/app/service/auth.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-main-nav",
@@ -21,7 +22,8 @@ export class MainNavComponent implements OnDestroy {
   constructor(
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher,
-    private appService: AuthService
+    private appService: AuthService,
+    private router: Router
   ) {
     this.mobileQuery = media.matchMedia("(max-width: 768px)");
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();

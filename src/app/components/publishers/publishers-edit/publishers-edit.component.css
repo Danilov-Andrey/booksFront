@@ -2,6 +2,13 @@
   display: flex;
 }
 
+.publisher-edit {
+  display: flex;
+}
+.publisher-edit__get-books {
+  height: fit-content;
+}
+
 .wrapper-buttons {
   margin: 0 10px;
 }

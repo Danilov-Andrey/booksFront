@@ -1,4 +1,5 @@
 <app-search
+  *ngIf="queryParamId === null"
   (isLoading)="setLoading()"
   (returnInitialData)="returnInitialData()"
   (findValue)="setSearchMode($event)"

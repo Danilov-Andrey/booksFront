@@ -46,11 +46,16 @@ export class BooksComponent implements OnInit, OnDestroy {
       if (params.hasOwnProperty("author-id")) {
         this.queryParam = "author-id";
         this.queryParamId = params["author-id"];
+        return;
       }
       if (params.hasOwnProperty("publisher-id")) {
         this.queryParam = "publisher-id";
         this.queryParamId = params["publisher-id"];
+        return;
       }
+      this.queryParam = null;
+      this.queryParamId = null;
+      this.getBooks();
     });
 
     this.booksChanged$ = this.booksService.booksChanged$.subscribe(

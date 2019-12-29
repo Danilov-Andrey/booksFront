@@ -40,8 +40,13 @@
       </div>
       <app-error *ngIf="isError" [message]="errorMessage"></app-error>
     </div>
-    <button mat-raised-button type="button" (click)="getBooks()">
-      Get books
-    </button>
   </form>
+  <button
+    mat-raised-button
+    type="button"
+    (click)="getBooks()"
+    class="publisher-edit__get-books"
+  >
+    Get books
+  </button>
 </div>
