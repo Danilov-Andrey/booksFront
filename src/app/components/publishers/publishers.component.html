@@ -5,10 +5,10 @@
   placeholder="Enter publisher's name..."
 ></app-search>
 
-<app-successfull-message
+<app-successful-message
   [message]="successMessage"
   *ngIf="isComplete"
-></app-successfull-message>
+></app-successful-message>
 
 <app-error *ngIf="isError && !isLoading" [message]="errorMessage"></app-error>
 <app-spinner *ngIf="isLoading"></app-spinner>

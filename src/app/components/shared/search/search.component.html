@@ -1,12 +1,12 @@
-<div class="wrapper">
-  <div class="search" [ngClass]="{ 'open-search': isOpen }">
-    <label for="search" (click)="openSearch()" class="search-icon-wrapper">
+<div class="search-wrapper">
+  <div class="search" [ngClass]="{ _open: isOpen }">
+    <label for="search" (click)="openSearch()" class="search__icon-wrapper">
       <svg
         aria-hidden="true"
         focusable="false"
         data-prefix="fas"
         role="img"
-        class="search-icon"
+        class="search__icon"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 512 512"
       >
@@ -19,23 +19,23 @@
     <input
       #search
       id="search"
-      class="search-field"
-      [ngClass]="{ 'open-search__field': isOpen }"
+      class="search__field"
+      [ngClass]="{ _open: isOpen }"
       type="text"
       [placeholder]="placeholder"
     />
   </div>
   <div
     [ngClass]="{
-      'open-clear-btn': isOpen,
-      'close-clear-btn': !isOpen
+      '_open-reset-btn': isOpen,
+      '_close-reset-btn': !isOpen
     }"
   >
     <input
       value="Reset"
       type="button"
       (click)="clearField()"
-      class="clear-button"
+      class="search__reset-button"
     />
   </div>
 </div>

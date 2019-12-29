@@ -1,10 +1,10 @@
 <app-error message="login" *ngIf="!isLogin"></app-error>
 <app-error [message]="errorMessage" *ngIf="isError"></app-error>
 <app-signin-button *ngIf="!isLogin"></app-signin-button>
-<app-successfull-message
+<app-successful-message
   *ngIf="isSaved"
   [message]="successMessage"
-></app-successfull-message>
+></app-successful-message>
 <app-spinner *ngIf="isLoading"></app-spinner>
 <form
   *ngIf="!isLoading && isLogin"
@@ -17,10 +17,10 @@
       matInput
       placeholder="Publisher's name"
       type="text"
-      formControlName="publisherName"
+      formControlName="name"
     />
   </mat-form-field>
-  <form-errors [field]="publisherForm.get('publisherName')"></form-errors>
+  <form-errors [field]="publisherForm.get('name')"></form-errors>
   <button
     mat-raised-button
     type="submit"

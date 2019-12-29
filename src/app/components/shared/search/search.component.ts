@@ -4,7 +4,8 @@ import {
   ViewChild,
   ElementRef,
   Output,
-  EventEmitter
+  EventEmitter,
+  AfterViewInit
 } from "@angular/core";
 import { fromEvent, Unsubscribable, of } from "rxjs";
 import { delay, filter, map, switchMap } from "rxjs/operators";
@@ -14,7 +15,7 @@ import { delay, filter, map, switchMap } from "rxjs/operators";
   templateUrl: "./search.component.html",
   styleUrls: ["./search.component.css"]
 })
-export class SearchComponent {
+export class SearchComponent implements AfterViewInit {
   @ViewChild("search", { static: false }) input: ElementRef;
 
   @Input() placeholder: string;
@@ -24,11 +25,12 @@ export class SearchComponent {
   @Output() isLoading = new EventEmitter();
 
   input$: Unsubscribable;
+
   isOpen: boolean = false;
-  lastUserInputValue: string = "";
+  isError: boolean = false;
+
   errorMessage: string;
   errorTimeout: number;
-  isError: boolean = false;
 
   ngAfterViewInit() {
     this.input$ = fromEvent(this.input.nativeElement, "input")
@@ -47,11 +49,7 @@ export class SearchComponent {
         this.errorMessage = null;
         this.isOpen = false;
         this.input.nativeElement.value = "";
-        if (value === "") {
-          this.returnInitialData.emit();
-        } else {
-          this.findValue.emit(value.trim());
-        }
+        this.findValue.emit(value.trim());
       });
   }
 
@@ -60,11 +58,11 @@ export class SearchComponent {
     clearTimeout(this.errorTimeout);
   }
 
-  openSearch() {
+  openSearch(): void {
     this.isOpen = !this.isOpen;
   }
 
-  validatorInput(value: string) {
+  validatorInput(value: string): boolean {
     if (value.trim().length === 0 && value.length != 0) {
       this.isError = true;
       this.errorMessage = "empty";
@@ -77,7 +75,7 @@ export class SearchComponent {
     return true;
   }
 
-  clearField() {
+  clearField(): void {
     this.isOpen = false;
     this.input.nativeElement.value = "";
     this.returnInitialData.emit();

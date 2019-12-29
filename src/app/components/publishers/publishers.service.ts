@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { Subject, BehaviorSubject } from "rxjs";
+import { Subject, BehaviorSubject, Observable } from "rxjs";
 import { Publisher } from "src/app/models/publisher.model";
 
 @Injectable({
@@ -10,10 +10,10 @@ export class PublishersService {
   publishersChanged$ = new Subject<any>();
   errorGet$ = new Subject<string>();
   setLoading$ = new Subject();
+  setSuccessMessage$ = new Subject<string>();
   setPublishersPerPage$ = new BehaviorSubject<number>(10);
   setSortBy$ = new BehaviorSubject<string>("id");
   setDirection$ = new BehaviorSubject<string>("ASC");
-  setSuccessMessage$ = new Subject<string>();
 
   constructor(private http: HttpClient) {}
 
@@ -22,7 +22,7 @@ export class PublishersService {
     rowPerPage: number,
     sortBy: string,
     direction: string
-  ) {
+  ): void {
     const params = new HttpParams()
       .set("pageNumber", pageNumber.toString())
       .set("rowPerPage", rowPerPage.toString())
@@ -32,41 +32,32 @@ export class PublishersService {
       response => {
         this.publishersChanged$.next(response);
       },
-      response => {
+      (response: { error: string }) => {
         this.errorGet$.next(response.error);
       }
     );
   }
 
-  getPublisher(
-    pageNumber: number,
-    rowPerPage: number,
-    sortBy: string,
-    direction: string,
-    name: string
-  ) {
-    const params = new HttpParams()
-      .set("pageNumber", pageNumber.toString())
-      .set("rowPerPage", rowPerPage.toString())
-      .set("sortBy", sortBy.toString())
-      .set("direction", direction.toString())
-      .set("name", name.toString());
-    this.http.get(`http://localhost:8080/api/publishers`, { params }).subscribe(
-      response => {
-        this.publishersChanged$.next({
-          content: [{ ...response }],
-          totalPages: 1,
-          totalElements: 1,
-          pageable: { pageNumber: 0 }
-        });
-      },
-      response => {
-        this.errorGet$.next(response.error);
-      }
-    );
+  getPublisher(name: string): void {
+    const params = new HttpParams().set("name", name.toString());
+    this.http
+      .get<Publisher>(`http://localhost:8080/api/publishers`, { params })
+      .subscribe(
+        response => {
+          this.publishersChanged$.next({
+            content: [{ ...response }],
+            totalPages: 1,
+            totalElements: 1,
+            pageable: { pageNumber: 0 }
+          });
+        },
+        (response: { error: string }) => {
+          this.errorGet$.next(response.error);
+        }
+      );
   }
 
-  updatePublisher(publisher: Publisher) {
+  updatePublisher(publisher: Publisher): void {
     this.http
       .put(`http://localhost:8080/api/publishers/${publisher.id}`, publisher)
       .subscribe(
@@ -79,13 +70,13 @@ export class PublishersService {
             this.setDirection$.value
           );
         },
-        response => {
+        (response: { error: string }) => {
           this.errorGet$.next(response.error);
         }
       );
   }
 
-  deletePublisher(id: number) {
+  deletePublisher(id: number): void {
     this.http.delete(`http://localhost:8080/api/publishers/${id}`).subscribe(
       () => {
         this.setSuccessMessage$.next("deleted");
@@ -96,31 +87,36 @@ export class PublishersService {
           this.setDirection$.value
         );
       },
-      response => {
+      (response: { error: string }) => {
         this.errorGet$.next(response.error);
       }
     );
   }
 
-  savePublisher(publisher: Publisher) {
-    return this.http.post("http://localhost:8080/api/publishers", publisher);
+  savePublisher(publisher: Publisher): Observable<Publisher> {
+    return this.http.post<Publisher>(
+      "http://localhost:8080/api/publishers",
+      publisher
+    );
   }
 
-  getPublisherById(id: number) {
-    this.http.get(` http://localhost:8080/api/publishers/${id}`).subscribe(
-      response => {
-        this.publishersChanged$.next({
-          content: [{ ...response }],
-          totalPages: 1,
-          totalElements: 1,
-          pageable: {
-            pageNumber: 0
-          }
-        });
-      },
-      response => {
-        this.errorGet$.next(response.error);
-      }
-    );
+  getPublisherById(id: number): void {
+    this.http
+      .get<Publisher>(`http://localhost:8080/api/publishers/${id}`)
+      .subscribe(
+        response => {
+          this.publishersChanged$.next({
+            content: [{ ...response }],
+            totalPages: 1,
+            totalElements: 1,
+            pageable: {
+              pageNumber: 0
+            }
+          });
+        },
+        (response: { error: string }) => {
+          this.errorGet$.next(response.error);
+        }
+      );
   }
 }

@@ -2,10 +2,10 @@
 <app-error message="login" *ngIf="!isLoggedIn"></app-error>
 <app-error [message]="message" *ngIf="!isError"></app-error>
 <app-signin-button *ngIf="!isLoggedIn"></app-signin-button>
-<app-successfull-message
+<app-successful-message
   [message]="message"
   *ngIf="showMessage"
-></app-successfull-message>
+></app-successful-message>
 <form
   *ngIf="!isLoading && isLoggedIn"
   class="create-form"

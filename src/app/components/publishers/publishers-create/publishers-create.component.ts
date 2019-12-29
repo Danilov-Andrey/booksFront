@@ -11,7 +11,7 @@ import { AuthService } from "src/app/service/auth.service";
 })
 export class PublishersCreateComponent implements OnInit, OnDestroy {
   publisherForm = new FormGroup({
-    publisherName: new FormControl(null, [
+    name: new FormControl(null, [
       Validators.required,
       Validators.maxLength(255),
       emptyNameValidator
@@ -47,7 +47,7 @@ export class PublishersCreateComponent implements OnInit, OnDestroy {
   }
 
   savePublisher() {
-     if (this.publisherForm.valid) {
+    if (this.publisherForm.valid) {
       clearTimeout(this.messageTimer);
       this.resetParams();
       this.isLoading = true;

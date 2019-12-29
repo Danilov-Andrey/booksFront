@@ -1,7 +1,7 @@
-<app-successfull-message
+<app-successful-message
   [message]="successMessage"
   *ngIf="isRegistered && !isLoading"
-></app-successfull-message>
+></app-successful-message>
 <app-error [message]="errorMessage" *ngIf="isError && !isLoading"></app-error>
 <app-spinner *ngIf="isLoading"></app-spinner>
 <div class="auth-form" *ngIf="!isLoading">

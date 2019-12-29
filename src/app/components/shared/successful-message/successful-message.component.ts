@@ -1,11 +1,11 @@
-import { Component, OnInit, Input, SimpleChanges } from "@angular/core";
+import { Component, Input, SimpleChanges, OnChanges } from "@angular/core";
 
 @Component({
-  selector: "app-successfull-message",
-  templateUrl: "./successfull-message.component.html",
-  styleUrls: ["./successfull-message.component.css"]
+  selector: "app-successful-message",
+  templateUrl: "./successful-message.component.html",
+  styleUrls: ["./successful-message.component.css"]
 })
-export class SuccessfullMessageComponent implements OnInit {
+export class SuccessfulMessageComponent implements OnChanges {
   @Input() message: string;
 
   titles = {
@@ -16,9 +16,6 @@ export class SuccessfullMessageComponent implements OnInit {
   };
 
   outputMessage: string;
-  constructor() {}
-
-  ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
     this.outputMessage = this.titles[changes.message.currentValue];

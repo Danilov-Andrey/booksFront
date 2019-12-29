@@ -43,7 +43,7 @@ export class BooksComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.route$ = this.route.queryParams.subscribe(params => {
+    this.route$ = this.route.params.subscribe(params => {
       if (params.hasOwnProperty("author-id")) {
         this.queryParam = "author-id";
         this.queryParamId = params["author-id"];

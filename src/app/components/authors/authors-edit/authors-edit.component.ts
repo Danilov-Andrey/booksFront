@@ -91,10 +91,11 @@ export class AuthorsEditComponent implements OnInit {
   }
 
   getBooks() {
-    this.router.navigate([`books`], {
-      queryParams: {
+    this.router.navigate([
+      `books`,
+      {
         "author-id": this.id
       }
-    });
+    ]);
   }
 }

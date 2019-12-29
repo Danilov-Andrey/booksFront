@@ -1,8 +1,8 @@
 <img
   [ngClass]="{
-    active: sortBy === title.sortBy,
+    'initial-position': sortBy === title.sortBy,
     disabled: sortBy != title.sortBy,
-    rotate: sortBy === title.sortBy && direction === 'DESC'
+    'desc-direction': sortBy === title.sortBy && direction === 'DESC'
   }"
   src="assets/images/sort-arrow.svg"
   alt="sort-arrow"

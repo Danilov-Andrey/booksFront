@@ -24,7 +24,7 @@ export class PublishersComponent implements OnInit {
   totalPages: number;
   direction: string = "ASC";
   sortBy: string = "id";
-  searchPublisherName: string = null;
+  searchPublisherName: string;
   totalPublishers: number;
   queryParam: string;
   queryParamId: number;
@@ -43,7 +43,7 @@ export class PublishersComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.route$ = this.route.queryParams.subscribe(params => {
+    this.route$ = this.route.params.subscribe(params => {
       if (params.hasOwnProperty("id")) {
         this.queryParam = "id";
         this.queryParamId = params["id"];
@@ -101,7 +101,7 @@ export class PublishersComponent implements OnInit {
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.publishersChanged$.unsubscribe();
     this.errorGet$.unsubscribe();
     this.sortBy$.unsubscribe();
@@ -111,7 +111,7 @@ export class PublishersComponent implements OnInit {
     clearTimeout(this.successMessageTimer);
   }
 
-  getPublishers() {
+  getPublishers(): void {
     this.isLoading = true;
 
     switch (this.queryParam) {
@@ -130,45 +130,39 @@ export class PublishersComponent implements OnInit {
     }
   }
 
-  getPublisher() {
+  getPublisher(): void {
     this.isLoading = true;
-    this.publishersService.getPublisher(
-      this.currentPage,
-      this.countItems,
-      "id",
-      "ASC",
-      this.searchPublisherName
-    );
+    this.publishersService.getPublisher(this.searchPublisherName);
   }
 
   setPaginationData(paginatorInfo: {
     currentPage: number;
     countItems: number;
-  }) {
+  }): void {
     this.currentPage = paginatorInfo.currentPage;
     this.countItems = paginatorInfo.countItems;
     this.publishersService.setPublishersPerPage$.next(this.countItems);
     this.callGetMethod();
   }
 
-  callGetMethod() {
+  callGetMethod(): void {
     this.isLoading = true;
     this.searchPublisherName === null
       ? this.getPublishers()
       : this.getPublisher();
   }
 
-  returnInitialData() {
+  returnInitialData(): void {
     this.currentPage = 1;
     this.searchPublisherName = null;
     this.getPublishers();
   }
 
-  setLoading() {
+  setLoading(): void {
     this.isLoading = true;
   }
 
-  setSearchMode(name: string) {
+  setSearchMode(name: string): void {
     this.searchPublisherName = name;
     this.currentPage = 1;
     this.getPublisher();

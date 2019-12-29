@@ -1,7 +1,7 @@
 import { Component, ChangeDetectorRef, OnDestroy, OnInit } from "@angular/core";
 import { MediaMatcher } from "@angular/cdk/layout";
 import { AuthService } from "src/app/service/auth.service";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-main-nav",

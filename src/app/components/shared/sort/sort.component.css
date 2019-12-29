@@ -1,14 +1,9 @@
-.active {
+.initial-position {
   transform: rotate(-90deg);
 }
 
-.rotate {
+.desc-direction {
   transform: rotate(90deg);
-}
-
-.sort-arrow {
-  margin-left: 5px;
-  width: 10px;
 }
 
 .disabled {
@@ -16,10 +11,15 @@
   transform: rotate(-90deg);
 }
 
-.sort-arrow:hover {
-  cursor: pointer;
-}
-
 .disabled:hover {
   opacity: 1;
+}
+
+.sort-arrow {
+  margin-left: 5px;
+  width: 10px;
+}
+
+.sort-arrow:hover {
+  cursor: pointer;
 }

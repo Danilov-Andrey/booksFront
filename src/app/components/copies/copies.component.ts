@@ -43,7 +43,7 @@ export class CopiesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.route$ = this.route.queryParams.subscribe(params => {
+    this.route$ = this.route.params.subscribe(params => {
       if (params.hasOwnProperty("id")) {
         this.queryParam = "id";
         this.queryParamId = params["id"];

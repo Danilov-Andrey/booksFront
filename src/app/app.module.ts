@@ -34,17 +34,17 @@ import { SearchComponent } from "./components/shared/search/search.component";
 import { ErrorComponent } from "./components/shared/error/error.component";
 import { BookTableComponent } from "./components/books/book-table/book-table.component";
 import { SortComponent } from "./components/shared/sort/sort.component";
-import { SuccessfullMessageComponent } from "./components/shared/successfull-message/successfull-message.component";
-import { AuthorsTableComponent } from './components/authors/authors-table/authors-table.component';
-import { AuthorsEditComponent } from './components/authors/authors-edit/authors-edit.component';
-import { SigninButtonComponent } from './components/shared/signin-button/signin-button.component';
-import { AuthorsCreateComponent } from './components/authors/authors-create/authors-create.component';
-import { PublishersCreateComponent } from './components/publishers/publishers-create/publishers-create.component';
-import { PublishersTableComponent } from './components/publishers/publishers-table/publishers-table.component';
-import { PublishersEditComponent } from './components/publishers/publishers-edit/publishers-edit.component';
-import { CopiesTableComponent } from './components/copies/copies-table/copies-table.component';
-import { CopiesEditComponent } from './components/copies/copies-edit/copies-edit.component';
-import { AuthorsAddBookComponent } from './components/authors/authors-add-book/authors-add-book.component';
+import { SuccessfulMessageComponent } from "./components/shared/successful-message/successful-message.component";
+import { AuthorsTableComponent } from "./components/authors/authors-table/authors-table.component";
+import { AuthorsEditComponent } from "./components/authors/authors-edit/authors-edit.component";
+import { SigninButtonComponent } from "./components/shared/signin-button/signin-button.component";
+import { AuthorsCreateComponent } from "./components/authors/authors-create/authors-create.component";
+import { PublishersCreateComponent } from "./components/publishers/publishers-create/publishers-create.component";
+import { PublishersTableComponent } from "./components/publishers/publishers-table/publishers-table.component";
+import { PublishersEditComponent } from "./components/publishers/publishers-edit/publishers-edit.component";
+import { CopiesTableComponent } from "./components/copies/copies-table/copies-table.component";
+import { CopiesEditComponent } from "./components/copies/copies-edit/copies-edit.component";
+import { AuthorsAddBookComponent } from "./components/authors/authors-add-book/authors-add-book.component";
 
 @NgModule({
   declarations: [
@@ -65,7 +65,7 @@ import { AuthorsAddBookComponent } from './components/authors/authors-add-book/a
     ErrorComponent,
     BookTableComponent,
     SortComponent,
-    SuccessfullMessageComponent,
+    SuccessfulMessageComponent,
     AuthorsTableComponent,
     AuthorsEditComponent,
     SigninButtonComponent,

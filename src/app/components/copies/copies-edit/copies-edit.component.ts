@@ -79,10 +79,11 @@ export class CopiesEditComponent implements OnInit {
   }
 
   getBook() {
-    this.router.navigate(["books"], {
-      queryParams: {
+    this.router.navigate([
+      "books",
+      {
         "copies-id": this.id
       }
-    });
+    ]);
   }
 }

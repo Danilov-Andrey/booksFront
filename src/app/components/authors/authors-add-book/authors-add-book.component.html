@@ -4,10 +4,10 @@
 
 <app-spinner *ngIf="isLoading"></app-spinner>
 <app-error [message]="errorMessage" *ngIf="isError"></app-error>
-<app-successfull-message
+<app-successful-message
   [message]="successMessage"
   *ngIf="isSaved"
-></app-successfull-message>
+></app-successful-message>
 
 <form
   *ngIf="!isLoading && !isError"

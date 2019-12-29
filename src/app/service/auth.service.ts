@@ -1,7 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { map } from "rxjs/operators";
-import { User } from "../models/user.model";
 
 @Injectable({
   providedIn: "root"
@@ -27,8 +26,10 @@ export class AuthService {
   }
 
   registration(username: string, password: string) {
-    const user = new User(username, password);
-    return this.httpClient.post("http://localhost:8080/api/users", user);
+    return this.httpClient.post("http://localhost:8080/api/users", {
+      username,
+      password
+    });
   }
 
   isUserLoggedIn() {

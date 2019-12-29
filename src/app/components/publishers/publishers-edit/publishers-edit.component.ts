@@ -78,10 +78,11 @@ export class PublishersEditComponent implements OnInit {
   }
 
   getBooks() {
-    this.router.navigate([`books`], {
-      queryParams: {
+    this.router.navigate([
+      `books`,
+      {
         "publisher-id": this.id
       }
-    });
+    ]);
   }
 }

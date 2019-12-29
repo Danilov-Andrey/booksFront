@@ -9,7 +9,7 @@ import { FormControl } from "@angular/forms";
 export class FormErrorComponent {
   @Input() field: FormControl;
 
-  validatorMessages() {
+  validatorMessages(): string[] | boolean {
     const field = this.field;
     if (!field || !field.errors) {
       return false;

@@ -6,7 +6,6 @@ import { AuthorsComponent } from "./components/authors/authors.component";
 import { CopiesComponent } from "./components/copies/copies.component";
 import { LoginComponent } from "./components/login/login.component";
 import { LogoutComponent } from "./components/logout/logout.component";
-import { AuthGuardService } from "./service/auth-guard.service";
 import { BookCreateComponent } from "./components/books/book-create/book-create.component";
 import { AuthorsCreateComponent } from "./components/authors/authors-create/authors-create.component";
 import { PublishersCreateComponent } from "./components/publishers/publishers-create/publishers-create.component";
@@ -16,10 +15,11 @@ const routes: Routes = [
   { path: "", redirectTo: "login", pathMatch: "full" },
   {
     path: "books",
-    children: [
-      { path: "", pathMatch: "full", component: BooksComponent },
-      { path: "add", component: BookCreateComponent }
-    ]
+    component: BooksComponent
+  },
+  {
+    path: "books/add",
+    component: BookCreateComponent
   },
   {
     path: "publishers",

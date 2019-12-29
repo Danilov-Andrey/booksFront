@@ -77,7 +77,7 @@ export class BookEditComponent implements OnInit {
     this.isError = false;
     this.errorMessage = null;
     this.booksService.setLoading$.next();
-    this.booksService.updateBook(this.id, new UpdateBook(this.id, name, year));
+    this.booksService.updateBook(this.id, { name, year });
   }
 
   deleteBook() {
@@ -88,26 +88,29 @@ export class BookEditComponent implements OnInit {
   }
 
   getAutor() {
-    this.router.navigate(["authors"], {
-      queryParams: {
+    this.router.navigate([
+      "authors",
+      {
         id: this.authorId
       }
-    });
+    ]);
   }
 
   getPublisher() {
-    this.router.navigate(["publishers"], {
-      queryParams: {
+    this.router.navigate([
+      "publishers",
+      {
         id: this.publisherId
       }
-    });
+    ]);
   }
 
   getCopies() {
-    this.router.navigate(["copies"], {
-      queryParams: {
+    this.router.navigate([
+      "copies",
+      {
         id: this.copiesId
       }
-    });
+    ]);
   }
 }

@@ -1,13 +1,8 @@
 import { Component, Output, EventEmitter, Input } from "@angular/core";
-
-export interface Item {
-  value: number;
-}
-
-export interface PaginatorInfo {
-  countItems: number;
-  currentPage: number;
-}
+import {
+  PaginationInfo,
+  PaginationItemCount
+} from "src/app/models/pagination.model";
 
 @Component({
   selector: "app-paginator",
@@ -20,9 +15,9 @@ export class Paginator {
   @Input() countItems: number;
   @Input() totalElements: number;
 
-  @Output() setPaginationData = new EventEmitter<PaginatorInfo>();
+  @Output() setPaginationData = new EventEmitter<PaginationInfo>();
 
-  itemsPerPage: Item[] = [
+  itemsPerPage: PaginationItemCount[] = [
     { value: 5 },
     { value: 10 },
     { value: 20 },

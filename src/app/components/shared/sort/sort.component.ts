@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { SortService } from "./sort.service";
 
 @Component({
@@ -6,16 +6,14 @@ import { SortService } from "./sort.service";
   templateUrl: "./sort.component.html",
   styleUrls: ["./sort.component.css"]
 })
-export class SortComponent implements OnInit {
+export class SortComponent {
   @Input() title: string;
   @Input() direction: string;
   @Input() sortBy: string;
 
   constructor(private sortService: SortService) {}
 
-  ngOnInit() {}
-
-  onSortBy(sortBy: string) {
+  onSortBy(sortBy: string): void {
     if (sortBy === this.sortBy) {
       if (this.direction === "ASC") {
         this.direction = "DESC";

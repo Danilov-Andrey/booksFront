@@ -25,7 +25,12 @@
           }"
         >
           <li>
-            <a mat-list-item routerLinkActive="active" routerLink="/books">
+            <a
+              mat-list-item
+              routerLink="/books"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
               <span class="link-text-wrapper">
                 Show books
               </span>
@@ -47,7 +52,11 @@
           }"
         >
           <li>
-            <a mat-list-item routerLink="/authors" routerLinkActive="active"
+            <a
+              mat-list-item
+              routerLink="/authors"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
               ><span class="link-text-wrapper"> Show authors</span></a
             >
           </li>
@@ -65,7 +74,11 @@
           }"
         >
           <li>
-            <a mat-list-item routerLink="/publishers" routerLinkActive="active"
+            <a
+              mat-list-item
+              routerLink="/publishers"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
               ><span class="link-text-wrapper"> Show publishers</span></a
             >
           </li>
@@ -86,7 +99,12 @@
           }"
         >
           <li>
-            <a mat-list-item routerLink="/copies" routerLinkActive="active">
+            <a
+              mat-list-item
+              routerLink="/copies"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
               <span class="link-text-wrapper">Show copies</span></a
             >
           </li>
