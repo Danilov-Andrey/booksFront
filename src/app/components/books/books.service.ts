@@ -161,4 +161,20 @@ export class BooksService {
         }
       );
   }
+
+  getBookByCopiesId(id: number) {
+    this.http.get(`http://localhost:8080/api/copies/${id}/books`).subscribe(
+      response => {
+        this.booksChanged$.next({
+          content: [{ ...response }],
+          totalPages: 1,
+          totalElements: 1,
+          pageable: { pageNumber: 0 }
+        });
+      },
+      response => {
+        this.errorGet$.next(response.error);
+      }
+    );
+  }
 }

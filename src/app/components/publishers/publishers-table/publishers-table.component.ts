@@ -16,10 +16,10 @@ export class PublishersTableComponent implements OnInit {
   @Input() publishers: Publisher[];
   @Input() direction: string;
   @Input() sortBy: string;
-  @Input() set searchMode(searchMode: string) {
-    this._searchMode = searchMode === null ? true : false;
+  @Input() set sortMode(sortMode: string) {
+    this._sortMode = sortMode === null ? true : false;
   }
-  private _searchMode: boolean = true;
+  private _sortMode: boolean = true;
   isLoggedIn: boolean;
 
   selectedPublisher: number;

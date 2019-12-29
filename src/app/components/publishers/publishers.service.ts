@@ -105,4 +105,22 @@ export class PublishersService {
   savePublisher(publisher: Publisher) {
     return this.http.post("http://localhost:8080/api/publishers", publisher);
   }
+
+  getPublisherById(id: number) {
+    this.http.get(` http://localhost:8080/api/publishers/${id}`).subscribe(
+      response => {
+        this.publishersChanged$.next({
+          content: [{ ...response }],
+          totalPages: 1,
+          totalElements: 1,
+          pageable: {
+            pageNumber: 0
+          }
+        });
+      },
+      response => {
+        this.errorGet$.next(response.error);
+      }
+    );
+  }
 }

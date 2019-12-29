@@ -112,7 +112,21 @@ export class AuthorsService {
   }
 
   getAuthorById(id: number) {
-    return this.http.get(` http://localhost:8080/api/authors/${id}`);
+    this.http.get(` http://localhost:8080/api/authors/${id}`).subscribe(
+      response => {
+        this.authorsChanged$.next({
+          content: [{ ...response }],
+          totalPages: 1,
+          totalElements: 1,
+          pageable: {
+            pageNumber: 0
+          }
+        });
+      },
+      response => {
+        this.errorGet$.next(response.error);
+      }
+    );
   }
 
   addNewBook(id: number, book: Book) {

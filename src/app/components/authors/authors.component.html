@@ -1,4 +1,5 @@
 <app-search
+  *ngIf="queryParam === null"
   (isLoading)="setLoading()"
   (returnInitialData)="returnInitialData()"
   (findValue)="setSearchMode($event)"
@@ -18,7 +19,7 @@
     [sortBy]="sortBy"
     [direction]="direction"
     [authors]="authors"
-    [searchMode]="searchAuthorName"
+    [sortMode]="searchAuthorName"
   ></app-authors-table>
   <app-paginator
     [totalElements]="totalAuthors"

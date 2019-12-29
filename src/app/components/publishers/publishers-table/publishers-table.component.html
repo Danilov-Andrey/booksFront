@@ -4,7 +4,7 @@
       <span class="table-title">
         {{ title.title }}
         <app-sort
-          *ngIf="_searchMode"
+          *ngIf="_sortMode"
           [title]="title"
           [direction]="direction"
           [sortBy]="sortBy"

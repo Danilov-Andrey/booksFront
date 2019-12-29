@@ -31,6 +31,9 @@
             [id]="book.id"
             [name]="book.name"
             [year]="book.year"
+            [copiesId]="book.copies.id"
+            [authorId]="book.author.id"
+            [publisherId]="book.publisher.id"
           ></app-book-edit>
         </td>
         <td *ngIf="!isLoggedIn" colspan="8">

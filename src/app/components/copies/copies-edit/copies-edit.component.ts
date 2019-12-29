@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from "@angular/core";
 import { Validators, FormGroup, FormControl } from "@angular/forms";
 import { AuthService } from "src/app/service/auth.service";
 import { CopiesService } from "../copies.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-copies-edit",
@@ -23,7 +24,8 @@ export class CopiesEditComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private copiesService: CopiesService
+    private copiesService: CopiesService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -73,6 +75,14 @@ export class CopiesEditComponent implements OnInit {
       id: this.id,
       rate,
       count
+    });
+  }
+
+  getBook() {
+    this.router.navigate(["books"], {
+      queryParams: {
+        "copies-id": this.id
+      }
     });
   }
 }

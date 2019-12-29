@@ -16,7 +16,6 @@ const routes: Routes = [
   { path: "", redirectTo: "login", pathMatch: "full" },
   {
     path: "books",
-    canActivate: [AuthGuardService],
     children: [
       { path: "", pathMatch: "full", component: BooksComponent },
       { path: "add", component: BookCreateComponent }

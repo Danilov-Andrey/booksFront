@@ -15,6 +15,7 @@ export class AuthorsAddBookComponent implements OnInit, OnDestroy {
   selectedAuthor$: Unsubscribable;
   setSuccessMessage$: Unsubscribable;
   errorGet$: Unsubscribable;
+  authorChanged$: Unsubscribable;
 
   isSaved: boolean;
   successMessage: string;
@@ -60,18 +61,15 @@ export class AuthorsAddBookComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.selectedAuthor$ = this.route.params.subscribe(params => {
       this.id = params["id"];
-      this.authorsService.getAuthorById(this.id).subscribe(
-        (response: Author) => {
-          this.isLoading = false;
-          this.selectedAuthor = response;
-        },
-        response => {
-          this.isLoading = false;
-          this.isError = true;
-          this.errorMessage = response.error;
-        }
-      );
+      this.authorsService.getAuthorById(this.id);
     });
+
+    this.authorChanged$ = this.authorsService.authorsChanged$.subscribe(
+      (response: { content: Author[] }) => {
+        this.isLoading = false;
+        this.selectedAuthor = response.content[0];
+      }
+    );
 
     this.setSuccessMessage$ = this.authorsService.setSuccessMessage$.subscribe(
       (message: string) => {

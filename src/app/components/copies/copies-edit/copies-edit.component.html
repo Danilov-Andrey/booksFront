@@ -42,5 +42,13 @@
 
       <app-error *ngIf="isError" [message]="errorMessage"></app-error>
     </div>
+    <button
+      mat-raised-button
+      type="button"
+      (click)="getBook()"
+      class="copies-edit__get-book"
+    >
+      Get book
+    </button>
   </form>
 </div>

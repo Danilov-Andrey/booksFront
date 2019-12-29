@@ -3,6 +3,7 @@ import { PublishersService } from "./publishers.service";
 import { SortService } from "../shared/sort/sort.service";
 import { Unsubscribable } from "rxjs";
 import { Publisher } from "src/app/models/publisher.model";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-publishers",
@@ -15,6 +16,7 @@ export class PublishersComponent implements OnInit {
   sortBy$: Unsubscribable;
   isLoading$: Unsubscribable;
   setSuccessMessage$: Unsubscribable;
+  route$: Unsubscribable;
 
   publishers: Publisher[];
   countItems: number = 10;
@@ -24,6 +26,8 @@ export class PublishersComponent implements OnInit {
   sortBy: string = "id";
   searchPublisherName: string = null;
   totalPublishers: number;
+  queryParam: string;
+  queryParamId: number;
 
   isLoading: boolean = true;
   isError: boolean = false;
@@ -34,10 +38,22 @@ export class PublishersComponent implements OnInit {
 
   constructor(
     private publishersService: PublishersService,
-    private sortService: SortService
+    private sortService: SortService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
+    this.route$ = this.route.queryParams.subscribe(params => {
+      if (params.hasOwnProperty("id")) {
+        this.queryParam = "id";
+        this.queryParamId = params["id"];
+      } else {
+        this.queryParam = null;
+        this.queryParamId = null;
+      }
+      this.getPublishers();
+    });
+
     this.publishersChanged$ = this.publishersService.publishersChanged$.subscribe(
       ({ content, totalPages, totalElements, pageable }) => {
         this.currentPage = pageable.pageNumber + 1;
@@ -83,8 +99,6 @@ export class PublishersComponent implements OnInit {
     this.isLoading$ = this.publishersService.setLoading$.subscribe(() => {
       this.isLoading = true;
     });
-
-    this.getPublishers();
   }
 
   ngOnDestroy() {
@@ -93,18 +107,27 @@ export class PublishersComponent implements OnInit {
     this.sortBy$.unsubscribe();
     this.isLoading$.unsubscribe();
     this.setSuccessMessage$.unsubscribe();
+    this.route$.unsubscribe();
     clearTimeout(this.successMessageTimer);
   }
 
   getPublishers() {
     this.isLoading = true;
-    this.searchPublisherName = null;
-    this.publishersService.getPublishers(
-      this.currentPage,
-      this.countItems,
-      this.sortBy,
-      this.direction
-    );
+
+    switch (this.queryParam) {
+      case "id":
+        this.publishersService.getPublisherById(this.queryParamId);
+        break;
+
+      default:
+        this.searchPublisherName = null;
+        this.publishersService.getPublishers(
+          this.currentPage,
+          this.countItems,
+          this.sortBy,
+          this.direction
+        );
+    }
   }
 
   getPublisher() {

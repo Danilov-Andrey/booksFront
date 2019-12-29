@@ -4,6 +4,7 @@ import { AuthService } from "src/app/service/auth.service";
 import { BooksService } from "../books.service";
 import { UpdateBook } from "src/app/models/update-book.model";
 import { emptyNameValidator } from "src/app/validators/empty-name.validator";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-book-edit",
@@ -15,6 +16,10 @@ export class BookEditComponent implements OnInit {
   @Input() year: number;
   @Input() id: number;
 
+  @Input() copiesId: number;
+  @Input() authorId: number;
+  @Input() publisherId: number;
+
   editForm: FormGroup;
   isLoggedIn: boolean;
   errorMessage: string;
@@ -24,7 +29,8 @@ export class BookEditComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private booksService: BooksService
+    private booksService: BooksService,
+    private router: Router
   ) {
     this.isLoggedIn = this.authService.isUserLoggedIn();
   }
@@ -79,5 +85,29 @@ export class BookEditComponent implements OnInit {
       this.booksService.setLoading$.next();
       this.booksService.deleteBook(this.id);
     }
+  }
+
+  getAutor() {
+    this.router.navigate(["authors"], {
+      queryParams: {
+        id: this.authorId
+      }
+    });
+  }
+
+  getPublisher() {
+    this.router.navigate(["publishers"], {
+      queryParams: {
+        id: this.publisherId
+      }
+    });
+  }
+
+  getCopies() {
+    this.router.navigate(["copies"], {
+      queryParams: {
+        id: this.copiesId
+      }
+    });
   }
 }

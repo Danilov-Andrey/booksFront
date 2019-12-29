@@ -3,6 +3,7 @@ import { Unsubscribable } from "rxjs";
 import { Copies } from "src/app/models/copies.model";
 import { CopiesService } from "./copies.service";
 import { SortService } from "../shared/sort/sort.service";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-copies",
@@ -15,6 +16,7 @@ export class CopiesComponent implements OnInit {
   sortBy$: Unsubscribable;
   isLoading$: Unsubscribable;
   setSuccessMessage$: Unsubscribable;
+  route$: Unsubscribable;
 
   copies: Copies[];
   countItems: number = 10;
@@ -24,6 +26,8 @@ export class CopiesComponent implements OnInit {
   sortBy: string = "id";
   searchCopiesId: number;
   totalCopies: number;
+  queryParam: string;
+  queryParamId: number;
 
   isLoading: boolean = true;
   isError: boolean = false;
@@ -34,10 +38,22 @@ export class CopiesComponent implements OnInit {
 
   constructor(
     private copiesService: CopiesService,
-    private sortService: SortService
+    private sortService: SortService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
+    this.route$ = this.route.queryParams.subscribe(params => {
+      if (params.hasOwnProperty("id")) {
+        this.queryParam = "id";
+        this.queryParamId = params["id"];
+      } else {
+        this.queryParam = null;
+        this.queryParamId = null;
+      }
+      this.getCopies();
+    });
+
     this.copiesChanged$ = this.copiesService.copiesChanged$.subscribe(
       ({ content, totalPages, totalElements, pageable }) => {
         this.currentPage = pageable.pageNumber + 1;
@@ -98,13 +114,21 @@ export class CopiesComponent implements OnInit {
 
   getCopies() {
     this.isLoading = true;
-    this.searchCopiesId = null;
-    this.copiesService.getCopies(
-      this.currentPage,
-      this.countItems,
-      this.sortBy,
-      this.direction
-    );
+
+    switch (this.queryParam) {
+      case "id":
+        this.copiesService.getCopiesByid(this.queryParamId);
+        break;
+
+      default:
+        this.searchCopiesId = null;
+        this.copiesService.getCopies(
+          this.currentPage,
+          this.countItems,
+          this.sortBy,
+          this.direction
+        );
+    }
   }
 
   getCopiesById() {

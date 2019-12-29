@@ -16,6 +16,7 @@ export class BooksComponent implements OnInit, OnDestroy {
   sortBy$: Unsubscribable;
   isLoading$: Unsubscribable;
   setSuccessMessage$: Unsubscribable;
+  route$: Unsubscribable;
 
   isLoading: boolean = true;
   isError: boolean = false;
@@ -42,19 +43,20 @@ export class BooksComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
+    this.route$ = this.route.queryParams.subscribe(params => {
       if (params.hasOwnProperty("author-id")) {
         this.queryParam = "author-id";
         this.queryParamId = params["author-id"];
-        return;
-      }
-      if (params.hasOwnProperty("publisher-id")) {
+      } else if (params.hasOwnProperty("publisher-id")) {
         this.queryParam = "publisher-id";
         this.queryParamId = params["publisher-id"];
-        return;
+      } else if (params.hasOwnProperty("copies-id")) {
+        this.queryParam = "copies-id";
+        this.queryParamId = params["copies-id"];
+      } else {
+        this.queryParam = null;
+        this.queryParamId = null;
       }
-      this.queryParam = null;
-      this.queryParamId = null;
       this.getBooks();
     });
 
@@ -103,8 +105,6 @@ export class BooksComponent implements OnInit, OnDestroy {
     this.isLoading$ = this.booksService.setLoading$.subscribe(() => {
       this.isLoading = true;
     });
-
-    this.getBooks();
   }
 
   ngOnDestroy() {
@@ -113,6 +113,7 @@ export class BooksComponent implements OnInit, OnDestroy {
     this.sortBy$.unsubscribe();
     this.isLoading$.unsubscribe();
     this.setSuccessMessage$.unsubscribe();
+    this.route$.unsubscribe();
     clearTimeout(this.successMessageTimer);
   }
 
@@ -140,6 +141,10 @@ export class BooksComponent implements OnInit, OnDestroy {
         );
         break;
 
+      case "copies-id":
+        this.booksService.getBookByCopiesId(this.queryParamId);
+        break;
+
       default:
         this.booksService.getBooks(
           this.currentPage,
@@ -147,6 +152,7 @@ export class BooksComponent implements OnInit, OnDestroy {
           this.sortBy,
           this.direction
         );
+        break;
     }
   }
 

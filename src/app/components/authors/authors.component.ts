@@ -3,6 +3,7 @@ import { AuthorsService } from "./authors.service";
 import { Author } from "src/app/models/author.model";
 import { SortService } from "../shared/sort/sort.service";
 import { Unsubscribable } from "rxjs";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-authors",
@@ -15,6 +16,7 @@ export class AuthorsComponent implements OnInit, OnDestroy {
   sortBy$: Unsubscribable;
   isLoading$: Unsubscribable;
   setSuccessMessage$: Unsubscribable;
+  route$: Unsubscribable;
 
   authors: Author[];
   countItems: number = 10;
@@ -24,6 +26,8 @@ export class AuthorsComponent implements OnInit, OnDestroy {
   sortBy: string = "id";
   searchAuthorName: string = null;
   totalAuthors: number;
+  queryParam: string;
+  queryParamId: number;
 
   isLoading: boolean = true;
   isError: boolean = false;
@@ -34,10 +38,24 @@ export class AuthorsComponent implements OnInit, OnDestroy {
 
   constructor(
     private authorsService: AuthorsService,
-    private sortService: SortService
+    private sortService: SortService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
+    this.route$ = this.route.queryParams.subscribe(params => {
+      if (params.hasOwnProperty("id")) {
+        this.queryParam = "id";
+        this.queryParamId = params["id"];
+        this.searchAuthorName = "";
+      } else {
+        this.searchAuthorName = null;
+        this.queryParam = null;
+        this.queryParamId = null;
+      }
+      this.getAuthors();
+    });
+
     this.authorsChanged$ = this.authorsService.authorsChanged$.subscribe(
       ({ content, totalPages, totalElements, pageable }) => {
         this.currentPage = pageable.pageNumber + 1;
@@ -83,8 +101,6 @@ export class AuthorsComponent implements OnInit, OnDestroy {
     this.isLoading$ = this.authorsService.setLoading$.subscribe(() => {
       this.isLoading = true;
     });
-
-    this.getAuthors();
   }
 
   ngOnDestroy() {
@@ -93,18 +109,27 @@ export class AuthorsComponent implements OnInit, OnDestroy {
     this.sortBy$.unsubscribe();
     this.isLoading$.unsubscribe();
     this.setSuccessMessage$.unsubscribe();
+    this.route$.unsubscribe();
     clearTimeout(this.successMessageTimer);
   }
 
   getAuthors() {
     this.isLoading = true;
-    this.searchAuthorName = null;
-    this.authorsService.getAuthors(
-      this.currentPage,
-      this.countItems,
-      this.sortBy,
-      this.direction
-    );
+
+    switch (this.queryParam) {
+      case "id":
+        this.authorsService.getAuthorById(this.queryParamId);
+        break;
+
+      default:
+        this.searchAuthorName = null;
+        this.authorsService.getAuthors(
+          this.currentPage,
+          this.countItems,
+          this.sortBy,
+          this.direction
+        );
+    }
   }
 
   getAuthor() {

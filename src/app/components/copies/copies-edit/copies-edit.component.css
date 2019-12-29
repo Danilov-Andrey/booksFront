@@ -3,7 +3,7 @@
 }
 
 .copies-edit__input-wrapper {
-  width: 70px;
+  width: 100px;
 }
 
 .copies-edit__copies-rate {
@@ -14,6 +14,6 @@
   margin: 0 10px;
 }
 
-.copies-edit__save-button {
-  width: 130px;
+.copies-edit__get-book {
+  height: fit-content;
 }
