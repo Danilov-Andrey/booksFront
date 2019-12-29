@@ -40,9 +40,9 @@ tr {
   min-width: 800px;
 }
 
-@media (max-width: 850px) {
+@media (max-width: 860px) {
   .table {
-    width: 850px;
+    width: 840px;
   }
 }
 

@@ -29,3 +29,11 @@
 .table-form-year {
   width: 130px;
 }
+
+.book-edit__get-buttons {
+  margin-left: 10px;
+}
+
+._margin {
+  margin: 0 10px;
+}

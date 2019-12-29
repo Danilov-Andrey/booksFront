@@ -10,9 +10,6 @@
   width: 100px;
 }
 
-.author-edit__input {
-}
-
 .wrapper-edit-buttons {
   margin: 0 10px;
 }
@@ -29,4 +26,8 @@
 .author-edit__buttons {
   display: flex;
   flex-wrap: nowrap;
+}
+
+.author-edit_margin {
+  margin-right: 10px;
 }

@@ -8,7 +8,6 @@
       <mat-form-field class="author-edit__input-wrapper">
         <input
           matInput
-          class="author-edit__input"
           type="text"
           placeholder="First name"
           formControlName="firstName"
@@ -20,7 +19,6 @@
       <mat-form-field class="author-edit__input-wrapper">
         <input
           matInput
-          class="author-edit__input"
           type="text"
           placeholder="Last name"
           formControlName="lastName"
@@ -53,7 +51,12 @@
       <app-error *ngIf="isError" [message]="errorMessage"></app-error>
     </div>
     <div class="author-edit__add-book">
-      <button mat-raised-button type="button" (click)="addBook()">
+      <button
+        mat-raised-button
+        type="button"
+        (click)="addBook()"
+        class="author-edit_margin"
+      >
         Add book
       </button>
       <button mat-raised-button type="button" (click)="getBooks()">

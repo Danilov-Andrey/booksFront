@@ -42,4 +42,20 @@
 
     <app-error *ngIf="isError" [message]="errorMessage"></app-error>
   </div>
+  <div class="book-edit__get-buttons">
+    <button mat-raised-button type="button" (click)="getAutor()">
+      Get author
+    </button>
+    <button
+      mat-raised-button
+      type="button"
+      (click)="getPublisher()"
+      class="_margin"
+    >
+      Get publisher
+    </button>
+    <button mat-raised-button type="button" (click)="getCopies()">
+      Get copies
+    </button>
+  </div>
 </form>
