@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { Author } from "src/app/models/author.model";
-import { AuthService } from "src/app/service/auth.service";
+import { AuthService } from "src/app/services/auth.service";
 
 export interface Titles {
   title: string;

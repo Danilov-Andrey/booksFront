@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { PublishersService } from "./publishers.service";
+import { PublishersService } from "../../services/publishers.service";
 import { SortService } from "../shared/sort/sort.service";
 import { Unsubscribable } from "rxjs";
 import { Publisher } from "src/app/models/publisher.model";

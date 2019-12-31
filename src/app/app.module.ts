@@ -12,7 +12,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatListModule } from "@angular/material/list";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { XhrInterceptor } from "./interceptors/XhrInterceptor";
+import { XhrInterceptor } from "./interceptors/xhrInterceptor";
 import { MainNavComponent } from "./components/main-nav/main-nav.component";
 import { BooksComponent } from "./components/books/books.component";
 import { AuthorsComponent } from "./components/authors/authors.component";

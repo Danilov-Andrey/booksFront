@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Unsubscribable } from "rxjs";
-import { AuthorsService } from "../authors.service";
+import { AuthorsService } from "../../../services/authors.service";
 import { Author } from "src/app/models/author.model";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { emptyNameValidator } from "src/app/validators/empty-name.validator";

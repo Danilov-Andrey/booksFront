@@ -13,20 +13,18 @@ export class AuthService {
       authorization: "Basic " + btoa(username + ":" + password)
     });
 
-    return this.httpClient
-      .get("http://localhost:8080/api/users/validateUser", { headers })
-      .pipe(
-        map(userData => {
-          let authString = "Basic " + btoa(username + ":" + password);
-          sessionStorage.setItem("username", username);
-          sessionStorage.setItem("basicauth", authString);
-          return userData;
-        })
-      );
+    return this.httpClient.get("/api/users/validateUser", { headers }).pipe(
+      map(userData => {
+        let authString = "Basic " + btoa(username + ":" + password);
+        sessionStorage.setItem("username", username);
+        sessionStorage.setItem("basicauth", authString);
+        return userData;
+      })
+    );
   }
 
   registration(username: string, password: string) {
-    return this.httpClient.post("http://localhost:8080/api/users", {
+    return this.httpClient.post("/api/users", {
       username,
       password
     });

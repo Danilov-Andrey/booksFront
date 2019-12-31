@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { BooksService } from "../books.service";
+import { BooksService } from "../../../services/books.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { AuthService } from "src/app/service/auth.service";
+import { AuthService } from "src/app/services/auth.service";
 import { Unsubscribable } from "rxjs";
 import { emptyNameValidator } from "src/app/validators/empty-name.validator";
 import { valueValidator } from "src/app/validators/incorrect-char.validator";

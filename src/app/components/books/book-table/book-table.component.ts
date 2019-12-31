@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { Book } from "src/app/models/book.model";
-import { AuthService } from "src/app/service/auth.service";
+import { AuthService } from "src/app/services/auth.service";
 
 export interface Titles {
   title: string;
@@ -16,6 +16,8 @@ export class BookTableComponent implements OnInit {
   @Input() books: Book[];
   @Input() direction: string;
   @Input() sortBy: string;
+
+  @Input() hideSort: boolean;
 
   selectedBook: number;
   isLoggedIn: boolean;

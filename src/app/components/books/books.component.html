@@ -1,32 +1,38 @@
-<app-search
-  *ngIf="queryParamId === null"
-  (isLoading)="setLoading()"
-  (returnInitialData)="returnInitialData()"
-  (findValue)="setSearchMode($event)"
-  placeholder="Enter book name..."
-></app-search>
-
-<app-successful-message
-  [message]="successMessage"
-  *ngIf="isComplete"
-></app-successful-message>
-
-<app-error *ngIf="isError && !isLoading" [message]="errorMessage"></app-error>
 <app-spinner *ngIf="isLoading"></app-spinner>
+<app-error *ngIf="totalBooks === 0" message="noContent"></app-error>
 
-<div class="table-wrapper" *ngIf="!isError && !isLoading">
-  <app-book-table
-    [books]="books"
-    [sortBy]="sortBy"
-    [direction]="direction"
-  ></app-book-table>
+<ng-container *ngIf="totalBooks !== 0">
+  <app-search
+    *ngIf="!isLoading && queryParam === null"
+    (isLoading)="setLoading()"
+    (returnInitialData)="returnInitialData()"
+    (findValue)="setSearchMode($event)"
+    placeholder="Enter book name..."
+  ></app-search>
 
-  <app-paginator
-    [totalElements]="totalBooks"
-    [totalPages]="totalPages"
-    [currentPage]="currentPage"
-    [countItems]="countItems"
-    (setItemsCount)="setItemsCount($event)"
-    (setPaginationData)="setPaginationData($event)"
-  ></app-paginator>
-</div>
+  <app-successful-message
+    [message]="successMessage"
+    *ngIf="isComplete"
+  ></app-successful-message>
+
+  <app-error *ngIf="isError && !isLoading" [message]="errorMessage"></app-error>
+
+  <div class="table-wrapper" *ngIf="!isError && !isLoading">
+    <app-book-table
+      [books]="books"
+      [sortBy]="sortBy"
+      [direction]="direction"
+      [hideSort]="queryParam !== 'copies-id'"
+    ></app-book-table>
+
+    <app-paginator
+      *ngIf="queryParam !== 'copies-id'"
+      [totalElements]="totalBooks"
+      [totalPages]="totalPages"
+      [currentPage]="currentPage"
+      [countItems]="countItems"
+      (setItemsCount)="setItemsCount($event)"
+      (setPaginationData)="setPaginationData($event)"
+    ></app-paginator>
+  </div>
+</ng-container>

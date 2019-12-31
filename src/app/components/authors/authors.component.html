@@ -1,32 +1,37 @@
-<app-search
-  *ngIf="queryParam === null"
-  (isLoading)="setLoading()"
-  (returnInitialData)="returnInitialData()"
-  (findValue)="setSearchMode($event)"
-  placeholder="Enter author first and last name..."
-></app-search>
-
-<app-successful-message
-  [message]="successMessage"
-  *ngIf="isComplete"
-></app-successful-message>
-
-<app-error *ngIf="isError && !isLoading" [message]="errorMessage"></app-error>
 <app-spinner *ngIf="isLoading"></app-spinner>
+<app-error *ngIf="totalAuthors === 0" message="noContent"></app-error>
 
-<div class="authors-table" *ngIf="!isError && !isLoading">
-  <app-authors-table
-    [sortBy]="sortBy"
-    [direction]="direction"
-    [authors]="authors"
-    [sortMode]="searchAuthorName"
-  ></app-authors-table>
-  <app-paginator
-    [totalElements]="totalAuthors"
-    [totalPages]="totalPages"
-    [currentPage]="currentPage"
-    [countItems]="countItems"
-    (setItemsCount)="setItemsCount($event)"
-    (setPaginationData)="setPaginationData($event)"
-  ></app-paginator>
-</div>
+<ng-container *ngIf="totalAuthors !== 0">
+  <app-search
+    *ngIf="!isLoading && queryParam === null"
+    (isLoading)="setLoading()"
+    (returnInitialData)="returnInitialData()"
+    (findValue)="setSearchMode($event)"
+    placeholder="Enter author first and last name..."
+  ></app-search>
+
+  <app-successful-message
+    [message]="successMessage"
+    *ngIf="isComplete"
+  ></app-successful-message>
+
+  <app-error *ngIf="isError && !isLoading" [message]="errorMessage"></app-error>
+
+  <div class="authors-table" *ngIf="!isError && !isLoading">
+    <app-authors-table
+      [sortBy]="sortBy"
+      [direction]="direction"
+      [authors]="authors"
+      [sortMode]="searchAuthorName"
+    ></app-authors-table>
+    <app-paginator
+      *ngIf="queryParam === null"
+      [totalElements]="totalAuthors"
+      [totalPages]="totalPages"
+      [currentPage]="currentPage"
+      [countItems]="countItems"
+      (setItemsCount)="setItemsCount($event)"
+      (setPaginationData)="setPaginationData($event)"
+    ></app-paginator>
+  </div>
+</ng-container>

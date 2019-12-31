@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { AuthService } from "src/app/service/auth.service";
+import { AuthService } from "src/app/services/auth.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { emptyNameValidator } from "src/app/validators/empty-name.validator";
 import { valueValidator } from "src/app/validators/incorrect-char.validator";
-import { AuthorsService } from "../authors.service";
+import { AuthorsService } from "../../../services/authors.service";
 import { Unsubscribable } from "rxjs";
 
 @Component({

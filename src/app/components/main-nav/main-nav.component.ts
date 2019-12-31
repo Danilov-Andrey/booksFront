@@ -1,6 +1,6 @@
 import { Component, ChangeDetectorRef, OnDestroy, OnInit } from "@angular/core";
 import { MediaMatcher } from "@angular/cdk/layout";
-import { AuthService } from "src/app/service/auth.service";
+import { AuthService } from "src/app/services/auth.service";
 import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({

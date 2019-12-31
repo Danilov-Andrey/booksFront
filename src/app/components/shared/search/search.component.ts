@@ -63,7 +63,10 @@ export class SearchComponent implements AfterViewInit {
   }
 
   validatorInput(value: string): boolean {
-    if (value.trim().length === 0 && value.length != 0) {
+    if (
+      (value.trim().length === 0 && value.length != 0) ||
+      value.length === 0
+    ) {
       this.isError = true;
       this.errorMessage = "empty";
       this.errorTimeout = window.setTimeout(() => {

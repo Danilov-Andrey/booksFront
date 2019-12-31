@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { emptyNameValidator } from "src/app/validators/empty-name.validator";
-import { PublishersService } from "../publishers.service";
-import { AuthService } from "src/app/service/auth.service";
+import { PublishersService } from "../../../services/publishers.service";
+import { AuthService } from "src/app/services/auth.service";
 
 @Component({
   selector: "app-publishers-create",

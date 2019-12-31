@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { AuthService } from "src/app/service/auth.service";
+import { AuthService } from "src/app/services/auth.service";
 import { Publisher } from "src/app/models/publisher.model";
 
 export interface Titles {

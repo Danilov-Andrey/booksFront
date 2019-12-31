@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Unsubscribable } from "rxjs";
 import { Copies } from "src/app/models/copies.model";
-import { CopiesService } from "./copies.service";
+import { CopiesService } from "../../services/copies.service";
 import { SortService } from "../shared/sort/sort.service";
 import { ActivatedRoute } from "@angular/router";
 

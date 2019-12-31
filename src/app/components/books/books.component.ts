@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Book } from "../../models/book.model";
-import { BooksService } from "./books.service";
+import { BooksService } from "../../services/books.service";
 import { Unsubscribable } from "rxjs";
 import { SortService } from "../shared/sort/sort.service";
 import { ActivatedRoute } from "@angular/router";

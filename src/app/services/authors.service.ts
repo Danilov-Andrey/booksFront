@@ -29,7 +29,7 @@ export class AuthorsService {
       .set("rowPerPage", rowPerPage.toString())
       .set("sortBy", sortBy.toString())
       .set("direction", direction.toString());
-    this.http.get(`http://localhost:8080/api/authors`, { params }).subscribe(
+    this.http.get(`/api/authors`, { params }).subscribe(
       response => {
         this.authorsChanged$.next(response);
       },
@@ -52,7 +52,7 @@ export class AuthorsService {
       .set("sortBy", sortBy.toString())
       .set("direction", direction.toString())
       .set("name", name.toString());
-    this.http.get(`http://localhost:8080/api/authors`, { params }).subscribe(
+    this.http.get(`/api/authors`, { params }).subscribe(
       response => {
         this.authorsChanged$.next(response);
       },
@@ -64,27 +64,25 @@ export class AuthorsService {
 
   updateAuthor(author: Author) {
     this.setLoading$.next();
-    this.http
-      .patch(`http://localhost:8080/api/authors/${author.id}`, author)
-      .subscribe(
-        () => {
-          this.setSuccessMessage$.next("updated");
-          this.getAuthors(
-            1,
-            this.setAuthorsPerPage$.value,
-            this.setSortBy$.value,
-            this.setDirection$.value
-          );
-        },
-        response => {
-          this.errorGet$.next(response.error);
-        }
-      );
+    this.http.patch(`/api/authors/${author.id}`, author).subscribe(
+      () => {
+        this.setSuccessMessage$.next("updated");
+        this.getAuthors(
+          1,
+          this.setAuthorsPerPage$.value,
+          this.setSortBy$.value,
+          this.setDirection$.value
+        );
+      },
+      response => {
+        this.errorGet$.next(response.error);
+      }
+    );
   }
 
   deleteAuthor(id: number) {
     this.setLoading$.next();
-    this.http.delete(`http://localhost:8080/api/authors/${id}`).subscribe(
+    this.http.delete(`/api/authors/${id}`).subscribe(
       () => {
         this.setSuccessMessage$.next("deleted");
         this.getAuthors(
@@ -101,7 +99,7 @@ export class AuthorsService {
   }
 
   saveAuthor(author: Author) {
-    this.http.post("http://localhost:8080/api/authors", author).subscribe(
+    this.http.post("/api/authors", author).subscribe(
       () => {
         this.setSuccessMessage$.next("saved");
       },
@@ -112,7 +110,7 @@ export class AuthorsService {
   }
 
   getAuthorById(id: number) {
-    this.http.get(` http://localhost:8080/api/authors/${id}`).subscribe(
+    this.http.get(`/api/authors/${id}`).subscribe(
       response => {
         this.authorsChanged$.next({
           content: [{ ...response }],
@@ -130,7 +128,7 @@ export class AuthorsService {
   }
 
   addNewBook(id: number, book: Book) {
-    this.http.post(`http://localhost:8080/api/authors/${id}`, book).subscribe(
+    this.http.post(`/api/authors/${id}`, book).subscribe(
       () => {
         this.setSuccessMessage$.next("saved");
       },

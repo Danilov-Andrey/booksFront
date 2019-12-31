@@ -28,7 +28,7 @@ export class PublishersService {
       .set("rowPerPage", rowPerPage.toString())
       .set("sortBy", sortBy.toString())
       .set("direction", direction.toString());
-    this.http.get(`http://localhost:8080/api/publishers`, { params }).subscribe(
+    this.http.get(`/api/publishers`, { params }).subscribe(
       response => {
         this.publishersChanged$.next(response);
       },
@@ -41,7 +41,7 @@ export class PublishersService {
   getPublisher(name: string): void {
     const params = new HttpParams().set("name", name.toString());
     this.http
-      .get<Publisher>(`http://localhost:8080/api/publishers`, { params })
+      .get<Publisher>(`/api/publishers`, { params })
       .subscribe(
         response => {
           this.publishersChanged$.next({
@@ -58,26 +58,24 @@ export class PublishersService {
   }
 
   updatePublisher(publisher: Publisher): void {
-    this.http
-      .put(`http://localhost:8080/api/publishers/${publisher.id}`, publisher)
-      .subscribe(
-        () => {
-          this.setSuccessMessage$.next("updated");
-          this.getPublishers(
-            1,
-            this.setPublishersPerPage$.value,
-            this.setSortBy$.value,
-            this.setDirection$.value
-          );
-        },
-        (response: { error: string }) => {
-          this.errorGet$.next(response.error);
-        }
-      );
+    this.http.put(`/api/publishers/${publisher.id}`, publisher).subscribe(
+      () => {
+        this.setSuccessMessage$.next("updated");
+        this.getPublishers(
+          1,
+          this.setPublishersPerPage$.value,
+          this.setSortBy$.value,
+          this.setDirection$.value
+        );
+      },
+      (response: { error: string }) => {
+        this.errorGet$.next(response.error);
+      }
+    );
   }
 
   deletePublisher(id: number): void {
-    this.http.delete(`http://localhost:8080/api/publishers/${id}`).subscribe(
+    this.http.delete(`/api/publishers/${id}`).subscribe(
       () => {
         this.setSuccessMessage$.next("deleted");
         this.getPublishers(
@@ -94,29 +92,24 @@ export class PublishersService {
   }
 
   savePublisher(publisher: Publisher): Observable<Publisher> {
-    return this.http.post<Publisher>(
-      "http://localhost:8080/api/publishers",
-      publisher
-    );
+    return this.http.post<Publisher>("/api/publishers", publisher);
   }
 
   getPublisherById(id: number): void {
-    this.http
-      .get<Publisher>(`http://localhost:8080/api/publishers/${id}`)
-      .subscribe(
-        response => {
-          this.publishersChanged$.next({
-            content: [{ ...response }],
-            totalPages: 1,
-            totalElements: 1,
-            pageable: {
-              pageNumber: 0
-            }
-          });
-        },
-        (response: { error: string }) => {
-          this.errorGet$.next(response.error);
-        }
-      );
+    this.http.get<Publisher>(`/api/publishers/${id}`).subscribe(
+      response => {
+        this.publishersChanged$.next({
+          content: [{ ...response }],
+          totalPages: 1,
+          totalElements: 1,
+          pageable: {
+            pageNumber: 0
+          }
+        });
+      },
+      (response: { error: string }) => {
+        this.errorGet$.next(response.error);
+      }
+    );
   }
 }

@@ -39,7 +39,7 @@ export class BooksService {
       .set("rowPerPage", rowPerPage.toString())
       .set("sortBy", sortBy.toString())
       .set("direction", direction.toString());
-    this.http.get(`http://localhost:8080/api/books`, { params }).subscribe(
+    this.http.get(`/api/books`, { params }).subscribe(
       response => {
         this.booksChanged$.next(response);
       },
@@ -50,30 +50,28 @@ export class BooksService {
   }
 
   getBookByID(id: number) {
-    return this.http.get(`http://localhost:8080/api/books/${id}`);
+    return this.http.get(`/api/books/${id}`);
   }
 
   updateBook(id: number, updateBook: UpdateBook) {
-    this.http
-      .patch(`http://localhost:8080/api/books/${id}`, updateBook)
-      .subscribe(
-        () => {
-          this.setSuccessMessage$.next("updated");
-          this.getBooks(
-            1,
-            this.setBooksPerPage$.value,
-            this.setSortBy$.value,
-            this.setDirection$.value
-          );
-        },
-        response => {
-          this.errorGet$.next(response.error);
-        }
-      );
+    this.http.patch(`/api/books/${id}`, updateBook).subscribe(
+      () => {
+        this.setSuccessMessage$.next("updated");
+        this.getBooks(
+          1,
+          this.setBooksPerPage$.value,
+          this.setSortBy$.value,
+          this.setDirection$.value
+        );
+      },
+      response => {
+        this.errorGet$.next(response.error);
+      }
+    );
   }
 
   deleteBook(id: number) {
-    this.http.delete(`http://localhost:8080/api/books/${id}`).subscribe(
+    this.http.delete(`/api/books/${id}`).subscribe(
       () => {
         this.setSuccessMessage$.next("deleted");
         this.getBooks(
@@ -102,16 +100,14 @@ export class BooksService {
       .set("rowPerPage", rowPerPage.toString())
       .set("sortBy", sortBy.toString())
       .set("direction", direction.toString());
-    return this.http
-      .get(`http://localhost:8080/api/books`, { params })
-      .subscribe(
-        response => {
-          this.booksChanged$.next(response);
-        },
-        response => {
-          this.errorGet$.next(response.error);
-        }
-      );
+    return this.http.get(`/api/books`, { params }).subscribe(
+      response => {
+        this.booksChanged$.next(response);
+      },
+      response => {
+        this.errorGet$.next(response.error);
+      }
+    );
   }
 
   getAuthorBooks(
@@ -126,16 +122,14 @@ export class BooksService {
       .set("rowPerPage", rowPerPage.toString())
       .set("sortBy", sortBy.toString())
       .set("direction", direction.toString());
-    this.http
-      .get(`http://localhost:8080/api/authors/${id}/books`, { params })
-      .subscribe(
-        response => {
-          this.booksChanged$.next(response);
-        },
-        response => {
-          this.errorGet$.next(response.error);
-        }
-      );
+    this.http.get(`/api/authors/${id}/books`, { params }).subscribe(
+      response => {
+        this.booksChanged$.next(response);
+      },
+      response => {
+        this.errorGet$.next(response.error);
+      }
+    );
   }
 
   getPublisherBooks(
@@ -150,20 +144,18 @@ export class BooksService {
       .set("rowPerPage", rowPerPage.toString())
       .set("sortBy", sortBy.toString())
       .set("direction", direction.toString());
-    this.http
-      .get(`http://localhost:8080/api/publishers/${id}/books`, { params })
-      .subscribe(
-        response => {
-          this.booksChanged$.next(response);
-        },
-        response => {
-          this.errorGet$.next(response.error);
-        }
-      );
+    this.http.get(`/api/publishers/${id}/books`, { params }).subscribe(
+      response => {
+        this.booksChanged$.next(response);
+      },
+      response => {
+        this.errorGet$.next(response.error);
+      }
+    );
   }
 
   getBookByCopiesId(id: number) {
-    this.http.get(`http://localhost:8080/api/copies/${id}/books`).subscribe(
+    this.http.get(`/api/copies/${id}/books`).subscribe(
       response => {
         this.booksChanged$.next({
           content: [{ ...response }],

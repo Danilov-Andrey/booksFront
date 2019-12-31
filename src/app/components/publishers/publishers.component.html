@@ -1,33 +1,37 @@
-<app-search
-  (isLoading)="setLoading()"
-  (returnInitialData)="returnInitialData()"
-  (findValue)="setSearchMode($event)"
-  placeholder="Enter publisher's name..."
-></app-search>
-
-<app-successful-message
-  [message]="successMessage"
-  *ngIf="isComplete"
-></app-successful-message>
-
-<app-error *ngIf="isError && !isLoading" [message]="errorMessage"></app-error>
 <app-spinner *ngIf="isLoading"></app-spinner>
+<app-error *ngIf="totalPublishers === 0" message="noContent"></app-error>
+<ng-container *ngIf="totalPublishers !== 0">
+  <app-search
+    (isLoading)="setLoading()"
+    (returnInitialData)="returnInitialData()"
+    (findValue)="setSearchMode($event)"
+    placeholder="Enter publisher's name..."
+  ></app-search>
 
-<div class="publishers-table" *ngIf="!isError && !isLoading">
-  <app-publishers-table
-    [sortBy]="sortBy"
-    [direction]="direction"
-    [publishers]="publishers"
-    [sortMode]="searchPublisherName"
-  >
-  </app-publishers-table>
-  <app-paginator
-    [totalElements]="totalPublishers"
-    [totalPages]="totalPages"
-    [currentPage]="currentPage"
-    [countItems]="countItems"
-    (setItemsCount)="setItemsCount($event)"
-    (setPaginationData)="setPaginationData($event)"
-  >
-  </app-paginator>
-</div>
+  <app-successful-message
+    [message]="successMessage"
+    *ngIf="isComplete"
+  ></app-successful-message>
+
+  <app-error *ngIf="isError && !isLoading" [message]="errorMessage"></app-error>
+
+  <div class="publishers-table" *ngIf="!isError && !isLoading">
+    <app-publishers-table
+      [sortBy]="sortBy"
+      [direction]="direction"
+      [publishers]="publishers"
+      [sortMode]="searchPublisherName"
+    >
+    </app-publishers-table>
+    <app-paginator
+      *ngIf="searchPublisherName === null"
+      [totalElements]="totalPublishers"
+      [totalPages]="totalPages"
+      [currentPage]="currentPage"
+      [countItems]="countItems"
+      (setItemsCount)="setItemsCount($event)"
+      (setPaginationData)="setPaginationData($event)"
+    >
+    </app-paginator>
+  </div>
+</ng-container>

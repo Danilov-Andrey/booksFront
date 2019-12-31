@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
-import { AuthService } from "src/app/service/auth.service";
-import { PublishersService } from "../publishers.service";
+import { AuthService } from "src/app/services/auth.service";
+import { PublishersService } from "../../../services/publishers.service";
 import { emptyNameValidator } from "src/app/validators/empty-name.validator";
 import { Router } from "@angular/router";
 

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { AuthorsService } from "./authors.service";
+import { AuthorsService } from "../../services/authors.service";
 import { Author } from "src/app/models/author.model";
 import { SortService } from "../shared/sort/sort.service";
 import { Unsubscribable } from "rxjs";
