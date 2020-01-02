@@ -33,7 +33,7 @@ export class AuthorsService {
       response => {
         this.authorsChanged$.next(response);
       },
-      response => {
+      (response: { error: string }) => {
         this.errorGet$.next(response.error);
       }
     );
@@ -56,7 +56,7 @@ export class AuthorsService {
       response => {
         this.authorsChanged$.next(response);
       },
-      response => {
+      (response: { error: string }) => {
         this.errorGet$.next(response.error);
       }
     );
@@ -74,7 +74,7 @@ export class AuthorsService {
           this.setDirection$.value
         );
       },
-      response => {
+      (response: { error: string }) => {
         this.errorGet$.next(response.error);
       }
     );
@@ -92,7 +92,7 @@ export class AuthorsService {
           this.setDirection$.value
         );
       },
-      response => {
+      (response: { error: string }) => {
         this.errorGet$.next(response.error);
       }
     );
@@ -103,8 +103,8 @@ export class AuthorsService {
       () => {
         this.setSuccessMessage$.next("saved");
       },
-      response => {
-        this.errorGet$.next(response.message);
+      (response: { error: string }) => {
+        this.errorGet$.next(response.error);
       }
     );
   }
@@ -121,7 +121,7 @@ export class AuthorsService {
           }
         });
       },
-      response => {
+      (response: { error: string }) => {
         this.errorGet$.next(response.error);
       }
     );
@@ -132,7 +132,7 @@ export class AuthorsService {
       () => {
         this.setSuccessMessage$.next("saved");
       },
-      response => {
+      (response: { error: string }) => {
         this.errorGet$.next(response.error);
       }
     );

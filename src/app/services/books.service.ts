@@ -23,7 +23,7 @@ export class BooksService {
       () => {
         this.setSuccessMessage$.next("saved");
       },
-      response => {
+      (response: { error: string }) => {
         this.errorGet$.next(response.error);
       }
     );
@@ -44,7 +44,7 @@ export class BooksService {
       response => {
         this.booksChanged$.next(response);
       },
-      response => {
+      (response: { error: string }) => {
         this.errorGet$.next(response.error);
       }
     );
@@ -65,7 +65,7 @@ export class BooksService {
           this.setDirection$.value
         );
       },
-      response => {
+      (response: { error: string }) => {
         this.errorGet$.next(response.error);
       }
     );
@@ -82,7 +82,7 @@ export class BooksService {
           this.setDirection$.value
         );
       },
-      response => {
+      (response: { error: string }) => {
         this.errorGet$.next(response.error);
       }
     );
@@ -105,7 +105,7 @@ export class BooksService {
       response => {
         this.booksChanged$.next(response);
       },
-      response => {
+      (response: { error: string }) => {
         this.errorGet$.next(response.error);
       }
     );
@@ -127,7 +127,7 @@ export class BooksService {
       response => {
         this.booksChanged$.next(response);
       },
-      response => {
+      (response: { error: string }) => {
         this.errorGet$.next(response.error);
       }
     );
@@ -149,7 +149,7 @@ export class BooksService {
       response => {
         this.booksChanged$.next(response);
       },
-      response => {
+      (response: { error: string }) => {
         this.errorGet$.next(response.error);
       }
     );
@@ -165,7 +165,7 @@ export class BooksService {
           pageable: { pageNumber: 0 }
         });
       },
-      response => {
+      (response: { error: string }) => {
         this.errorGet$.next(response.error);
       }
     );
