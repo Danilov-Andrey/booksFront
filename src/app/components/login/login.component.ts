@@ -1,9 +1,9 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Router } from "@angular/router";
 import { AuthService } from "../../services/auth.service";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { emptyNameValidator } from "src/app/validators/empty-name.validator";
-
+import { Location } from "@angular/common";
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
@@ -29,7 +29,11 @@ export class LoginComponent implements OnInit {
     ])
   });
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private location: Location
+  ) {}
 
   ngOnInit() {}
 
@@ -49,8 +53,7 @@ export class LoginComponent implements OnInit {
     if (this.isLogin) {
       this.authService.authenticate(username, password).subscribe(
         () => {
-          this.router.navigate(["/books"]);
-          this.isLoading = false;
+          this.location.back();
         },
         error => {
           this.isError = true;
