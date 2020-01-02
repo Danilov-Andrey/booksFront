@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { AuthorsService } from "../../services/authors.service";
 import { Author } from "src/app/models/author.model";
-import { SortService } from "../shared/sort/sort.service";
+import { SortService } from "../../services/sort.service";
 import { Unsubscribable } from "rxjs";
 import { ActivatedRoute } from "@angular/router";
 
@@ -25,8 +25,8 @@ export class AuthorsComponent implements OnInit, OnDestroy {
   direction: string = "ASC";
   sortBy: string = "id";
   searchAuthorName: string = null;
-  totalAuthors: number;
   queryParam: string;
+  totalAuthors: number;
   queryParamId: number;
 
   isLoading: boolean = true;
@@ -42,7 +42,7 @@ export class AuthorsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.route$ = this.route.params.subscribe(params => {
       if (params.hasOwnProperty("id")) {
         this.queryParam = "id";
@@ -68,11 +68,13 @@ export class AuthorsComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.errorGet$ = this.authorsService.errorGet$.subscribe(error => {
-      this.isLoading = false;
-      this.isError = true;
-      this.errorMessage = error;
-    });
+    this.errorGet$ = this.authorsService.errorGet$.subscribe(
+      (error: string) => {
+        this.isLoading = false;
+        this.isError = true;
+        this.errorMessage = error;
+      }
+    );
 
     this.sortBy$ = this.sortService.setSort$.subscribe(
       ({ direction, sortBy }) => {
@@ -86,7 +88,7 @@ export class AuthorsComponent implements OnInit, OnDestroy {
     );
 
     this.setSuccessMessage$ = this.authorsService.setSuccessMessage$.subscribe(
-      message => {
+      (message: string) => {
         clearTimeout(this.successMessageTimer);
         this.searchAuthorName = null;
         this.isComplete = true;
@@ -103,7 +105,7 @@ export class AuthorsComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.authorsChanged$.unsubscribe();
     this.errorGet$.unsubscribe();
     this.sortBy$.unsubscribe();
@@ -113,7 +115,7 @@ export class AuthorsComponent implements OnInit, OnDestroy {
     clearTimeout(this.successMessageTimer);
   }
 
-  getAuthors() {
+  getAuthors(): void {
     this.isLoading = true;
 
     switch (this.queryParam) {
@@ -132,7 +134,7 @@ export class AuthorsComponent implements OnInit, OnDestroy {
     }
   }
 
-  getAuthor() {
+  getAuthor(): void {
     this.isLoading = true;
     this.authorsService.getAuthor(
       this.currentPage,
@@ -146,29 +148,29 @@ export class AuthorsComponent implements OnInit, OnDestroy {
   setPaginationData(paginatorInfo: {
     currentPage: number;
     countItems: number;
-  }) {
+  }): void {
     this.currentPage = paginatorInfo.currentPage;
     this.countItems = paginatorInfo.countItems;
     this.authorsService.setAuthorsPerPage$.next(this.countItems);
     this.callGetMethod();
   }
 
-  callGetMethod() {
+  callGetMethod(): void {
     this.isLoading = true;
     this.searchAuthorName === null ? this.getAuthors() : this.getAuthor();
   }
 
-  returnInitialData() {
+  returnInitialData(): void {
     this.currentPage = 1;
     this.searchAuthorName = null;
     this.getAuthors();
   }
 
-  setLoading() {
+  setLoading(): void {
     this.isLoading = true;
   }
 
-  setSearchMode(name: string) {
+  setSearchMode(name: string): void {
     this.searchAuthorName = name;
     this.currentPage = 1;
     this.getAuthor();

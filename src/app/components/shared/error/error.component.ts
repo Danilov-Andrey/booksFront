@@ -22,7 +22,7 @@ export class ErrorComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.titles.hasOwnProperty(this.message)) {
       this.outputMessage = this.titles[this.message];
     } else {

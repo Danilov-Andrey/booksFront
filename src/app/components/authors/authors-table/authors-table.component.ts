@@ -1,11 +1,7 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { Author } from "src/app/models/author.model";
 import { AuthService } from "src/app/services/auth.service";
-
-export interface Titles {
-  title: string;
-  sortBy: string;
-}
+import { SortTitles } from "src/app/models/sort-titles.model";
 
 @Component({
   selector: "app-authors-table",
@@ -25,7 +21,7 @@ export class AuthorsTableComponent implements OnInit {
 
   selectedAuthor: number;
 
-  titles: Titles[] = [
+  titles: SortTitles[] = [
     { title: "ID", sortBy: "id" },
     { title: "Author's name", sortBy: "firstName" },
     { title: "Author's surname", sortBy: "lastName" }
@@ -33,11 +29,11 @@ export class AuthorsTableComponent implements OnInit {
 
   constructor(private authService: AuthService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.isLoggedIn = this.authService.isUserLoggedIn();
   }
 
-  selectAuthor(id: number) {
+  selectAuthor(id: number): void {
     if (this.selectedAuthor === id) {
       this.selectedAuthor = -1;
     } else {

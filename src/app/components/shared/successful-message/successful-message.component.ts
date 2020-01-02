@@ -17,7 +17,7 @@ export class SuccessfulMessageComponent implements OnChanges {
 
   outputMessage: string;
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     this.outputMessage = this.titles[changes.message.currentValue];
   }
 }

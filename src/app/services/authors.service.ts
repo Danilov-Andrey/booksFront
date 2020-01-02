@@ -23,7 +23,7 @@ export class AuthorsService {
     rowPerPage: number,
     sortBy: string,
     direction: string
-  ) {
+  ): void {
     const params = new HttpParams()
       .set("pageNumber", pageNumber.toString())
       .set("rowPerPage", rowPerPage.toString())
@@ -45,7 +45,7 @@ export class AuthorsService {
     sortBy: string,
     direction: string,
     name: string
-  ) {
+  ): void {
     const params = new HttpParams()
       .set("pageNumber", pageNumber.toString())
       .set("rowPerPage", rowPerPage.toString())
@@ -62,7 +62,7 @@ export class AuthorsService {
     );
   }
 
-  updateAuthor(author: Author) {
+  updateAuthor(author: Author): void {
     this.setLoading$.next();
     this.http.patch(`/api/authors/${author.id}`, author).subscribe(
       () => {
@@ -80,7 +80,7 @@ export class AuthorsService {
     );
   }
 
-  deleteAuthor(id: number) {
+  deleteAuthor(id: number): void {
     this.setLoading$.next();
     this.http.delete(`/api/authors/${id}`).subscribe(
       () => {
@@ -98,7 +98,7 @@ export class AuthorsService {
     );
   }
 
-  saveAuthor(author: Author) {
+  saveAuthor(author: Author): void {
     this.http.post("/api/authors", author).subscribe(
       () => {
         this.setSuccessMessage$.next("saved");
@@ -109,7 +109,7 @@ export class AuthorsService {
     );
   }
 
-  getAuthorById(id: number) {
+  getAuthorById(id: number): void {
     this.http.get(`/api/authors/${id}`).subscribe(
       response => {
         this.authorsChanged$.next({
@@ -127,7 +127,7 @@ export class AuthorsService {
     );
   }
 
-  addNewBook(id: number, book: Book) {
+  addNewBook(id: number, book: Book): void {
     this.http.post(`/api/authors/${id}`, book).subscribe(
       () => {
         this.setSuccessMessage$.next("saved");

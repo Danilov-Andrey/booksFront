@@ -24,7 +24,7 @@ export class Paginator {
     { value: 50 }
   ];
 
-  setItemsCount(value: number) {
+  setItemsCount(value: number): void {
     if (value != this.countItems) {
       this.countItems = value;
       this.setPaginationData.emit({

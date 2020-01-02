@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { PublishersService } from "../../services/publishers.service";
-import { SortService } from "../shared/sort/sort.service";
+import { SortService } from "../../services/sort.service";
 import { Unsubscribable } from "rxjs";
 import { Publisher } from "src/app/models/publisher.model";
 import { ActivatedRoute } from "@angular/router";
@@ -42,7 +42,7 @@ export class PublishersComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.route$ = this.route.params.subscribe(params => {
       if (params.hasOwnProperty("id")) {
         this.queryParam = "id";
@@ -66,11 +66,13 @@ export class PublishersComponent implements OnInit {
       }
     );
 
-    this.errorGet$ = this.publishersService.errorGet$.subscribe(error => {
-      this.isLoading = false;
-      this.isError = true;
-      this.errorMessage = error;
-    });
+    this.errorGet$ = this.publishersService.errorGet$.subscribe(
+      (error: string) => {
+        this.isLoading = false;
+        this.isError = true;
+        this.errorMessage = error;
+      }
+    );
 
     this.sortBy$ = this.sortService.setSort$.subscribe(
       ({ direction, sortBy }) => {
@@ -84,7 +86,7 @@ export class PublishersComponent implements OnInit {
     );
 
     this.setSuccessMessage$ = this.publishersService.setSuccessMessage$.subscribe(
-      message => {
+      (message: string) => {
         clearTimeout(this.successMessageTimer);
         this.searchPublisherName = null;
         this.isComplete = true;

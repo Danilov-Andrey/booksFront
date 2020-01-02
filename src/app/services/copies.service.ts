@@ -22,7 +22,7 @@ export class CopiesService {
     rowPerPage: number,
     sortBy: string,
     direction: string
-  ) {
+  ): void {
     const params = new HttpParams()
       .set("pageNumber", pageNumber.toString())
       .set("rowPerPage", rowPerPage.toString())
@@ -32,13 +32,13 @@ export class CopiesService {
       response => {
         this.copiesChanged$.next(response);
       },
-      response => {
+      (response: { error: string }) => {
         this.errorGet$.next(response.error);
       }
     );
   }
 
-  getCopiesByid(id: number) {
+  getCopiesByid(id: number): void {
     this.http.get(`http://localhost:8080/api/copies/${id}`).subscribe(
       response => {
         this.copiesChanged$.next({
@@ -48,13 +48,13 @@ export class CopiesService {
           pageable: { pageNumber: 0 }
         });
       },
-      response => {
+      (response: { error: string }) => {
         this.errorGet$.next(response.error);
       }
     );
   }
 
-  updateCopies(copies: Copies) {
+  updateCopies(copies: Copies): void {
     this.setLoading$.next();
     this.http
       .put(`http://localhost:8080/api/copies/${copies.id}`, copies)
@@ -68,7 +68,7 @@ export class CopiesService {
             this.setDirection$.value
           );
         },
-        response => {
+        (response: { error: string }) => {
           this.errorGet$.next(response.error);
         }
       );

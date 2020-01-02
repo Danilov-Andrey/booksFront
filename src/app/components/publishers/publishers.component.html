@@ -2,6 +2,7 @@
 <app-error *ngIf="totalPublishers === 0" message="noContent"></app-error>
 <ng-container *ngIf="totalPublishers !== 0">
   <app-search
+    *ngIf="!isLoading && queryParam === null"
     (isLoading)="setLoading()"
     (returnInitialData)="returnInitialData()"
     (findValue)="setSearchMode($event)"

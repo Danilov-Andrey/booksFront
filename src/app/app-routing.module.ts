@@ -15,11 +15,10 @@ const routes: Routes = [
   { path: "", redirectTo: "login", pathMatch: "full" },
   {
     path: "books",
-    component: BooksComponent
-  },
-  {
-    path: "books/add",
-    component: BookCreateComponent
+    children: [
+      { path: "", pathMatch: "full", component: BooksComponent },
+      { path: "add", component: BookCreateComponent }
+    ]
   },
   {
     path: "publishers",

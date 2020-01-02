@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Unsubscribable } from "rxjs";
 import { Copies } from "src/app/models/copies.model";
 import { CopiesService } from "../../services/copies.service";
-import { SortService } from "../shared/sort/sort.service";
+import { SortService } from "../../services/sort.service";
 import { ActivatedRoute } from "@angular/router";
 
 @Component({
@@ -42,7 +42,7 @@ export class CopiesComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.route$ = this.route.params.subscribe(params => {
       if (params.hasOwnProperty("id")) {
         this.queryParam = "id";
@@ -66,7 +66,7 @@ export class CopiesComponent implements OnInit {
       }
     );
 
-    this.errorGet$ = this.copiesService.errorGet$.subscribe(error => {
+    this.errorGet$ = this.copiesService.errorGet$.subscribe((error: string) => {
       this.isLoading = false;
       this.isError = true;
       this.errorMessage = error;
@@ -84,7 +84,7 @@ export class CopiesComponent implements OnInit {
     );
 
     this.setSuccessMessage$ = this.copiesService.setSuccessMessage$.subscribe(
-      message => {
+      (message: string) => {
         clearTimeout(this.successMessageTimer);
         this.searchCopiesId = null;
         this.isComplete = true;
@@ -103,7 +103,7 @@ export class CopiesComponent implements OnInit {
     this.getCopies();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.copiesChanged$.unsubscribe();
     this.errorGet$.unsubscribe();
     this.sortBy$.unsubscribe();
@@ -112,7 +112,7 @@ export class CopiesComponent implements OnInit {
     clearTimeout(this.successMessageTimer);
   }
 
-  getCopies() {
+  getCopies(): void {
     this.isLoading = true;
 
     switch (this.queryParam) {
@@ -131,7 +131,7 @@ export class CopiesComponent implements OnInit {
     }
   }
 
-  getCopiesById() {
+  getCopiesById(): void {
     this.isLoading = true;
     this.copiesService.getCopiesByid(this.searchCopiesId);
   }
@@ -139,29 +139,29 @@ export class CopiesComponent implements OnInit {
   setPaginationData(paginatorInfo: {
     currentPage: number;
     countItems: number;
-  }) {
+  }): void {
     this.currentPage = paginatorInfo.currentPage;
     this.countItems = paginatorInfo.countItems;
     this.copiesService.setCopiesPerPage$.next(this.countItems);
     this.callGetMethod();
   }
 
-  callGetMethod() {
+  callGetMethod(): void {
     this.isLoading = true;
     this.searchCopiesId === null ? this.getCopies() : this.getCopiesById();
   }
 
-  returnInitialData() {
+  returnInitialData(): void {
     this.currentPage = 1;
     this.searchCopiesId = null;
     this.getCopies();
   }
 
-  setLoading() {
+  setLoading(): void {
     this.isLoading = true;
   }
 
-  setSearchMode(id: number) {
+  setSearchMode(id: number): void {
     this.searchCopiesId = id;
     this.currentPage = 1;
     this.getCopiesById();

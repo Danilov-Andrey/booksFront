@@ -1,7 +1,6 @@
-import { Component, ChangeDetectorRef, OnDestroy, OnInit } from "@angular/core";
+import { Component, ChangeDetectorRef, OnDestroy } from "@angular/core";
 import { MediaMatcher } from "@angular/cdk/layout";
 import { AuthService } from "src/app/services/auth.service";
-import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-main-nav",
@@ -11,19 +10,12 @@ import { Router, ActivatedRoute } from "@angular/router";
 export class MainNavComponent implements OnDestroy {
   mobileQuery: MediaQueryList;
 
-  private _mobileQueryListener: () => void;
-
   openMenu: string;
-
-  onOpenMenu(menu: string) {
-    this.openMenu = menu;
-  }
 
   constructor(
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher,
-    private appService: AuthService,
-    private router: Router
+    private appService: AuthService
   ) {
     this.mobileQuery = media.matchMedia("(max-width: 768px)");
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -32,5 +24,10 @@ export class MainNavComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
+  }
+  private _mobileQueryListener: () => void;
+
+  onOpenMenu(menu: string): void {
+    this.openMenu = menu;
   }
 }

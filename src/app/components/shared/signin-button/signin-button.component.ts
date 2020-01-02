@@ -9,7 +9,7 @@ import { Router } from "@angular/router";
 export class SigninButtonComponent {
   constructor(private router: Router) {}
 
-  redirectToSignin() {
+  redirectToSignin(): void {
     this.router.navigate(["/login"]);
   }
 }

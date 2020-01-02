@@ -1,11 +1,7 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { Book } from "src/app/models/book.model";
 import { AuthService } from "src/app/services/auth.service";
-
-export interface Titles {
-  title: string;
-  sortBy: string;
-}
+import { SortTitles } from "src/app/models/sort-titles.model";
 
 @Component({
   selector: "app-book-table",
@@ -22,7 +18,7 @@ export class BookTableComponent implements OnInit {
   selectedBook: number;
   isLoggedIn: boolean;
 
-  titles: Titles[] = [
+  titles: SortTitles[] = [
     { title: "ID", sortBy: "id" },
     { title: "Title", sortBy: "name" },
     { title: "Year", sortBy: "year" },
@@ -35,11 +31,11 @@ export class BookTableComponent implements OnInit {
 
   constructor(private authService: AuthService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.isLoggedIn = this.authService.isUserLoggedIn();
   }
 
-  selectBook(id: number) {
+  selectBook(id: number): void {
     if (this.selectedBook === id) {
       this.selectedBook = -1;
     } else {

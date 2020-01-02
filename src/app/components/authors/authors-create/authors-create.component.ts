@@ -44,10 +44,10 @@ export class AuthorsCreateComponent implements OnInit, OnDestroy {
     private authorsService: AuthorsService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.isLoggedIn = this.authService.isUserLoggedIn();
     this.setSuccessMessage$ = this.authorsService.setSuccessMessage$.subscribe(
-      message => {
+      (message: string) => {
         this.message = message;
         this.showMessage = true;
         this.isLoading = false;
@@ -56,19 +56,21 @@ export class AuthorsCreateComponent implements OnInit, OnDestroy {
         this.messageTimer = window.setTimeout(() => this.resetParams(), 5000);
       }
     );
-    this.errorGet$ = this.authorsService.errorGet$.subscribe(message => {
-      this.message = message;
-      this.showMessage = false;
-      this.isError = true;
-      this.isLoading = false;
-    });
+    this.errorGet$ = this.authorsService.errorGet$.subscribe(
+      (message: string) => {
+        this.message = message;
+        this.showMessage = false;
+        this.isError = true;
+        this.isLoading = false;
+      }
+    );
   }
 
   ngOnDestroy(): void {
     clearTimeout(this.messageTimer);
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.authorForm.valid && this.isLoggedIn) {
       clearTimeout(this.messageTimer);
       this.resetParams();
@@ -77,7 +79,7 @@ export class AuthorsCreateComponent implements OnInit, OnDestroy {
     }
   }
 
-  resetParams() {
+  resetParams(): void {
     this.showMessage = false;
     this.isError = false;
     this.message = null;

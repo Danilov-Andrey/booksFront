@@ -1,5 +1,5 @@
 import { Component, Input } from "@angular/core";
-import { SortService } from "./sort.service";
+import { SortService } from "../../../services/sort.service";
 
 @Component({
   selector: "app-sort",

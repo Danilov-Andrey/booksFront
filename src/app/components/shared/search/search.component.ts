@@ -32,7 +32,7 @@ export class SearchComponent implements AfterViewInit {
   errorMessage: string;
   errorTimeout: number;
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.input$ = fromEvent(this.input.nativeElement, "input")
       .pipe(
         switchMap(userInput =>
@@ -43,7 +43,7 @@ export class SearchComponent implements AfterViewInit {
           )
         )
       )
-      .subscribe(value => {
+      .subscribe((value: string) => {
         clearTimeout(this.errorTimeout);
         this.isError = false;
         this.errorMessage = null;
@@ -53,7 +53,7 @@ export class SearchComponent implements AfterViewInit {
       });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.input$.unsubscribe();
     clearTimeout(this.errorTimeout);
   }

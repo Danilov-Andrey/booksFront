@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Params } from "@angular/router";
 import { Unsubscribable } from "rxjs";
 import { AuthorsService } from "../../../services/authors.service";
 import { Author } from "src/app/models/author.model";
@@ -15,7 +15,7 @@ export class AuthorsAddBookComponent implements OnInit, OnDestroy {
   selectedAuthor$: Unsubscribable;
   setSuccessMessage$: Unsubscribable;
   errorGet$: Unsubscribable;
-  authorChanged$: Unsubscribable;
+  authorsChanged$: Unsubscribable;
 
   isSaved: boolean;
   successMessage: string;
@@ -58,13 +58,13 @@ export class AuthorsAddBookComponent implements OnInit, OnDestroy {
     private authorsService: AuthorsService
   ) {}
 
-  ngOnInit() {
-    this.selectedAuthor$ = this.route.params.subscribe(params => {
+  ngOnInit(): void {
+    this.selectedAuthor$ = this.route.params.subscribe((params: Params) => {
       this.id = params["id"];
       this.authorsService.getAuthorById(this.id);
     });
 
-    this.authorChanged$ = this.authorsService.authorsChanged$.subscribe(
+    this.authorsChanged$ = this.authorsService.authorsChanged$.subscribe(
       (response: { content: Author[] }) => {
         this.isLoading = false;
         this.selectedAuthor = response.content[0];
@@ -93,13 +93,14 @@ export class AuthorsAddBookComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.authorsChanged$.unsubscribe();
     this.selectedAuthor$.unsubscribe();
     this.setSuccessMessage$.unsubscribe();
     this.errorGet$.unsubscribe();
     clearTimeout(this.messageTimer);
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.newBookForm.valid) {
       clearTimeout(this.messageTimer);
       this.resetParams();
@@ -108,7 +109,7 @@ export class AuthorsAddBookComponent implements OnInit, OnDestroy {
     }
   }
 
-  resetParams() {
+  resetParams(): void {
     this.isSaved = false;
     this.successMessage = null;
   }

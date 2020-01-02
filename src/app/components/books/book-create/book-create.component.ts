@@ -68,9 +68,9 @@ export class BookCreateComponent implements OnInit, OnDestroy {
     private authService: AuthService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.setSuccessMessage$ = this.booksService.setSuccessMessage$.subscribe(
-      message => {
+      (message: string) => {
         this.successMessage = message;
         this.isLoading = false;
         this.isSaved = true;
@@ -80,7 +80,7 @@ export class BookCreateComponent implements OnInit, OnDestroy {
         }, 5000);
       }
     );
-    this.errorGet$ = this.booksService.errorGet$.subscribe(error => {
+    this.errorGet$ = this.booksService.errorGet$.subscribe((error: string) => {
       this.isError = true;
       this.isLoading = false;
       this.errorMessage = error;
@@ -91,13 +91,13 @@ export class BookCreateComponent implements OnInit, OnDestroy {
     this.isAuth = this.authService.isUserLoggedIn();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.setSuccessMessage$.unsubscribe();
     this.errorGet$.unsubscribe();
     clearTimeout(this.messageTimer);
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.bookForm.valid && this.isAuth) {
       this.isLoading = true;
       this.booksService.saveBook(this.bookForm.value);

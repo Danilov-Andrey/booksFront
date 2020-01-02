@@ -1,11 +1,7 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { AuthService } from "src/app/services/auth.service";
 import { Publisher } from "src/app/models/publisher.model";
-
-export interface Titles {
-  title: string;
-  sortBy: string;
-}
+import { SortTitles } from "src/app/models/sort-titles.model";
 
 @Component({
   selector: "app-publishers-table",
@@ -24,18 +20,18 @@ export class PublishersTableComponent implements OnInit {
 
   selectedPublisher: number;
 
-  titles: Titles[] = [
+  titles: SortTitles[] = [
     { title: "ID", sortBy: "id" },
     { title: "Publisher's name", sortBy: "name" }
   ];
 
   constructor(private authService: AuthService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.isLoggedIn = this.authService.isUserLoggedIn();
   }
 
-  selectPublisher(id: number) {
+  selectPublisher(id: number): void {
     if (this.selectedPublisher === id) {
       this.selectedPublisher = -1;
     } else {

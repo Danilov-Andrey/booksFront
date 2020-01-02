@@ -28,7 +28,7 @@ export class CopiesEditComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.isLoggedIn = this.authService.isUserLoggedIn();
     this.copiesForm = new FormGroup({
       rate: new FormControl(this.rate, [
@@ -44,16 +44,16 @@ export class CopiesEditComponent implements OnInit {
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     clearTimeout(this.errorTimer);
   }
 
-  clearTimer() {
+  clearTimer(): void {
     this.isError = false;
     this.errorMessage = null;
   }
 
-  onSubmit() {
+  onSubmit(): void {
     const {
       value: { rate, count }
     } = this.copiesForm;
@@ -78,7 +78,7 @@ export class CopiesEditComponent implements OnInit {
     });
   }
 
-  getBook() {
+  getBook(): void {
     this.router.navigate([
       "books",
       {

@@ -30,7 +30,7 @@ export class AuthorsEditComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.isLoggedIn = this.authService.isUserLoggedIn();
     this.authorForm = new FormGroup({
       firstName: new FormControl(this.firstName, [
@@ -46,16 +46,16 @@ export class AuthorsEditComponent implements OnInit {
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     clearTimeout(this.errorTimer);
   }
 
-  clearTimer() {
+  clearTimer(): void {
     this.isError = false;
     this.errorMessage = null;
   }
 
-  onSubmit() {
+  onSubmit(): void {
     const {
       value: { firstName, lastName }
     } = this.authorForm;
@@ -80,17 +80,17 @@ export class AuthorsEditComponent implements OnInit {
     });
   }
 
-  deleteAuthor() {
+  deleteAuthor(): void {
     if (this.isLoggedIn) {
       this.authorsService.deleteAuthor(this.id);
     }
   }
 
-  addBook() {
+  addBook(): void {
     this.router.navigate([`${this.id}/new-book`], { relativeTo: this.route });
   }
 
-  getBooks() {
+  getBooks(): void {
     this.router.navigate([
       `books`,
       {

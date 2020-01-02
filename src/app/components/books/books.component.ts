@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Book } from "../../models/book.model";
 import { BooksService } from "../../services/books.service";
 import { Unsubscribable } from "rxjs";
-import { SortService } from "../shared/sort/sort.service";
+import { SortService } from "../../services/sort.service";
 import { ActivatedRoute } from "@angular/router";
 
 @Component({
@@ -42,7 +42,7 @@ export class BooksComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.route$ = this.route.params.subscribe(params => {
       if (params.hasOwnProperty("author-id")) {
         this.queryParam = "author-id";
@@ -90,7 +90,7 @@ export class BooksComponent implements OnInit, OnDestroy {
     );
 
     this.setSuccessMessage$ = this.booksService.setSuccessMessage$.subscribe(
-      message => {
+      (message: string) => {
         clearTimeout(this.successMessageTimer);
         this.searchBookName = null;
         this.isComplete = true;
@@ -107,7 +107,7 @@ export class BooksComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.booksChanged$.unsubscribe();
     this.errorGet$.unsubscribe();
     this.sortBy$.unsubscribe();
@@ -117,7 +117,7 @@ export class BooksComponent implements OnInit, OnDestroy {
     clearTimeout(this.successMessageTimer);
   }
 
-  getBooks() {
+  getBooks(): void {
     this.isLoading = true;
     this.searchBookName = null;
     switch (this.queryParam) {
@@ -159,24 +159,24 @@ export class BooksComponent implements OnInit, OnDestroy {
   setPaginationData(paginatorInfo: {
     currentPage: number;
     countItems: number;
-  }) {
+  }): void {
     this.currentPage = paginatorInfo.currentPage;
     this.countItems = paginatorInfo.countItems;
     this.booksService.setBooksPerPage$.next(this.countItems);
     this.callGetMethod();
   }
 
-  callGetMethod() {
+  callGetMethod(): void {
     this.searchBookName === null ? this.getBooks() : this.getBook();
   }
 
-  returnInitialData() {
+  returnInitialData(): void {
     this.searchBookName = name;
     this.currentPage = 1;
     this.getBooks();
   }
 
-  getBook() {
+  getBook(): void {
     this.isLoading = true;
     this.booksService.findBook(
       this.currentPage,
@@ -187,13 +187,13 @@ export class BooksComponent implements OnInit, OnDestroy {
     );
   }
 
-  setSearchMode(name: string) {
+  setSearchMode(name: string): void {
     this.searchBookName = name;
     this.currentPage = 1;
     this.getBook();
   }
 
-  setLoading() {
+  setLoading(): void {
     this.isLoading = true;
   }
 }

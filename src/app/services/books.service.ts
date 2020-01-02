@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { UpdateBook } from "src/app/models/update-book.model";
-import { Subject, BehaviorSubject } from "rxjs";
+import { Subject, BehaviorSubject, Observable, Subscription } from "rxjs";
+import { NewBook } from "../models/new-book.model";
 
 @Injectable({
   providedIn: "root"
@@ -17,7 +18,7 @@ export class BooksService {
 
   constructor(private http: HttpClient) {}
 
-  saveBook(newBook) {
+  saveBook(newBook: NewBook): void {
     this.http.post("http://localhost:8080/api/books", newBook).subscribe(
       () => {
         this.setSuccessMessage$.next("saved");
@@ -33,7 +34,7 @@ export class BooksService {
     rowPerPage: number,
     sortBy: string,
     direction: string
-  ) {
+  ): void {
     const params = new HttpParams()
       .set("pageNumber", pageNumber.toString())
       .set("rowPerPage", rowPerPage.toString())
@@ -49,11 +50,11 @@ export class BooksService {
     );
   }
 
-  getBookByID(id: number) {
+  getBookByID(id: number): Observable<any> {
     return this.http.get(`/api/books/${id}`);
   }
 
-  updateBook(id: number, updateBook: UpdateBook) {
+  updateBook(id: number, updateBook: UpdateBook): void {
     this.http.patch(`/api/books/${id}`, updateBook).subscribe(
       () => {
         this.setSuccessMessage$.next("updated");
@@ -70,7 +71,7 @@ export class BooksService {
     );
   }
 
-  deleteBook(id: number) {
+  deleteBook(id: number): void {
     this.http.delete(`/api/books/${id}`).subscribe(
       () => {
         this.setSuccessMessage$.next("deleted");
@@ -93,7 +94,7 @@ export class BooksService {
     sortBy: string,
     direction: string,
     value: string
-  ) {
+  ): Subscription {
     const params = new HttpParams()
       .set("pageNumber", pageNumber.toString())
       .set("name", value.toString())
@@ -116,7 +117,7 @@ export class BooksService {
     rowPerPage: number,
     sortBy: string,
     direction: string
-  ) {
+  ): void {
     const params = new HttpParams()
       .set("pageNumber", pageNumber.toString())
       .set("rowPerPage", rowPerPage.toString())
@@ -138,7 +139,7 @@ export class BooksService {
     rowPerPage: number,
     sortBy: string,
     direction: string
-  ) {
+  ): void {
     const params = new HttpParams()
       .set("pageNumber", pageNumber.toString())
       .set("rowPerPage", rowPerPage.toString())
@@ -154,7 +155,7 @@ export class BooksService {
     );
   }
 
-  getBookByCopiesId(id: number) {
+  getBookByCopiesId(id: number): void {
     this.http.get(`/api/copies/${id}/books`).subscribe(
       response => {
         this.booksChanged$.next({

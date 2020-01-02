@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { map } from "rxjs/operators";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root"
@@ -8,12 +9,12 @@ import { map } from "rxjs/operators";
 export class AuthService {
   constructor(private httpClient: HttpClient) {}
 
-  authenticate(username: string, password: string) {
+  authenticate(username: string, password: string): Observable<any> {
     const headers = new HttpHeaders({
       authorization: "Basic " + btoa(username + ":" + password)
     });
 
-    return this.httpClient.get("/api/users/validateUser", { headers }).pipe(
+    return this.httpClient.get("/api/users/validate-user", { headers }).pipe(
       map(userData => {
         let authString = "Basic " + btoa(username + ":" + password);
         sessionStorage.setItem("username", username);
@@ -23,19 +24,19 @@ export class AuthService {
     );
   }
 
-  registration(username: string, password: string) {
+  registration(username: string, password: string): Observable<any> {
     return this.httpClient.post("/api/users", {
       username,
       password
     });
   }
 
-  isUserLoggedIn() {
+  isUserLoggedIn(): boolean {
     let user = sessionStorage.getItem("username");
     return !(user === null);
   }
 
-  logOut() {
+  logOut(): void {
     sessionStorage.removeItem("username");
   }
 }

@@ -32,11 +32,11 @@ export class CopiesTableComponent implements OnInit {
 
   constructor(private authService: AuthService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.isLoggedIn = this.authService.isUserLoggedIn();
   }
 
-  selectCopies(id: number) {
+  selectCopies(id: number): void {
     if (this.selectedCopies === id) {
       this.selectedCopies = -1;
     } else {

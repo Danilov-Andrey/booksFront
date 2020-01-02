@@ -11,7 +11,7 @@
   justify-content: flex-start;
 }
 
-.table-form-buttons {
+.table-form__buttons {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -22,7 +22,7 @@
   margin-right: 10px;
 }
 
-.table-form-inputs {
+.table-form__inputs {
   display: flex;
 }
 

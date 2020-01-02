@@ -31,7 +31,7 @@ export class PublishersCreateComponent implements OnInit, OnDestroy {
     private authService: AuthService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.isLogin = this.authService.isUserLoggedIn();
   }
 
@@ -39,14 +39,14 @@ export class PublishersCreateComponent implements OnInit, OnDestroy {
     clearTimeout(this.messageTimer);
   }
 
-  resetParams() {
+  resetParams(): void {
     this.isSaved = false;
     this.isError = false;
     this.successMessage = null;
     this.errorMessage = null;
   }
 
-  savePublisher() {
+  savePublisher(): void {
     if (this.publisherForm.valid) {
       clearTimeout(this.messageTimer);
       this.resetParams();

@@ -27,7 +27,7 @@ export class PublishersEditComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.isLoggedIn = this.authService.isUserLoggedIn();
     this.publisherForm = new FormGroup({
       name: new FormControl(this.name, [
@@ -37,16 +37,16 @@ export class PublishersEditComponent implements OnInit {
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     clearTimeout(this.errorTimer);
   }
 
-  clearTimer() {
+  clearTimer(): void {
     this.isError = false;
     this.errorMessage = null;
   }
 
-  onSubmit() {
+  onSubmit(): void {
     const {
       value: { name }
     } = this.publisherForm;
@@ -70,14 +70,14 @@ export class PublishersEditComponent implements OnInit {
     });
   }
 
-  deletePublisher() {
+  deletePublisher(): void {
     if (this.isLoggedIn) {
       this.publishersService.setLoading$.next();
       this.publishersService.deletePublisher(this.id);
     }
   }
 
-  getBooks() {
+  getBooks(): void {
     this.router.navigate([
       `books`,
       {

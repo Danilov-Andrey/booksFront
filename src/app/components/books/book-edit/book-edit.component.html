@@ -1,5 +1,5 @@
 <form [formGroup]="editForm" class="table-form" (ngSubmit)="onSubmit()">
-  <div class="table-form-inputs">
+  <div class="table-form__inputs">
     <div>
       <mat-form-field class="book-edit-name">
         <input matInput placeholder="Name" formControlName="name" type="text" />
@@ -18,7 +18,7 @@
       <form-errors [field]="editForm.get('year')"></form-errors>
     </div>
   </div>
-  <div class="table-form-buttons">
+  <div class="table-form__buttons">
     <div class="buttons-wrapper">
       <button
         [disabled]="!isLoggedIn || !editForm.valid"
