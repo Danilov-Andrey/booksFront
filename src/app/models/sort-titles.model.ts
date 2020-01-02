@@ -1,4 +1,4 @@
-export class SortTitles {
+export interface SortTitles {
   title: string;
   sortBy: string;
 }

@@ -1,4 +1,4 @@
-export class NewBook {
+export interface NewBook {
   name: string;
   year: number;
   authorFirstName: string;

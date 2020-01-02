@@ -1,8 +1,8 @@
-export class PaginationItemCount {
+export interface PaginationItemCount {
   value: number;
 }
 
-export class PaginationInfo {
+export interface PaginationInfo {
   countItems: number;
   currentPage: number;
 }
